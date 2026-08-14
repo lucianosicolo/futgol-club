@@ -1,0 +1,110 @@
+<main class="home-container">
+
+  <section class="welcome-section">
+    <p class="welcome-label">Panel de administración</p>
+    <h1>¡Hola, Profe Bruno!</h1>
+    <p>Este es el resumen general de FUTGOL CLUB.</p>
+  </section>
+
+  <section class="stats-grid">
+
+    <button type="button" class="stat-card" >
+      <div class="stat-header">
+        <div class="stat-icon icon-dark-bg">
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+
+        <span>ALUMNOS</span>
+      </div>
+
+      <strong>{{ totalStudents }}</strong>
+      <small>Ver todos los alumnos</small>
+    </button>
+
+    <button type="button" class="stat-card" routerLink="/app/pagos">
+      <div class="stat-header">
+        <div class="stat-icon icon-green-bg">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+        </div>
+
+        <span>AL DÍA</span>
+      </div>
+
+      <strong>{{ paidStudents }}</strong>
+      <small class="positive">{{ paidPercentage }}% del total</small>
+    </button>
+
+    <button type="button" class="stat-card" routerLink="/app/pagos">
+      <div class="stat-header">
+        <div class="stat-icon icon-red-bg">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+        </div>
+
+        <span>DEBEN</span>
+      </div>
+
+      <strong>{{ dueStudents }}</strong>
+      <small class="negative">{{ duePercentage }}% del total</small>
+    </button>
+
+    <button type="button" class="stat-card revenue-card" routerLink="/app/pagos">
+      <div class="stat-header">
+        <div class="stat-icon icon-green-bg">
+          <ion-icon name="cash-outline"></ion-icon>
+        </div>
+
+        <span>RECAUDACIÓN DEL MES</span>
+      </div>
+
+      <strong class="revenue-value">
+        {{ monthlyRevenue | currency:'ARS':'symbol':'1.0-0':'es-AR' }}
+      </strong>
+
+      <small>Ver detalle de pagos</small>
+    </button>
+
+  </section>
+
+  <ion-button expand="block" class="main-action" routerLink="/app/nuevo-pago">
+    <div class="main-action-content">
+      <span>Registrar pago</span>
+      <ion-icon name="add-circle"></ion-icon>
+    </div>
+  </ion-button>
+
+  <ion-card class="activity-card">
+    <ion-card-content>
+
+      <div class="section-heading">
+        <div>
+          <span class="section-label">AGENDA</span>
+          <h2>Próximas actividades</h2>
+        </div>
+
+        <button type="button" class="text-button" routerLink="/app/asistencia">
+          Ver calendario
+        </button>
+      </div>
+
+      <div class="activity-date">
+        Hoy · {{ proximaActividad.fecha }}
+      </div>
+
+      <div class="activity-information">
+        <div class="activity-time">
+          <strong>{{ proximaActividad.hora }}</strong>
+          <small>{{ proximaActividad.duracion }}</small>
+        </div>
+
+        <div class="activity-name">
+          <strong>{{ proximaActividad.nombre }}</strong>
+          <small>{{ proximaActividad.categoria }}</small>
+        </div>
+
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+</main>

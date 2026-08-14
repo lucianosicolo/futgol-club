@@ -1,0 +1,449 @@
+:host {
+  display: block;
+
+  --its-green: #56b63f;
+  --its-dark-green: #368c27;
+  --its-green-soft: #e8f5e4;
+
+  --its-red: #d84343;
+  --its-red-soft: #fbe7e7;
+
+  --its-background: #f6f7f4;
+  --its-text: #1c211c;
+  --its-muted: #737873;
+  --its-border: #e5e9e3;
+}
+
+/* Contenedor principal */
+
+.home-container {
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 24px 16px 38px;
+}
+
+/* Bienvenida */
+
+.welcome-section {
+  margin-bottom: 22px;
+
+  .welcome-label {
+    margin: 0 0 5px;
+    color: var(--its-green);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 0 0 5px;
+    color: var(--its-text);
+    font-size: 24px;
+    font-weight: 850;
+    line-height: 1.15;
+    letter-spacing: -0.6px;
+  }
+
+  p {
+    margin: 0;
+    color: var(--its-muted);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+}
+
+/* Grilla de indicadores */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px;
+  margin-bottom: 16px;
+}
+
+/* Tarjeta de indicador */
+
+.stat-card {
+  width: 100%;
+  min-width: 0;
+  min-height: 128px;
+  padding: 14px;
+
+  background: #ffffff;
+  border: 1px solid var(--its-border);
+  border-radius: 15px;
+
+  box-shadow:
+    0 4px 14px rgba(20, 35, 20, 0.055);
+
+  text-align: left;
+  cursor: pointer;
+
+  transition:
+    transform 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+
+  &:active {
+    transform: scale(0.975);
+    border-color: rgba(86, 182, 63, 0.35);
+
+    box-shadow:
+      0 2px 8px rgba(20, 35, 20, 0.05);
+  }
+
+  strong {
+    display: block;
+    margin-top: 13px;
+
+    overflow: hidden;
+
+    color: var(--its-text);
+    font-size: 29px;
+    font-weight: 850;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  small {
+    display: block;
+    margin-top: 6px;
+
+    color: var(--its-muted);
+    font-size: 11px;
+    line-height: 1.3;
+  }
+}
+
+/* Encabezado de cada indicador */
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 31px;
+
+  > span {
+    color: #515651;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: 0.25px;
+  }
+
+  /* Soporta el HTML donde el ícono está directamente */
+  > ion-icon {
+    flex-shrink: 0;
+    font-size: 21px;
+  }
+}
+
+/* Contenedor moderno del ícono */
+
+.stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 31px;
+  height: 31px;
+  flex-shrink: 0;
+
+  border-radius: 9px;
+
+  ion-icon {
+    font-size: 18px;
+  }
+}
+
+/* Colores de los íconos con fondo */
+
+.icon-dark-bg {
+  background: #eef0ed;
+  color: #252925;
+}
+
+.icon-green-bg {
+  background: var(--its-green-soft);
+  color: var(--its-green);
+}
+
+.icon-red-bg {
+  background: var(--its-red-soft);
+  color: var(--its-red);
+}
+
+/* Colores para el HTML anterior, sin contenedor */
+
+.icon-dark {
+  color: #252925;
+}
+
+.icon-green {
+  color: var(--its-green);
+}
+
+.icon-red {
+  color: var(--its-red);
+}
+
+.icon-orange {
+  color: #ef8a2f;
+}
+
+/* Textos positivos y negativos */
+
+.positive {
+  color: var(--its-green) !important;
+  font-weight: 750;
+}
+
+.negative {
+  color: var(--its-red) !important;
+  font-weight: 750;
+}
+
+/* Recaudación */
+
+.revenue-card strong,
+.revenue-value {
+  font-size: 21px !important;
+  letter-spacing: -0.7px;
+}
+
+/* Botón principal */
+
+.main-action {
+  height: 50px;
+  margin: 0 0 16px;
+
+  --background: var(--its-green);
+  --background-hover: var(--its-dark-green);
+  --background-activated: var(--its-dark-green);
+  --background-focused: var(--its-dark-green);
+
+  --color: #ffffff;
+  --border-radius: 11px;
+
+  --padding-start: 16px;
+  --padding-end: 16px;
+
+  --box-shadow:
+    0 6px 15px rgba(73, 167, 53, 0.22);
+
+  font-size: 14px;
+  font-weight: 750;
+  text-transform: none;
+}
+
+.main-action-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+
+  span {
+    color: #ffffff;
+    font-weight: 750;
+  }
+
+  ion-icon {
+    flex-shrink: 0;
+    color: #ffffff;
+    font-size: 22px;
+  }
+}
+
+/* Tarjeta de actividades */
+
+.activity-card {
+  --background: #ffffff;
+  --color: var(--its-text);
+
+  margin: 0 0 20px;
+  overflow: hidden;
+
+  background: #ffffff;
+  border: 1px solid var(--its-border);
+  border-radius: 15px;
+
+  box-shadow:
+    0 4px 14px rgba(20, 35, 20, 0.055);
+
+  ion-card-content {
+    padding: 17px;
+    background: #ffffff;
+    color: var(--its-text);
+  }
+}
+
+/* Encabezado de actividades */
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  h2 {
+    margin: 0;
+    color: var(--its-text);
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-transform: none;
+  }
+}
+
+.section-label {
+  color: var(--its-green);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.text-button {
+  flex-shrink: 0;
+  padding: 6px 0;
+
+  background: transparent;
+  border: 0;
+
+  color: var(--its-green);
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+
+  &:active {
+    color: var(--its-dark-green);
+  }
+}
+
+/* Fecha */
+
+.activity-date {
+  margin-top: 16px;
+
+  color: var(--its-text);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+/* Información de la actividad */
+
+.activity-information {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+
+  margin-top: 13px;
+  padding-top: 13px;
+
+  border-top: 1px solid var(--its-border);
+
+  > ion-icon {
+    color: #9da39d;
+    font-size: 19px;
+  }
+}
+
+.activity-time,
+.activity-name {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+
+  span,
+  strong {
+    overflow: hidden;
+
+    color: var(--its-text);
+    font-size: 13px;
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  small {
+    overflow: hidden;
+
+    color: var(--its-muted);
+    font-size: 10px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.activity-time {
+  padding-right: 10px;
+  border-right: 1px solid var(--its-border);
+}
+
+/* Adaptación a celulares chicos */
+
+@media (max-width: 360px) {
+  .home-container {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .stats-grid {
+    gap: 8px;
+  }
+
+  .stat-card {
+    min-height: 122px;
+    padding: 12px;
+  }
+
+  .stat-card strong {
+    font-size: 26px;
+  }
+
+  .stat-header > span {
+    font-size: 9px;
+  }
+
+  .activity-information {
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+    gap: 9px;
+  }
+}
+
+/* Tablets y escritorio */
+
+@media (min-width: 768px) {
+  .home-container {
+    max-width: 680px;
+    padding-top: 32px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .stat-card {
+    min-height: 140px;
+  }
+
+  .activity-card ion-card-content {
+    padding: 20px;
+  }
+}

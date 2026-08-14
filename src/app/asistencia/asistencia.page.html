@@ -1,0 +1,144 @@
+<main class="attendance-container">
+
+  <section class="attendance-intro">
+    <span class="section-label">ENTRENAMIENTO</span>
+
+    <h1>Control de asistencia</h1>
+
+    <p>
+      Tocá cada alumno que haya asistido al entrenamiento.
+    </p>
+  </section>
+
+  <ion-card class="attendance-card">
+
+    <!-- Selector de fecha -->
+    <div class="attendance-navigation">
+
+      <ion-button
+        type="button"
+        fill="clear"
+        (click)="previousClass()"
+        aria-label="Entrenamiento anterior"
+      >
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+
+      <div class="attendance-date">
+        <small>Asistencia del día</small>
+        <strong>{{ classDate }}</strong>
+      </div>
+
+      <ion-button
+        type="button"
+        fill="clear"
+        (click)="nextClass()"
+        aria-label="Entrenamiento siguiente"
+      >
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-button>
+
+    </div>
+
+    <!-- Resumen -->
+    <div class="attendance-summary">
+
+      <div>
+        <span>Presentes</span>
+        <strong>{{ presentStudentsCount }}</strong>
+      </div>
+
+      <div>
+        <span>Total</span>
+        <strong>{{ students.length }}</strong>
+      </div>
+
+      <div class="category-summary">
+        <span>Categoría</span>
+        <strong>{{ classCategory }}</strong>
+      </div>
+
+    </div>
+
+    <!-- Lista de alumnos -->
+    <ion-list class="student-list" lines="full">
+
+      <ion-item
+        *ngFor="let student of students; trackBy: trackByStudentId"
+        button
+        detail="false"
+        class="student-item"
+        [class.student-present]="student.status === 'present'"
+        (click)="changeStatus(student)"
+      >
+
+        <ion-avatar slot="start">
+          <img
+            [src]="student.avatar || 'assets/section/usuario.png'"
+            [alt]="'Foto de ' + student.name"
+          />
+        </ion-avatar>
+
+        <ion-label>
+          <h2>
+            {{ student.name }} {{ student.lastname }}
+          </h2>
+
+          <p>
+            {{ student.course }}
+          </p>
+        </ion-label>
+
+        <div
+          slot="end"
+          class="student-status"
+          [class.present]="student.status === 'present'"
+        >
+          <ion-icon
+            [name]="getStatusIcon(student.status)"
+          ></ion-icon>
+
+          <span>
+            {{
+              student.status === 'present'
+                ? 'Presente'
+                : 'Sin marcar'
+            }}
+          </span>
+        </div>
+
+      </ion-item>
+
+    </ion-list>
+
+    <!-- Guardar -->
+    <div class="save-container">
+
+      <div class="save-information">
+        <ion-icon name="information-circle-outline"></ion-icon>
+
+        <span>
+          Marcaste {{ presentStudentsCount }}
+          de {{ students.length }} alumnos.
+        </span>
+      </div>
+
+      <ion-button
+        type="button"
+        expand="block"
+        class="save-button"
+        (click)="saveAttendance()"
+      >
+        <span>Guardar asistencia</span>
+
+        <ion-icon
+          slot="end"
+          name="checkmark-circle-outline"
+        ></ion-icon>
+      </ion-button>
+
+    </div>
+
+  </ion-card>
+
+</main>

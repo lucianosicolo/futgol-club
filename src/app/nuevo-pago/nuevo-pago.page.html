@@ -1,0 +1,306 @@
+<main class="new-payment-container">
+
+  <section class="payment-intro">
+    <span class="section-label">GESTIÓN DE CUOTAS</span>
+    <h1>Registrar pago</h1>
+    <p>Completá los datos para guardar un nuevo pago.</p>
+  </section>
+
+  <ion-card class="payment-card">
+
+    <div class="payment-header">
+      <div class="payment-header-icon">
+        <ion-icon name="wallet-outline"></ion-icon>
+      </div>
+
+      <div>
+        <strong>Nuevo pago</strong>
+        <span>Ingresá la información del cobro</span>
+      </div>
+    </div>
+
+    <form
+      #paymentForm="ngForm"
+      (ngSubmit)="savePayment()"
+      class="payment-form"
+      novalidate
+    >
+
+      <!-- Alumno -->
+      <div class="form-group">
+        <label for="studentId">
+          Alumno <span>*</span>
+        </label>
+
+        <div
+          class="field-container"
+          [class.field-error]="
+            studentControl.invalid &&
+            paymentForm.submitted
+          "
+        >
+          <ion-icon name="person-outline"></ion-icon>
+
+          <ion-select
+            id="studentId"
+            name="studentId"
+            [(ngModel)]="studentId"
+            #studentControl="ngModel"
+            placeholder="Seleccionar alumno"
+            interface="action-sheet"
+            required
+          >
+            <ion-select-option
+              *ngFor="let student of students"
+              [value]="student.id"
+            >
+              {{ student.name }} {{ student.lastname }}
+            </ion-select-option>
+          </ion-select>
+        </div>
+
+        <small
+          class="error-message"
+          *ngIf="
+            studentControl.invalid &&
+            paymentForm.submitted
+          "
+        >
+          Seleccioná un alumno.
+        </small>
+      </div>
+
+      <!-- Mes -->
+      <div class="form-group">
+        <label for="month">
+          Período <span>*</span>
+        </label>
+
+        <div
+          class="field-container"
+          [class.field-error]="
+            monthControl.invalid &&
+            paymentForm.submitted
+          "
+        >
+          <ion-icon name="calendar-outline"></ion-icon>
+
+          <ion-select
+            id="month"
+            name="month"
+            [(ngModel)]="month"
+            #monthControl="ngModel"
+            placeholder="Seleccionar mes"
+            interface="action-sheet"
+            required
+          >
+            <ion-select-option
+              *ngFor="let monthOption of months"
+              [value]="monthOption"
+            >
+              {{ monthOption }}
+            </ion-select-option>
+          </ion-select>
+        </div>
+
+        <small
+          class="error-message"
+          *ngIf="
+            monthControl.invalid &&
+            paymentForm.submitted
+          "
+        >
+          Seleccioná el período correspondiente.
+        </small>
+      </div>
+
+      <!-- Importe -->
+      <div class="form-group">
+        <label for="amount">
+          Importe <span>*</span>
+        </label>
+
+        <div
+          class="field-container amount-container"
+          [class.field-error]="
+            amountControl.invalid &&
+            paymentForm.submitted
+          "
+        >
+          <div class="currency-symbol">$</div>
+
+          <ion-input
+            id="amount"
+            name="amount"
+            type="number"
+            inputmode="decimal"
+            [(ngModel)]="amount"
+            #amountControl="ngModel"
+            placeholder="70.000"
+            min="1"
+            required
+          ></ion-input>
+
+          <span class="currency-code">ARS</span>
+        </div>
+
+        <small
+          class="error-message"
+          *ngIf="
+            amountControl.invalid &&
+            paymentForm.submitted
+          "
+        >
+          Ingresá un importe válido.
+        </small>
+      </div>
+
+      <!-- Medio de pago -->
+      <div class="form-group">
+        <label for="paymentMethod">
+          Medio de pago <span>*</span>
+        </label>
+
+        <div class="field-container">
+          <ion-icon name="card-outline"></ion-icon>
+
+          <ion-select
+            id="paymentMethod"
+            name="paymentMethod"
+            [(ngModel)]="paymentMethod"
+            interface="action-sheet"
+            required
+          >
+            <ion-select-option value="Transferencia">
+              Transferencia
+            </ion-select-option>
+
+            <ion-select-option value="Efectivo">
+              Efectivo
+            </ion-select-option>
+
+            <ion-select-option value="Mercado Pago">
+              Mercado Pago
+            </ion-select-option>
+
+            <ion-select-option value="Tarjeta">
+              Tarjeta
+            </ion-select-option>
+          </ion-select>
+        </div>
+      </div>
+
+      <!-- Fecha -->
+      <div class="form-group">
+        <label for="paymentDate">
+          Fecha del pago <span>*</span>
+        </label>
+
+        <div class="field-container">
+          <ion-icon name="today-outline"></ion-icon>
+
+          <ion-input
+            id="paymentDate"
+            name="paymentDate"
+            type="date"
+            [(ngModel)]="paymentDate"
+            required
+          ></ion-input>
+        </div>
+      </div>
+
+      <!-- Comprobante -->
+      <div class="form-group">
+        <label>Comprobante</label>
+
+        <button
+          type="button"
+          class="receipt-button"
+          [class.receipt-selected]="receiptName"
+          (click)="receiptInput.click()"
+        >
+          <div class="receipt-icon">
+            <ion-icon
+              [name]="
+                receiptName
+                  ? 'checkmark-circle-outline'
+                  : 'cloud-upload-outline'
+              "
+            ></ion-icon>
+          </div>
+
+          <div class="receipt-information">
+            <strong>
+              {{
+                receiptName
+                  ? 'Comprobante adjuntado'
+                  : 'Adjuntar comprobante'
+              }}
+            </strong>
+
+            <span>
+              {{
+                receiptName ||
+                'Imagen o archivo PDF'
+              }}
+            </span>
+          </div>
+
+          <ion-icon
+            class="receipt-action"
+            name="attach-outline"
+          ></ion-icon>
+        </button>
+
+        <input
+          #receiptInput
+          type="file"
+          accept="image/*,.pdf"
+          hidden
+          (change)="onReceiptSelected($event)"
+        />
+      </div>
+
+      <!-- Resumen -->
+      <div
+        class="payment-summary"
+        *ngIf="studentId && amount"
+      >
+        <ion-icon name="information-circle-outline"></ion-icon>
+
+        <span>
+          Se registrará un pago de
+          <strong>
+            ${{ amount | number:'1.0-0' }}
+          </strong>
+          para el período
+          <strong>{{ month }}</strong>.
+        </span>
+      </div>
+
+      <ion-button
+        type="submit"
+        expand="block"
+        class="save-payment-button"
+        [disabled]="paymentForm.invalid || saving"
+      >
+        <ion-spinner
+          *ngIf="saving"
+          name="crescent"
+        ></ion-spinner>
+
+        <ng-container *ngIf="!saving">
+          <span>Guardar pago</span>
+
+          <ion-icon
+            slot="end"
+            name="checkmark-circle-outline"
+          ></ion-icon>
+        </ng-container>
+      </ion-button>
+
+    </form>
+
+  </ion-card>
+
+</main>

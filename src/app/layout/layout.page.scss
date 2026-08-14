@@ -1,0 +1,135 @@
+:host {
+  --futgol-green: #4da934;
+  --futgol-green-soft: #eaf5e6;
+  --futgol-text: #1c211c;
+  --futgol-muted: #747974;
+  --futgol-background: #f3f5f1;
+  --futgol-border: #e3e7e1;
+}
+
+.main-toolbar {
+  --background: #ffffff;
+  --color: var(--futgol-text);
+  --min-height: 58px;
+
+  border-bottom: 1px solid var(--futgol-border);
+}
+
+/* Mantiene el título centrado */
+
+.header-side {
+  width: 52px;
+  min-width: 52px;
+
+  ion-button,
+  ion-menu-button {
+    --color: var(--futgol-text);
+    --padding-start: 8px;
+    --padding-end: 8px;
+  }
+
+  ion-icon {
+    font-size: 23px;
+  }
+}
+
+.header-end {
+  justify-content: flex-end;
+}
+
+.layout-title {
+  padding: 0;
+  color: var(--futgol-text);
+  font-size: 16px;
+  font-weight: 900;
+  text-align: center;
+  letter-spacing: -0.4px;
+
+  span {
+    color: var(--futgol-green);
+  }
+}
+
+.layout-content {
+  --background: var(--futgol-background);
+  --color: var(--futgol-text);
+}
+
+/* Footer */
+
+.layout-footer {
+  padding-bottom: env(safe-area-inset-bottom);
+  background: #ffffff;
+  box-shadow: 0 -3px 14px rgba(20, 35, 20, 0.08);
+
+  ion-toolbar {
+    --background: #ffffff;
+    --min-height: 70px;
+  }
+}
+
+.bottom-navigation {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 5px 6px 8px;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    gap: 3px;
+    min-height: 56px;
+
+    color: var(--futgol-muted);
+    text-decoration: none;
+    border-radius: 12px;
+
+    transition:
+      color 150ms ease,
+      background 150ms ease,
+      transform 150ms ease;
+
+    &:active {
+      transform: scale(0.96);
+    }
+
+    span {
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    &.active {
+      color: var(--futgol-green);
+
+      .navigation-icon {
+        background: var(--futgol-green-soft);
+      }
+
+      span {
+        font-weight: 800;
+      }
+    }
+  }
+}
+
+.navigation-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 37px;
+  height: 29px;
+
+  border-radius: 15px;
+  transition: background 150ms ease;
+
+  ion-icon {
+    font-size: 22px;
+  }
+}

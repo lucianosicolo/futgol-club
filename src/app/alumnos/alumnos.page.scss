@@ -1,0 +1,871 @@
+:host {
+    display: block;
+
+    --futgol-green: #4da934;
+    --futgol-green-soft: #e9f5e5;
+
+    --futgol-text: #1c211c;
+    --futgol-muted: #737973;
+
+    --futgol-border: #e2e7e0;
+
+    --futgol-background: #f3f5f1;
+}
+
+
+/* CONTENEDOR */
+
+.students-container {
+    width: 100%;
+    max-width: 620px;
+
+    margin: 0 auto;
+
+    padding: 24px 14px 40px;
+}
+
+
+/* ENCABEZADO */
+
+.students-intro {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    margin-bottom: 20px;
+
+    >div:first-child {
+        min-width: 0;
+    }
+
+    .section-label {
+        display: block;
+
+        margin-bottom: 5px;
+
+        color: var(--futgol-green);
+
+        font-size: 9px;
+        font-weight: 800;
+
+        letter-spacing: 0.9px;
+    }
+
+    h1 {
+        margin: 0 0 5px;
+
+        color: var(--futgol-text);
+
+        font-size: 24px;
+        font-weight: 850;
+
+        letter-spacing: -0.6px;
+    }
+
+    p {
+        margin: 0;
+
+        color: var(--futgol-muted);
+
+        font-size: 12px;
+    }
+}
+
+
+/* BOTÓN + */
+
+.add-student-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 45px;
+    height: 45px;
+
+    flex-shrink: 0;
+
+    padding: 0;
+
+    background: var(--futgol-green);
+
+    border: 0;
+    border-radius: 12px;
+
+    box-shadow:
+        0 5px 13px rgba(77, 169, 52, 0.2);
+
+    cursor: pointer;
+
+    ion-icon {
+        color: #ffffff;
+
+        font-size: 24px;
+    }
+
+    &:active {
+        transform: scale(0.96);
+    }
+}
+
+
+/* TARJETAS RESUMEN */
+
+.summary-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 9px;
+
+    margin-bottom: 16px;
+}
+
+.summary-card {
+    span {
+        color: var(--futgol-muted);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .students-container {
+        padding-right: 9px;
+        padding-left: 9px;
+    }
+
+    .summary-grid {
+        gap: 6px;
+    }
+
+    .summary-card {
+        min-height: 64px;
+        padding: 8px 6px;
+        gap: 6px;
+    }
+
+    .summary-icon {
+        width: 30px;
+        height: 30px;
+
+        ion-icon {
+            font-size: 16px;
+        }
+    }
+
+    .summary-card span {
+        font-size: 6.5px;
+        letter-spacing: 0;
+        white-space: nowrap;
+    }
+
+    .summary-card strong {
+        font-size: 18px;
+    }
+}
+
+.student-menu-button {
+    width: 34px;
+    height: 34px;
+    margin: 0;
+
+    --padding-start: 0;
+    --padding-end: 0;
+
+    --color: #8b918b;
+
+    ion-icon {
+        font-size: 18px;
+    }
+}
+
+.summary-card {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    min-width: 0;
+    min-height: 68px;
+
+    padding: 10px;
+
+    background: #ffffff;
+
+    border:
+        1px solid var(--futgol-border);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 3px 10px rgba(20, 35, 20, 0.04);
+
+    >div:last-child {
+        display: flex;
+        flex-direction: column;
+
+        gap: 3px;
+
+        min-width: 0;
+    }
+
+    span {
+        color: var(--futgol-muted);
+
+        font-size: 7px;
+        font-weight: 800;
+
+        letter-spacing: 0.3px;
+    }
+
+    strong {
+        color: var(--futgol-text);
+
+        font-size: 19px;
+        font-weight: 850;
+    }
+}
+
+
+.summary-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    ion-icon {
+        font-size: 18px;
+    }
+}
+
+
+.active-icon {
+    background: var(--futgol-green-soft);
+
+    color: var(--futgol-green);
+}
+
+
+.inactive-icon {
+    background: #f0f2ef;
+
+    color: #777d77;
+}
+
+
+.total-icon {
+    background: #ebeeea;
+
+    color: var(--futgol-text);
+}
+
+
+/* FILTROS */
+
+.filters-card {
+    margin-bottom: 22px;
+
+    padding: 13px;
+
+    background: #ffffff;
+
+    border:
+        1px solid var(--futgol-border);
+
+    border-radius: 13px;
+
+    box-shadow:
+        0 2px 9px rgba(20, 35, 20, 0.035);
+}
+
+
+.filters-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 11px;
+
+    >div {
+        display: flex;
+        align-items: center;
+
+        gap: 6px;
+
+        color: var(--futgol-text);
+
+        font-size: 11px;
+
+        ion-icon {
+            color: var(--futgol-green);
+
+            font-size: 16px;
+        }
+    }
+
+    button {
+        padding: 0;
+
+        background: transparent;
+
+        border: 0;
+
+        color: var(--futgol-green);
+
+        font-size: 9px;
+        font-weight: 750;
+
+        cursor: pointer;
+    }
+}
+
+
+/* BUSCADOR */
+
+.student-search {
+    --background: #f7f9f6;
+
+    --color: var(--futgol-text);
+
+    --placeholder-color: #929892;
+    --icon-color: #747a74;
+
+    --border-radius: 9px;
+
+    margin-bottom: 10px;
+
+    padding: 0;
+
+    min-height: 43px;
+}
+
+
+/* SELECTORES */
+
+.filters-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 9px;
+}
+
+
+.filter-field {
+
+    label {
+        display: block;
+
+        margin: 0 0 5px;
+
+        color: var(--futgol-muted);
+
+        font-size: 8px;
+        font-weight: 750;
+    }
+
+    ion-select {
+        width: 100%;
+
+        min-height: 40px;
+
+        padding: 0 10px;
+
+        background: #f7f9f6;
+
+        border:
+            1px solid var(--futgol-border);
+
+        border-radius: 9px;
+
+        color: var(--futgol-text);
+
+        font-size: 10px;
+    }
+}
+
+
+/* TÍTULO TABLA */
+
+.table-heading {
+    margin-bottom: 9px;
+
+    padding: 0 2px;
+
+    h2 {
+        margin: 0 0 3px;
+
+        color: var(--futgol-text);
+
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    span {
+        color: var(--futgol-muted);
+
+        font-size: 9px;
+    }
+}
+
+
+/* TABLA */
+
+.students-table {
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border:
+        1px solid var(--futgol-border);
+
+    border-radius: 13px;
+
+    box-shadow:
+        0 3px 12px rgba(20, 35, 20, 0.04);
+}
+
+
+.table-row {
+    display: grid;
+
+    grid-template-columns:
+        minmax(160px, 1.5fr) minmax(100px, 1fr) minmax(95px, 1fr) minmax(90px, 0.8fr);
+
+    align-items: center;
+
+    gap: 10px;
+
+    width: 100%;
+
+    padding: 11px 13px;
+}
+
+
+/* CABECERA */
+
+.table-header {
+    min-height: 37px;
+
+    background: #f5f7f4;
+
+    border-bottom:
+        1px solid var(--futgol-border);
+
+    span {
+        color: #777d77;
+
+        font-size: 8px;
+        font-weight: 800;
+
+        letter-spacing: 0.3px;
+
+        text-transform: uppercase;
+    }
+}
+
+
+/* FILA */
+
+.student-row {
+    min-height: 66px;
+
+    background: #ffffff;
+
+    border: 0;
+    border-bottom:
+        1px solid var(--futgol-border);
+
+    color: var(--futgol-text);
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition: background 150ms ease;
+
+    &:last-child {
+        border-bottom: 0;
+    }
+
+    &:active {
+        background: #f7faf6;
+    }
+}
+
+
+/* COLUMNA ALUMNO */
+
+.student-column {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    min-width: 0;
+
+    ion-avatar {
+        width: 36px;
+        height: 36px;
+
+        flex-shrink: 0;
+
+        background: #f0f2ef;
+
+        img {
+            object-fit: cover;
+        }
+    }
+
+    >div {
+        display: flex;
+        flex-direction: column;
+
+        min-width: 0;
+
+        gap: 3px;
+    }
+
+    strong {
+        overflow: hidden;
+
+        color: var(--futgol-text);
+
+        font-size: 11px;
+        font-weight: 750;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    small {
+        color: var(--futgol-muted);
+
+        font-size: 8px;
+    }
+}
+
+
+.document-column,
+.category-column {
+    color: #555b55;
+
+    font-size: 10px;
+}
+
+
+/* ESTADO */
+
+.status-column {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  padding: 6px 9px;
+
+  border: 0;
+  border-radius: 8px;
+
+  font-size: 8px;
+  font-weight: 750;
+
+  white-space: nowrap;
+  cursor: pointer;
+
+  transition:
+    transform 120ms ease,
+    background 150ms ease;
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+  }
+
+  &:active {
+    transform: scale(0.94);
+  }
+
+  &.active {
+    background: var(--futgol-green-soft);
+    color: var(--futgol-green);
+
+    .status-dot {
+      background: var(--futgol-green);
+    }
+  }
+
+  &.inactive {
+    background: #eff1ee;
+    color: #707670;
+
+    .status-dot {
+      background: #979d97;
+    }
+  }
+}
+
+
+/* VACÍO */
+
+.empty-state {
+    padding: 45px 20px;
+
+    background: #ffffff;
+
+    border:
+        1px solid var(--futgol-border);
+
+    border-radius: 13px;
+
+    text-align: center;
+
+    >div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 48px;
+        height: 48px;
+
+        margin: 0 auto 12px;
+
+        background: var(--futgol-green-soft);
+
+        border-radius: 12px;
+
+        ion-icon {
+            color: var(--futgol-green);
+
+            font-size: 23px;
+        }
+    }
+
+    h3 {
+        margin: 0 0 5px;
+
+        color: var(--futgol-text);
+
+        font-size: 14px;
+    }
+
+    p {
+        margin: 0;
+
+        color: var(--futgol-muted);
+
+        font-size: 10px;
+    }
+
+    button {
+        margin-top: 13px;
+
+        background: transparent;
+
+        border: 0;
+
+        color: var(--futgol-green);
+
+        font-size: 10px;
+        font-weight: 750;
+
+        cursor: pointer;
+    }
+}
+
+
+/* CELULAR */
+
+@media (max-width: 600px) {
+
+    /* La tabla ocupa exactamente el ancho disponible */
+    .students-table {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .table-row {
+        width: 100%;
+        min-width: 0;
+
+        grid-template-columns:
+            minmax(0, 1.45fr) minmax(0, 0.95fr) minmax(0, 0.9fr) minmax(0, 0.8fr);
+
+        gap: 4px;
+
+        padding: 9px 7px;
+    }
+
+
+    /* CABECERA */
+
+    .table-header {
+        min-height: 34px;
+
+        span {
+            overflow: hidden;
+
+            font-size: 7px;
+
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+
+    /* FILAS */
+
+    .student-row {
+        min-height: 59px;
+    }
+
+
+    /* ALUMNO */
+
+    .student-column {
+        gap: 6px;
+        min-width: 0;
+
+        ion-avatar {
+            width: 29px;
+            height: 29px;
+
+            flex-shrink: 0;
+        }
+
+        >div {
+            min-width: 0;
+        }
+
+        strong {
+            overflow: hidden;
+
+            max-width: 100%;
+
+            font-size: 9px;
+
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* En celular no hace falta mostrar Alumno #1 */
+        small {
+            display: none;
+        }
+    }
+
+
+    /* DOCUMENTO Y CATEGORÍA */
+
+    .document-column,
+    .category-column {
+        overflow: hidden;
+
+        min-width: 0;
+
+        color: #555b55;
+
+        font-size: 8px;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+    /* ESTADO */
+
+    .status-column {
+        min-width: 0;
+
+        justify-content: flex-start;
+    }
+
+    .status-badge {
+        gap: 3px;
+
+        min-width: 0;
+
+        padding: 4px 5px;
+
+        font-size: 7px;
+
+        .status-dot {
+            width: 5px;
+            height: 5px;
+
+            flex-shrink: 0;
+        }
+    }
+
+
+    /* Sacamos la flecha para ganar espacio */
+    .status-column>ion-icon {
+        display: none;
+    }
+}
+
+
+/* CELULAR CHICO */
+
+@media (max-width: 380px) {
+
+    .students-container {
+        padding-right: 9px;
+        padding-left: 9px;
+    }
+
+    .table-row {
+        grid-template-columns:
+            minmax(0, 1.4fr) minmax(0, 0.95fr) minmax(0, 0.85fr) minmax(0, 0.75fr);
+
+        gap: 3px;
+
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+
+    .student-column ion-avatar {
+        width: 26px;
+        height: 26px;
+    }
+
+    .student-column strong {
+        font-size: 8px;
+    }
+
+    .document-column,
+    .category-column {
+        font-size: 7px;
+    }
+
+    .status-badge {
+        padding: 3px 4px;
+
+        font-size: 6.5px;
+    }
+}

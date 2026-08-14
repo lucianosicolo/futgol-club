@@ -1,0 +1,110 @@
+<ion-content [fullscreen]="true" class="login-content">
+  <div class="login-page">
+
+    <!-- Encabezado visual -->
+    <section class="brand-section">
+      <div class="logo-circle">
+        <ion-icon name="football-outline"></ion-icon>
+      </div>
+
+      <h1>FUTGOL <span>CLUB</span></h1>
+      <p>Gestión de asistencia y pagos</p>
+    </section>
+
+    <!-- Formulario -->
+    <section class="login-card">
+      <div class="login-heading">
+        <h2>Iniciar sesión</h2>
+        <p>Ingresá tus datos para continuar</p>
+      </div>
+
+      <form #loginForm="ngForm" (ngSubmit)="login()" novalidate>
+
+        <!-- Correo -->
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+
+          <div class="input-container" [class.input-error]="
+              emailControl.invalid &&
+              (emailControl.touched || formSubmitted)
+            ">
+            <ion-icon name="mail-outline"></ion-icon>
+
+            <ion-input id="email" name="email" type="email" inputmode="email" autocomplete="email"
+              placeholder="ejemplo@email.com" [(ngModel)]="email" #emailControl="ngModel" required email></ion-input>
+          </div>
+
+          <small class="error-message" *ngIf="
+              emailControl.invalid &&
+              (emailControl.touched || formSubmitted)
+            ">
+            Ingresá un correo electrónico válido.
+          </small>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+
+          <div class="input-container password-container" [class.input-error]="
+              passwordControl.invalid &&
+              (passwordControl.touched || formSubmitted)
+            ">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+
+            <ion-input id="password" name="password" [type]="showPassword ? 'text' : 'password'"
+              autocomplete="current-password" placeholder="Ingresá tu contraseña" [(ngModel)]="password"
+              #passwordControl="ngModel" required minlength="6"></ion-input>
+
+            <ion-button type="button" fill="clear" class="password-button" (click)="togglePassword()" [attr.aria-label]="
+                showPassword
+                  ? 'Ocultar contraseña'
+                  : 'Mostrar contraseña'
+              ">
+              <ion-icon slot="icon-only" [name]="
+                  showPassword
+                    ? 'eye-off-outline'
+                    : 'eye-outline'
+                "></ion-icon>
+            </ion-button>
+          </div>
+
+          <small class="error-message" *ngIf="
+              passwordControl.invalid &&
+              (passwordControl.touched || formSubmitted)
+            ">
+            La contraseña debe tener al menos 6 caracteres.
+          </small>
+        </div>
+
+        <!-- Opciones -->
+        <div class="login-options">
+          <ion-checkbox name="rememberMe" [(ngModel)]="rememberMe" labelPlacement="end">
+            Recordarme
+          </ion-checkbox>
+
+          <button type="button" class="forgot-button" (click)="forgotPassword()">
+            ¿Olvidaste tu contraseña?
+          </button>
+        </div>
+
+        <!-- Botón principal -->
+        <ion-button type="submit" expand="block" class="login-button" [disabled]="loading">
+          <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+
+          <span *ngIf="!loading">
+            Ingresar
+          </span>
+
+          <ion-icon *ngIf="!loading" slot="end" name="arrow-forward-outline"></ion-icon>
+        </ion-button>
+
+      </form>
+    </section>
+
+    <p class="footer-text">
+      FUTGOL CLUB · Sistema de gestión deportiva
+    </p>
+
+  </div>
+</ion-content>

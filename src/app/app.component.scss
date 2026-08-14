@@ -1,0 +1,288 @@
+:host {
+  --futgol-green: #4da934;
+  --futgol-dark-green: #357c27;
+  --futgol-green-soft: #eaf5e6;
+
+  --futgol-white: #ffffff;
+  --futgol-background: #f5f7f3;
+  --futgol-text: #1c211c;
+  --futgol-muted: #747a74;
+  --futgol-border: #e4e8e2;
+
+  color-scheme: light;
+}
+
+ion-app {
+  background: var(--futgol-background);
+  color: var(--futgol-text);
+}
+
+/* Menú general */
+
+.main-menu {
+  --width: 292px;
+  --max-width: 85vw;
+
+  --background: #ffffff;
+  --ion-background-color: #ffffff;
+  --ion-text-color: var(--futgol-text);
+
+  color-scheme: light;
+}
+
+/* Encabezado */
+
+.menu-header {
+  --background: #ffffff;
+  --color: var(--futgol-text);
+  --min-height: 76px;
+
+  border-bottom: 1px solid var(--futgol-border);
+}
+
+.menu-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  padding: 12px 16px;
+
+  > div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  strong {
+    color: var(--futgol-text);
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: -0.4px;
+
+    span {
+      color: var(--futgol-green);
+    }
+  }
+
+  small {
+    color: var(--futgol-muted);
+    font-size: 10px;
+  }
+}
+
+.brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+
+  background: var(--futgol-green);
+  border-radius: 12px;
+
+  box-shadow:
+    0 5px 12px rgba(77, 169, 52, 0.22);
+
+  ion-icon {
+    color: #ffffff;
+    font-size: 23px;
+  }
+}
+
+/* Contenido */
+
+.menu-content {
+  --background: #ffffff;
+  --color: var(--futgol-text);
+
+  color-scheme: light;
+}
+
+/* Usuario */
+
+.menu-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin: 16px;
+  padding: 13px;
+
+  background: #f6f8f5;
+  border: 1px solid var(--futgol-border);
+  border-radius: 13px;
+}
+
+.user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+
+  background: var(--futgol-green-soft);
+  border-radius: 50%;
+
+  ion-icon {
+    color: var(--futgol-green);
+    font-size: 22px;
+  }
+}
+
+.user-information {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+
+  strong {
+    overflow: hidden;
+
+    color: var(--futgol-text);
+    font-size: 13px;
+    font-weight: 800;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  span {
+    color: var(--futgol-muted);
+    font-size: 10px;
+  }
+}
+
+/* Títulos de sección */
+
+.menu-section-title {
+  margin: 22px 20px 8px;
+
+  color: #949a94;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.9px;
+}
+
+.secondary-title {
+  margin-top: 24px;
+}
+
+/* Lista */
+
+.menu-list {
+  padding: 0 10px;
+  background: #ffffff;
+
+  ion-item {
+    --background: #ffffff;
+    --background-hover: #f7f9f6;
+    --background-activated: #f1f6ee;
+
+    --color: var(--futgol-text);
+    --padding-start: 8px;
+    --inner-padding-end: 10px;
+    --min-height: 52px;
+
+    margin-bottom: 4px;
+
+    border-radius: 11px;
+
+    font-size: 13px;
+    font-weight: 650;
+
+    transition:
+      background 150ms ease,
+      color 150ms ease;
+
+    ion-label {
+      color: inherit;
+    }
+
+    &.selected {
+      --background: var(--futgol-green-soft);
+      --color: var(--futgol-green);
+
+      font-weight: 800;
+
+      .menu-item-icon {
+        background: var(--futgol-green);
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+/* Íconos */
+
+.menu-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  background: #f0f3ef;
+  border-radius: 9px;
+
+  color: #626862;
+
+  ion-icon {
+    font-size: 19px;
+  }
+}
+
+/* Próximas funciones */
+
+.future-list {
+  ion-item {
+    opacity: 0.55;
+  }
+
+  ion-badge {
+    --background: #edf0ec;
+    --color: #777d77;
+
+    padding: 5px 7px;
+    border-radius: 7px;
+
+    font-size: 7px;
+    font-weight: 700;
+  }
+}
+
+/* Footer */
+
+.menu-footer {
+  background: #ffffff;
+  border-top: 1px solid var(--futgol-border);
+
+  padding-bottom: env(safe-area-inset-bottom);
+
+  ion-toolbar {
+    --background: #ffffff;
+    --min-height: 68px;
+  }
+}
+
+.logout-button {
+  height: 46px;
+  margin: 8px 14px;
+
+  --background-hover: #fff2f2;
+  --background-activated: #ffecec;
+  --color: #d34a4a;
+  --border-radius: 10px;
+
+  font-size: 12px;
+  font-weight: 750;
+  text-transform: none;
+
+  ion-icon {
+    font-size: 19px;
+  }
+}

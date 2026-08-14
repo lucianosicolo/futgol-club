@@ -1,0 +1,290 @@
+:host {
+    --futgol-green: #4fae35;
+    --futgol-dark-green: #357e25;
+    --futgol-background: #f3f6f1;
+    --futgol-text: #1c211c;
+    --futgol-muted: #747a74;
+    --futgol-border: #dfe5dc;
+    --futgol-error: #d84343;
+}
+
+.login-content {
+    --background:
+        linear-gradient(155deg,
+            #edf6e9 0%,
+            #f7f9f6 48%,
+            #ffffff 100%);
+    --color: var(--futgol-text);
+}
+
+.login-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 100%;
+    max-width: 480px;
+
+    margin: 0 auto;
+    padding:
+        calc(30px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom));
+}
+
+/* Marca */
+
+.brand-section {
+    margin-bottom: 28px;
+    text-align: center;
+
+    .logo-circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 78px;
+        height: 78px;
+        margin: 0 auto 15px;
+
+        background:
+            linear-gradient(145deg,
+                var(--futgol-green),
+                var(--futgol-dark-green));
+
+        border: 5px solid rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+
+        box-shadow:
+            0 12px 28px rgba(65, 145, 45, 0.24);
+
+        ion-icon {
+            color: #ffffff;
+            font-size: 43px;
+        }
+    }
+
+    h1 {
+        margin: 0;
+        color: var(--futgol-text);
+        font-size: 26px;
+        font-weight: 900;
+        letter-spacing: -0.8px;
+
+        span {
+            color: var(--futgol-green);
+        }
+    }
+
+    p {
+        margin: 6px 0 0;
+        color: var(--futgol-muted);
+        font-size: 13px;
+    }
+}
+
+/* Tarjeta */
+
+.login-card {
+    padding: 24px 20px;
+
+    background: #ffffff;
+    border: 1px solid rgba(218, 225, 216, 0.9);
+    border-radius: 20px;
+
+    box-shadow:
+        0 15px 40px rgba(38, 60, 34, 0.1);
+}
+
+.login-heading {
+    margin-bottom: 23px;
+
+    h2 {
+        margin: 0 0 5px;
+        color: var(--futgol-text);
+        font-size: 23px;
+        font-weight: 800;
+    }
+
+    p {
+        margin: 0;
+        color: var(--futgol-muted);
+        font-size: 13px;
+    }
+}
+
+/* Campos */
+
+.form-group {
+    margin-bottom: 18px;
+
+    >label {
+        display: block;
+        margin: 0 0 7px;
+
+        color: #3f463f;
+        font-size: 12px;
+        font-weight: 700;
+    }
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+
+    min-height: 54px;
+    padding-left: 15px;
+
+    background: #f8faf7;
+    border: 1.5px solid var(--futgol-border);
+    border-radius: 12px;
+
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        background 160ms ease;
+
+    >ion-icon {
+        flex-shrink: 0;
+        color: #7b827b;
+        font-size: 20px;
+    }
+
+    ion-input {
+        --background: transparent;
+        --color: var(--futgol-text);
+        --placeholder-color: #9ba19b;
+        --placeholder-opacity: 1;
+        --padding-start: 12px;
+        --padding-end: 12px;
+
+        min-height: 52px;
+        font-size: 14px;
+    }
+
+    &:focus-within {
+        background: #ffffff;
+        border-color: var(--futgol-green);
+
+        box-shadow:
+            0 0 0 3px rgba(79, 174, 53, 0.12);
+
+        >ion-icon {
+            color: var(--futgol-green);
+        }
+    }
+}
+
+.password-container {
+    padding-right: 4px;
+}
+
+.password-button {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+
+    --color: #737a73;
+    --padding-start: 0;
+    --padding-end: 0;
+
+    ion-icon {
+        font-size: 20px;
+    }
+}
+
+.input-error {
+    border-color: var(--futgol-error);
+
+    &:focus-within {
+        border-color: var(--futgol-error);
+        box-shadow:
+            0 0 0 3px rgba(216, 67, 67, 0.1);
+    }
+}
+
+.error-message {
+    display: block;
+    margin: 6px 3px 0;
+    color: var(--futgol-error);
+    font-size: 11px;
+}
+
+/* Opciones */
+
+.login-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    margin: 4px 0 22px;
+
+    ion-checkbox {
+        --size: 18px;
+        --border-radius: 5px;
+        --checkbox-background-checked: var(--futgol-green);
+        --border-color-checked: var(--futgol-green);
+
+        color: #5f665f;
+        font-size: 12px;
+    }
+}
+
+.forgot-button {
+    padding: 5px 0;
+    background: transparent;
+    border: 0;
+
+    color: var(--futgol-green);
+    font-size: 12px;
+    font-weight: 700;
+    text-align: right;
+    cursor: pointer;
+}
+
+/* Botón */
+
+.login-button {
+    height: 52px;
+    margin: 0;
+
+    --background: var(--futgol-green);
+    --background-hover: var(--futgol-dark-green);
+    --background-activated: var(--futgol-dark-green);
+    --color: #ffffff;
+    --border-radius: 12px;
+
+    --box-shadow:
+        0 8px 18px rgba(65, 145, 45, 0.24);
+
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: none;
+
+    ion-spinner {
+        width: 21px;
+        height: 21px;
+    }
+}
+
+/* Pie */
+
+.footer-text {
+    margin: 22px 0 0;
+    color: #8b918b;
+    font-size: 10px;
+    text-align: center;
+}
+
+/* Escritorio */
+
+@media (min-width: 768px) {
+    .login-page {
+        max-width: 460px;
+    }
+
+    .login-card {
+        padding: 28px;
+    }
+}

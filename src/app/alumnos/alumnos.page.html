@@ -1,0 +1,241 @@
+<main class="students-container">
+
+  <!-- Título -->
+  <section class="students-intro">
+    <div>
+      <span class="section-label">GESTIÓN DE ALUMNOS</span>
+      <h1>Histórico de alumnos</h1>
+      <p>Consultá todos los alumnos registrados en la escuelita.</p>
+    </div>
+
+    <button type="button" class="add-student-button" aria-label="Agregar alumno">
+      <ion-icon name="add-outline"></ion-icon>
+    </button>
+  </section>
+
+
+  <!-- Tarjetas resumen -->
+  <section class="summary-grid">
+
+    <div class="summary-card">
+      <div class="summary-icon active-icon">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+      </div>
+
+      <div>
+        <span>ACTIVOS</span>
+        <strong>{{ activeCount }}</strong>
+      </div>
+    </div>
+
+
+    <div class="summary-card">
+      <div class="summary-icon inactive-icon">
+        <ion-icon name="remove-circle-outline"></ion-icon>
+      </div>
+
+      <div>
+        <span>INACTIVOS</span>
+        <strong>{{ inactiveCount }}</strong>
+      </div>
+    </div>
+
+
+    <div class="summary-card">
+      <div class="summary-icon total-icon">
+        <ion-icon name="people-outline"></ion-icon>
+      </div>
+
+      <div>
+        <span>TOTALES</span>
+        <strong>{{ totalCount }}</strong>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- Filtros -->
+  <section class="filters-card">
+
+    <div class="filters-header">
+
+      <div>
+        <ion-icon name="options-outline"></ion-icon>
+        <strong>Filtros</strong>
+      </div>
+
+      <button type="button" *ngIf="hasFilters" (click)="clearFilters()">
+        Limpiar
+      </button>
+
+    </div>
+
+
+    <!-- Nombre / documento -->
+    <ion-searchbar [(ngModel)]="searchTerm" placeholder="Buscar por nombre o documento..." [debounce]="150"
+      show-clear-button="focus" class="student-search"></ion-searchbar>
+
+
+    <div class="filters-grid">
+
+      <!-- Categoría -->
+      <div class="filter-field">
+
+        <label>Categoría</label>
+
+        <ion-select [(ngModel)]="selectedCategory" interface="popover">
+          <ion-select-option value="all">
+            Todas
+          </ion-select-option>
+
+          <ion-select-option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </ion-select-option>
+        </ion-select>
+
+      </div>
+
+
+      <!-- Estado -->
+      <div class="filter-field">
+
+        <label>Estado</label>
+
+        <ion-select [(ngModel)]="selectedStatus" interface="popover">
+          <ion-select-option value="all">
+            Todos
+          </ion-select-option>
+
+          <ion-select-option value="active">
+            Activos
+          </ion-select-option>
+
+          <ion-select-option value="inactive">
+            Inactivos
+          </ion-select-option>
+        </ion-select>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- Resultado -->
+  <div class="table-heading">
+
+    <div>
+      <h2>Alumnos</h2>
+
+      <span>
+        Mostrando {{ filteredStudents.length }}
+        de {{ totalCount }}
+      </span>
+    </div>
+
+  </div>
+
+
+  <!-- Tabla -->
+  <section class="students-table" *ngIf="filteredStudents.length > 0">
+
+    <!-- Cabecera -->
+    <div class="table-row table-header">
+      <span>Alumno</span>
+      <span>Documento</span>
+      <span>Categoría</span>
+      <span>Estado</span>
+    </div>
+
+
+    <!-- Alumnos -->
+    <button type="button" class="table-row student-row" *ngFor="
+        let student of filteredStudents;
+        trackBy: trackByStudentId
+      ">
+
+      <!-- Alumno -->
+      <div class="student-column">
+
+        <ion-avatar>
+          <img [src]="student.avatar || 'assets/section/usuario.png'" [alt]="'Foto de ' + student.name" />
+        </ion-avatar>
+
+        <div>
+          <strong>
+            {{ student.name }}
+            {{ student.lastname }}
+          </strong>
+
+          <small>
+            Alumno #{{ student.id }}
+          </small>
+        </div>
+
+      </div>
+
+
+      <!-- Documento -->
+      <span class="document-column">
+        {{ student.document }}
+      </span>
+
+
+      <!-- Categoría -->
+      <span class="category-column">
+        {{ student.category }}
+      </span>
+
+
+      <!-- Estado -->
+   <div class="status-column">
+
+  <button
+    type="button"
+    class="status-badge"
+    [class.active]="student.status === 'active'"
+    [class.inactive]="student.status === 'inactive'"
+    (click)="toggleStudentStatus(student, $event)"
+  >
+
+    <span class="status-dot"></span>
+
+    {{
+      student.status === 'active'
+        ? 'Activo'
+        : 'Inactivo'
+    }}
+
+  </button>
+
+</div>
+
+    </button>
+
+  </section>
+
+
+  <!-- Sin resultados -->
+  <section class="empty-state" *ngIf="filteredStudents.length === 0">
+
+    <div>
+      <ion-icon name="search-outline"></ion-icon>
+    </div>
+
+    <h3>No encontramos alumnos</h3>
+
+    <p>
+      No hay resultados que coincidan con los filtros.
+    </p>
+
+    <button type="button" (click)="clearFilters()">
+      Limpiar filtros
+    </button>
+
+  </section>
+
+</main>
+<ion-action-sheet [isOpen]="isActionSheetOpen" [header]="selectedStudentName" [buttons]="studentActionButtons"
+  (didDismiss)="closeStudentActions()"></ion-action-sheet>

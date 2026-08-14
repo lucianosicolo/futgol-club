@@ -1,0 +1,76 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="main-toolbar">
+
+    <ion-buttons slot="start" class="header-side">
+      <ion-menu-button *ngIf="isHomePage" auto-hide="false" aria-label="Abrir menú"></ion-menu-button>
+
+      <ion-button *ngIf="!isHomePage" (click)="goBack()" aria-label="Volver">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title class="layout-title">
+      FUTGOL <span>CLUB</span>
+    </ion-title>
+
+    <ion-buttons slot="end" class="header-side header-end">
+      <ion-button aria-label="Notificaciones">
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="layout-content">
+  <router-outlet></router-outlet>
+</ion-content>
+
+<ion-footer class="layout-footer">
+  <ion-toolbar>
+    <nav class="bottom-navigation">
+
+      <a routerLink="/app/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        ariaCurrentWhenActive="page">
+        <div class="navigation-icon">
+          <ion-icon name="home-outline"></ion-icon>
+        </div>
+
+        <span>Inicio</span>
+      </a>
+
+      <a routerLink="/app/alumnos" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <div class="navigation-icon">
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+
+        <span>Alumnos</span>
+      </a>
+
+      <a routerLink="/app/pagos" [class.active]="isPaymentsPage" [attr.aria-current]="isPaymentsPage ? 'page' : null">
+        <div class="navigation-icon">
+          <ion-icon name="wallet-outline"></ion-icon>
+        </div>
+
+        <span>Pagos</span>
+      </a>
+
+      <a routerLink="/app/asistencia" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <div class="navigation-icon">
+          <ion-icon name="person-outline"></ion-icon>
+        </div>
+
+        <span>Asistencia</span>
+      </a>
+      <a routerLink="/app/perfil" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <div class="navigation-icon">
+          <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+        </div>
+
+        <span>Mas</span>
+      </a>
+
+
+    </nav>
+  </ion-toolbar>
+</ion-footer>
