@@ -571,63 +571,63 @@
 /* ESTADO */
 
 .status-column {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .status-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-  gap: 5px;
+    gap: 5px;
 
-  padding: 6px 9px;
+    padding: 6px 9px;
 
-  border: 0;
-  border-radius: 8px;
+    border: 0;
+    border-radius: 8px;
 
-  font-size: 8px;
-  font-weight: 750;
+    font-size: 8px;
+    font-weight: 750;
 
-  white-space: nowrap;
-  cursor: pointer;
+    white-space: nowrap;
+    cursor: pointer;
 
-  transition:
-    transform 120ms ease,
-    background 150ms ease;
-
-  .status-dot {
-    width: 6px;
-    height: 6px;
-
-    flex-shrink: 0;
-
-    border-radius: 50%;
-  }
-
-  &:active {
-    transform: scale(0.94);
-  }
-
-  &.active {
-    background: var(--futgol-green-soft);
-    color: var(--futgol-green);
+    transition:
+        transform 120ms ease,
+        background 150ms ease;
 
     .status-dot {
-      background: var(--futgol-green);
-    }
-  }
+        width: 6px;
+        height: 6px;
 
-  &.inactive {
-    background: #eff1ee;
-    color: #707670;
+        flex-shrink: 0;
 
-    .status-dot {
-      background: #979d97;
+        border-radius: 50%;
     }
-  }
+
+    &:active {
+        transform: scale(0.94);
+    }
+
+    &.active {
+        background: var(--futgol-green-soft);
+        color: var(--futgol-green);
+
+        .status-dot {
+            background: var(--futgol-green);
+        }
+    }
+
+    &.inactive {
+        background: #eff1ee;
+        color: #707670;
+
+        .status-dot {
+            background: #979d97;
+        }
+    }
 }
 
 
