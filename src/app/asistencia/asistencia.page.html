@@ -65,7 +65,7 @@
         <span>Sin marcar</span>
 
         <strong class="pending-count">
-          {{ students.length - presentStudentsCount }}
+         {{ filteredStudents.length - presentStudentsCount }}
         </strong>
       </div>
 
@@ -74,7 +74,7 @@
         <span>Total</span>
 
         <strong class="total-count">
-          {{ students.length }}
+          {{ filteredStudents.length }}
         </strong>
       </div>
 
@@ -83,7 +83,7 @@
     <!-- Lista de alumnos -->
     <ion-list class="student-list" lines="full">
 
-      <ion-item *ngFor="let student of students; trackBy: trackByStudentId" button detail="false" class="student-item"
+      <ion-item *ngFor="let student of filteredStudents; trackBy: trackByStudentId"
         [class.student-present]="student.status === 'present'" (click)="changeStatus(student)">
 
         <ion-avatar slot="start">
@@ -124,7 +124,7 @@
 
         <span>
           Marcaste {{ presentStudentsCount }}
-          de {{ students.length }} alumnos.
+        de {{ filteredStudents.length }} alumnos.
         </span>
       </div>
 
