@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 
 
@@ -31,9 +32,18 @@ interface Student {
 })
 export class AlumnosPage {
   constructor(
-    private alertController: AlertController
+    private alertController: AlertController,
+    private router: Router
   ) { }
+openStudent(
+  student: Student
+): void {
 
+  this.router.navigate(
+    ['/app/alumno', student.id]
+  );
+
+}
   searchTerm = '';
 
   selectedCategory = 'all';

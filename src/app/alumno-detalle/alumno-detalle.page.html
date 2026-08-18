@@ -1,0 +1,330 @@
+<main class="student-detail-container">
+
+  <!-- ============================= -->
+  <!-- PERFIL                        -->
+  <!-- ============================= -->
+
+  <section class="profile-card">
+
+    <div class="profile-decoration"></div>
+
+    <div class="profile-content">
+
+      <ion-avatar class="profile-avatar">
+        <img src="assets/icon/logo.png" alt="FUTGOL Club" class="brand-logo" />
+
+      </ion-avatar>
+
+
+      <div class="profile-information">
+
+        <span class="profile-label">
+          ALUMNO
+        </span>
+
+        <h1>
+          {{ student.name }}
+          {{ student.lastname }}
+        </h1>
+
+        <p>
+          {{ student.category }}
+        </p>
+
+        <div class="student-status" [class.active]="student.status === 'active'">
+          <span class="status-dot"></span>
+
+          {{
+          student.status === 'active'
+          ? 'Activo'
+          : 'Inactivo'
+          }}
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ============================= -->
+  <!-- TABS                          -->
+  <!-- ============================= -->
+
+  <section class="student-tabs">
+
+    <button type="button" [class.active]="selectedTab === 'info'" (click)="selectTab('info')">
+      <ion-icon name="person-outline"></ion-icon>
+      <span>Información</span>
+    </button>
+
+
+    <button type="button" [class.active]="selectedTab === 'payments'" (click)="selectTab('payments')">
+      <ion-icon name="wallet-outline"></ion-icon>
+      <span>Pagos</span>
+    </button>
+
+
+    <button type="button" [class.active]="selectedTab === 'attendance'" (click)="selectTab('attendance')">
+      <ion-icon name="checkmark-circle-outline"></ion-icon>
+      <span>Asistencia</span>
+    </button>
+
+  </section>
+
+
+  <!-- ============================= -->
+  <!-- INFORMACIÓN                   -->
+  <!-- ============================= -->
+
+  <section class="student-content" *ngIf="selectedTab === 'info'">
+
+    <div class="content-heading">
+
+      <div>
+        <span>DATOS DEL ALUMNO</span>
+        <h2>Información personal</h2>
+      </div>
+
+    </div>
+
+
+    <div class="information-card">
+
+      <div class="information-row">
+
+        <div class="information-icon">
+          <ion-icon name="card-outline"></ion-icon>
+        </div>
+
+        <div class="information-text">
+          <span>Documento</span>
+
+          <strong>
+            {{ student.document }}
+          </strong>
+        </div>
+
+      </div>
+
+
+      <div class="information-row">
+
+        <div class="information-icon">
+          <ion-icon name="calendar-outline"></ion-icon>
+        </div>
+
+        <div class="information-text">
+          <span>Fecha de nacimiento</span>
+
+          <strong>
+            {{ student.birthDate }}
+          </strong>
+        </div>
+
+      </div>
+
+
+      <div class="information-row">
+
+        <div class="information-icon">
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+
+        <div class="information-text">
+          <span>Responsable</span>
+
+          <strong>
+            {{ student.responsibleName }}
+          </strong>
+        </div>
+
+      </div>
+
+
+      <div class="information-row">
+
+        <div class="information-icon">
+          <ion-icon name="call-outline"></ion-icon>
+        </div>
+
+        <div class="information-text">
+          <span>Teléfono</span>
+
+          <strong>
+            {{ student.phone }}
+          </strong>
+        </div>
+
+      </div>
+
+
+      <div class="information-row">
+
+        <div class="information-icon">
+          <ion-icon name="location-outline"></ion-icon>
+        </div>
+
+        <div class="information-text">
+          <span>Dirección</span>
+
+          <strong>
+            {{ student.address }}
+          </strong>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- CONTACTO -->
+
+    <button type="button" class="whatsapp-contact" (click)="sendWhatsApp()">
+
+      <div class="whatsapp-icon">
+        <ion-icon name="logo-whatsapp"></ion-icon>
+      </div>
+
+      <div>
+        <strong>Contactar responsable</strong>
+        <span>Enviar mensaje por WhatsApp</span>
+      </div>
+
+      <ion-icon class="contact-chevron" name="chevron-forward-outline"></ion-icon>
+
+    </button>
+
+  </section>
+
+
+  <!-- ============================= -->
+  <!-- PAGOS                         -->
+  <!-- ============================= -->
+
+  <section class="student-content" *ngIf="selectedTab === 'payments'">
+
+    <div class="content-heading">
+
+      <div>
+        <span>CUOTAS</span>
+        <h2>Estado de pagos</h2>
+      </div>
+
+    </div>
+
+
+    <div class="payment-status-card" [class.due]="student.paymentStatus === 'due'">
+
+      <div class="payment-status-icon">
+
+        <ion-icon [name]="
+            student.paymentStatus === 'paid'
+              ? 'checkmark-circle'
+              : 'alert-circle'
+          "></ion-icon>
+
+      </div>
+
+
+      <div class="payment-status-info">
+
+        <span>
+          Agosto 2026
+        </span>
+
+        <strong>
+          {{
+          student.paymentStatus === 'paid'
+          ? 'Al día'
+          : 'Debe'
+          }}
+        </strong>
+
+        <small>
+          {{
+          student.paymentStatus === 'paid'
+          ? 'La cuota del mes se encuentra abonada.'
+          : 'La cuota del mes se encuentra pendiente.'
+          }}
+        </small>
+
+      </div>
+
+
+      <div class="payment-badge" [class.due]="student.paymentStatus === 'due'">
+        {{
+        student.paymentStatus === 'paid'
+        ? 'AL DÍA'
+        : 'DEBE'
+        }}
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ============================= -->
+  <!-- ASISTENCIA                    -->
+  <!-- ============================= -->
+
+  <section class="student-content" *ngIf="selectedTab === 'attendance'">
+
+    <div class="content-heading">
+
+      <div>
+        <span>ENTRENAMIENTOS</span>
+        <h2>Asistencia general</h2>
+      </div>
+
+    </div>
+
+
+    <div class="attendance-card">
+
+      <div class="attendance-top">
+
+        <div>
+
+          <span>
+            Porcentaje de asistencia
+          </span>
+
+          <strong>
+            {{ student.attendancePercentage }}%
+          </strong>
+
+        </div>
+
+
+        <div class="attendance-icon">
+          <ion-icon name="stats-chart-outline"></ion-icon>
+        </div>
+
+      </div>
+
+
+      <div class="attendance-progress">
+
+        <div class="attendance-progress-value" [style.width.%]="student.attendancePercentage"></div>
+
+      </div>
+
+
+      <div class="attendance-footer">
+
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+
+        <span>
+          Asistencia acumulada del alumno
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>

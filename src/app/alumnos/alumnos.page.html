@@ -161,7 +161,7 @@
     <div class="table-row student-row" *ngFor="
     let student of filteredStudents;
     trackBy: trackByStudentId
-  ">
+  " (click)="openStudent(student)">
 
       <div class="student-column">
 

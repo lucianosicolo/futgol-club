@@ -1,0 +1,744 @@
+:host {
+  --futgol-green: #4da934;
+  --futgol-dark-green: #377d28;
+  --futgol-green-soft: #e9f5e5;
+
+  --futgol-red: #d94b4b;
+  --futgol-red-soft: #fceeee;
+
+  --futgol-text: #1c211c;
+  --futgol-muted: #747a74;
+  --futgol-border: #e2e7e0;
+
+  --futgol-background: #f4f6f2;
+}
+
+
+/* ============================= */
+/* CONTENEDOR                    */
+/* ============================= */
+
+.student-detail-container {
+  width: 100%;
+  max-width: 540px;
+
+  margin: 0 auto;
+
+  padding: 20px 14px 40px;
+}
+
+
+/* ============================= */
+/* PERFIL                        */
+/* ============================= */
+
+.profile-card {
+  position: relative;
+
+  overflow: hidden;
+
+  margin-bottom: 14px;
+  padding: 16px 18px;
+
+  background: #ffffff;
+
+  border: 1px solid var(--futgol-border);
+  border-radius: 16px;
+
+  box-shadow:
+    0 4px 15px rgba(25, 40, 25, 0.055);
+}
+
+
+.profile-decoration {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  width: 100px;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(77, 169, 52, 0),
+      rgba(77, 169, 52, 0.055)
+    );
+
+  pointer-events: none;
+}
+
+
+.profile-content {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  z-index: 1;
+}
+
+.profile-avatar {
+  width: 68px;
+  height: 68px;
+
+  flex-shrink: 0;
+
+  background: #ffffff;
+
+  border: 2px solid #ffffff;
+
+  box-shadow:
+    0 0 0 1px rgba(77, 169, 52, 0.20),
+    0 5px 12px rgba(20, 35, 20, 0.08);
+}
+.profile-information {
+  min-width: 0;
+
+  .profile-label {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--futgol-green);
+
+    font-size: 7px;
+    font-weight: 900;
+
+    letter-spacing: 0.9px;
+  }
+
+  h1 {
+    margin: 0 0 4px;
+
+    color: var(--futgol-text);
+
+    font-size: 21px;
+    font-weight: 900;
+
+    line-height: 1.1;
+    letter-spacing: -0.45px;
+  }
+
+  p {
+    margin: 0;
+
+    color: #656b65;
+
+    font-size: 10px;
+    font-weight: 500;
+  }
+}
+
+/* ESTADO */
+
+.student-status {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+
+  margin-top: 9px;
+  padding: 4px 8px;
+
+  background: #eff1ee;
+
+  border-radius: 7px;
+
+  color: #747a74;
+
+  font-size: 8px;
+  font-weight: 800;
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+
+    background: #969c96;
+
+    border-radius: 50%;
+  }
+
+  &.active {
+    background: var(--futgol-green-soft);
+
+    color: var(--futgol-green);
+
+    .status-dot {
+      background: var(--futgol-green);
+    }
+  }
+}
+
+
+/* ============================= */
+/* TABS                          */
+/* ============================= */
+
+.student-tabs {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 4px;
+
+  margin-bottom: 20px;
+  padding: 4px;
+
+  background: #e9ede7;
+
+  border: 1px solid #e2e7e0;
+  border-radius: 12px;
+
+  button {
+    appearance: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    min-height: 41px;
+
+    padding: 0 8px;
+
+    background: transparent;
+
+    border: 0;
+    border-radius: 9px;
+
+    color: #747a74;
+
+    font-family: inherit;
+    font-size: 8px;
+    font-weight: 750;
+
+    cursor: pointer;
+
+    transition:
+      background 150ms ease,
+      color 150ms ease,
+      box-shadow 150ms ease,
+      transform 120ms ease;
+
+    ion-icon {
+      font-size: 15px;
+    }
+
+    &.active {
+      background: #ffffff;
+
+      color: var(--futgol-green);
+
+      font-weight: 850;
+
+      box-shadow:
+        0 2px 8px rgba(25, 40, 25, 0.10);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+/* ============================= */
+/* ENCABEZADO                    */
+/* ============================= */
+
+.content-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  margin-bottom: 10px;
+
+  span {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--futgol-green);
+
+    font-size: 7px;
+    font-weight: 900;
+
+    letter-spacing: 0.8px;
+  }
+
+  h2 {
+    margin: 0;
+
+    color: var(--futgol-text);
+
+    font-size: 14px;
+    font-weight: 850;
+  }
+}
+
+
+/* ============================= */
+/* INFORMACIÓN                   */
+/* ============================= */
+
+.information-card {
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border: 1px solid var(--futgol-border);
+  border-radius: 14px;
+
+  box-shadow:
+    0 3px 12px
+    rgba(20, 35, 20, 0.035);
+}
+
+
+.information-row {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  min-height: 61px;
+
+  padding: 11px 13px;
+
+  border-bottom: 1px solid #edf0ec;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+.information-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  background: var(--futgol-green-soft);
+
+  border-radius: 9px;
+
+  ion-icon {
+    color: var(--futgol-green);
+    font-size: 16px;
+  }
+}
+
+.information-text {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+  min-width: 0;
+
+  span {
+    color: #777d77;
+
+    font-size: 8px;
+    font-weight: 500;
+  }
+
+  strong {
+    overflow: hidden;
+
+    color: var(--futgol-text);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+
+
+/* ============================= */
+/* WHATSAPP                      */
+/* ============================= */
+
+.whatsapp-contact {
+  appearance: none;
+
+  display: grid;
+
+  grid-template-columns:
+    auto minmax(0, 1fr) auto;
+
+  align-items: center;
+
+  gap: 11px;
+
+  width: 100%;
+
+  min-height: 56px;
+
+  margin-top: 12px;
+  padding: 10px 13px;
+
+  background: #ffffff;
+
+  border: 1px solid #cee8d4;
+  border-radius: 12px;
+
+  box-shadow:
+    0 2px 8px rgba(20, 35, 20, 0.025);
+
+  font-family: inherit;
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 150ms ease,
+    transform 120ms ease,
+    border-color 150ms ease;
+
+  &:active {
+    transform: scale(0.985);
+    background: #f8fcf8;
+  }
+
+  > div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+
+    strong {
+      color: var(--futgol-text);
+
+      font-size: 10px;
+      font-weight: 850;
+    }
+
+    span {
+      color: var(--futgol-muted);
+
+      font-size: 8px;
+    }
+  }
+}
+
+.whatsapp-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 35px;
+  height: 35px;
+
+  background: #eaf8ee;
+
+  border-radius: 9px;
+
+  ion-icon {
+    color: #25d366;
+    font-size: 20px;
+  }
+}
+
+.contact-chevron {
+  color: #9ba19b;
+  font-size: 17px;
+}
+
+.contact-chevron {
+  color: #a0a6a0;
+
+  font-size: 17px;
+}
+
+
+/* ============================= */
+/* PAGOS                         */
+/* ============================= */
+
+.payment-status-card {
+  display: grid;
+
+  grid-template-columns:
+    auto minmax(0, 1fr) auto;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 15px;
+
+  background: #ffffff;
+
+  border: 1px solid #dce9d9;
+  border-radius: 14px;
+
+  box-shadow:
+    0 3px 12px
+    rgba(20, 35, 20, 0.035);
+
+  &.due {
+    border-color: #efdada;
+
+    .payment-status-icon {
+      background: var(--futgol-red-soft);
+
+      ion-icon {
+        color: var(--futgol-red);
+      }
+    }
+
+    .payment-status-info strong {
+      color: var(--futgol-red);
+    }
+  }
+}
+
+
+.payment-status-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  background: var(--futgol-green-soft);
+
+  border-radius: 11px;
+
+  ion-icon {
+    color: var(--futgol-green);
+
+    font-size: 22px;
+  }
+}
+
+
+.payment-status-info {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+
+  span {
+    color: var(--futgol-muted);
+
+    font-size: 8px;
+  }
+
+  strong {
+    color: var(--futgol-green);
+
+    font-size: 15px;
+    font-weight: 900;
+  }
+
+  small {
+    margin-top: 2px;
+
+    color: #8b918b;
+
+    font-size: 8px;
+  }
+}
+
+
+.payment-badge {
+  padding: 4px 7px;
+
+  background: var(--futgol-green-soft);
+
+  border-radius: 6px;
+
+  color: var(--futgol-green);
+
+  font-size: 7px;
+  font-weight: 900;
+
+  white-space: nowrap;
+
+  &.due {
+    background: var(--futgol-red-soft);
+
+    color: var(--futgol-red);
+  }
+}
+
+
+/* ============================= */
+/* ASISTENCIA                    */
+/* ============================= */
+
+.attendance-card {
+  padding: 17px;
+
+  background: #ffffff;
+
+  border: 1px solid var(--futgol-border);
+  border-radius: 14px;
+
+  box-shadow:
+    0 3px 12px
+    rgba(20, 35, 20, 0.035);
+}
+
+
+.attendance-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 14px;
+
+  > div:first-child {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+
+    span {
+      color: var(--futgol-muted);
+
+      font-size: 8px;
+    }
+
+    strong {
+      color: var(--futgol-green);
+
+      font-size: 30px;
+      font-weight: 900;
+
+      letter-spacing: -1px;
+    }
+  }
+}
+
+
+.attendance-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  background: var(--futgol-green-soft);
+
+  border-radius: 11px;
+
+  ion-icon {
+    color: var(--futgol-green);
+
+    font-size: 20px;
+  }
+}
+
+
+.attendance-progress {
+  overflow: hidden;
+
+  width: 100%;
+  height: 8px;
+
+  background: #edf0ec;
+
+  border-radius: 999px;
+}
+
+
+.attendance-progress-value {
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--futgol-green),
+      #6ec756
+    );
+
+  border-radius: 999px;
+}
+
+
+.attendance-footer {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  margin-top: 10px;
+
+  color: var(--futgol-muted);
+
+  font-size: 8px;
+
+  ion-icon {
+    color: var(--futgol-green);
+
+    font-size: 13px;
+  }
+}
+
+
+/* ============================= */
+/* CELULAR CHICO                 */
+/* ============================= */
+
+@media (max-width: 360px) {
+
+  .student-detail-container {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .profile-card {
+    padding: 16px;
+  }
+
+  .profile-avatar {
+    width: 65px;
+    height: 65px;
+  }
+
+  .profile-information h1 {
+    font-size: 21px;
+  }
+
+  .student-tabs button {
+    gap: 3px;
+    font-size: 9px;
+
+    ion-icon {
+      font-size: 16px;
+    }
+  }
+}
+.student-tabs button {
+  color: #666d66;
+
+  &.active {
+    color: var(--futgol-green);
+  }
+
+  ion-icon {
+    opacity: 0.9;
+  }
+}
+.contact-chevron {
+  color: #9ba19b;
+  font-size: 17px;
+}
+.student-tabs button ion-icon {
+  opacity: 0.9;
+}

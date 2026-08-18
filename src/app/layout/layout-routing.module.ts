@@ -45,6 +45,12 @@ const routes: Routes = [
             .then(m => m.AlumnosPageModule)
       },
       {
+  path: 'alumno/:id',
+  loadChildren: () =>
+    import('../alumno-detalle/alumno-detalle.module')
+      .then(m => m.AlumnoDetallePageModule)
+},
+      {
         path: 'calendario',
         loadChildren: () =>
           import('../calendario/calendario.module')
