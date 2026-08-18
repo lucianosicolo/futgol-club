@@ -1,16 +1,13 @@
 <ion-app>
 
-  <ion-menu
-    contentId="main-content"
-    type="overlay"
-    class="main-menu"
-  >
+  <ion-menu contentId="main-content" type="overlay" class="main-menu">
 
     <ion-header class="ion-no-border">
       <ion-toolbar class="menu-header">
         <div class="menu-brand">
           <div class="brand-icon">
-            <ion-icon name="football-outline"></ion-icon>
+            <img src="assets/icon/logo.png" alt="FUTGOL Club" class="brand-logo" />
+
           </div>
 
           <div>
@@ -41,13 +38,8 @@
       <ion-list lines="none" class="menu-list">
 
         <ion-menu-toggle auto-hide="false">
-          <ion-item
-            routerLink="/app/home"
-            routerDirection="root"
-            routerLinkActive="selected"
-            [routerLinkActiveOptions]="{ exact: true }"
-            detail="false"
-          >
+          <ion-item routerLink="/app/home" routerDirection="root" routerLinkActive="selected"
+            [routerLinkActiveOptions]="{ exact: true }" detail="false">
             <div slot="start" class="menu-item-icon">
               <ion-icon name="home-outline"></ion-icon>
             </div>
@@ -57,27 +49,17 @@
         </ion-menu-toggle>
 
         <ion-menu-toggle auto-hide="false">
-          <ion-item
-            routerLink="/app/asistencia"
-            routerDirection="root"
-            routerLinkActive="selected"
-            detail="false"
-          >
+          <ion-item routerLink="/app/avisos" routerDirection="root" routerLinkActive="selected" detail="false">
             <div slot="start" class="menu-item-icon">
               <ion-icon name="checkmark-circle-outline"></ion-icon>
             </div>
 
-            <ion-label>Asistencia</ion-label>
+            <ion-label>Avisos</ion-label>
           </ion-item>
         </ion-menu-toggle>
 
         <ion-menu-toggle auto-hide="false">
-          <ion-item
-            routerLink="/app/pagos"
-            routerDirection="root"
-            routerLinkActive="selected"
-            detail="false"
-          >
+          <ion-item routerLink="/app/pagos" routerDirection="root" routerLinkActive="selected" detail="false">
             <div slot="start" class="menu-item-icon">
               <ion-icon name="wallet-outline"></ion-icon>
             </div>
@@ -87,12 +69,7 @@
         </ion-menu-toggle>
 
         <ion-menu-toggle auto-hide="false">
-          <ion-item
-            routerLink="/app/perfil"
-            routerDirection="root"
-            routerLinkActive="selected"
-            detail="false"
-          >
+          <ion-item routerLink="/app/perfil" routerDirection="root" routerLinkActive="selected" detail="false">
             <div slot="start" class="menu-item-icon">
               <ion-icon name="person-outline"></ion-icon>
             </div>
@@ -151,19 +128,11 @@
 
     <ion-footer class="ion-no-border menu-footer">
       <ion-toolbar>
-       <ion-button
-  expand="block"
-  fill="clear"
-  class="logout-button"
-  (click)="logout()"
->
-  <ion-icon
-    slot="start"
-    name="log-out-outline"
-  ></ion-icon>
+        <ion-button expand="block" fill="clear" class="logout-button" (click)="logout()">
+          <ion-icon slot="start" name="log-out-outline"></ion-icon>
 
-  Cerrar sesión
-</ion-button>
+          Cerrar sesión
+        </ion-button>
       </ion-toolbar>
     </ion-footer>
 

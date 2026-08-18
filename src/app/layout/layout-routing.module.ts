@@ -39,17 +39,23 @@ const routes: Routes = [
             .then(m => m.PerfilPageModule)
       },
       {
+        path: 'avisos',
+        loadChildren: () =>
+          import('../avisos/avisos.module')
+            .then(m => m.AvisosPageModule)
+      },
+      {
         path: 'alumnos',
         loadChildren: () =>
           import('../alumnos/alumnos.module')
             .then(m => m.AlumnosPageModule)
       },
       {
-  path: 'alumno/:id',
-  loadChildren: () =>
-    import('../alumno-detalle/alumno-detalle.module')
-      .then(m => m.AlumnoDetallePageModule)
-},
+        path: 'alumno/:id',
+        loadChildren: () =>
+          import('../alumno-detalle/alumno-detalle.module')
+            .then(m => m.AlumnoDetallePageModule)
+      },
       {
         path: 'calendario',
         loadChildren: () =>

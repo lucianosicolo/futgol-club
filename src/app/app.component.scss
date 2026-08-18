@@ -47,7 +47,7 @@ ion-app {
 
   padding: 12px 16px;
 
-  > div:last-child {
+  >div:last-child {
     display: flex;
     flex-direction: column;
     gap: 3px;
@@ -79,7 +79,6 @@ ion-app {
   height: 42px;
   flex-shrink: 0;
 
-  background: var(--futgol-green);
   border-radius: 12px;
 
   box-shadow:

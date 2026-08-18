@@ -1,0 +1,217 @@
+<main class="notices-container">
+
+
+  <!-- INTRO -->
+
+  <section class="notices-intro">
+
+    <span class="section-label">
+      COMUNICACIONES
+    </span>
+
+    <h1>
+      Avisos
+    </h1>
+
+    <p>
+      Enviá mensajes y recordatorios
+      a los responsables.
+    </p>
+
+  </section>
+
+
+  <!-- CARD -->
+
+  <section class="notice-card">
+
+
+    <!-- HEADER -->
+
+    <div class="notice-header">
+
+      <div class="notice-header-icon">
+        <ion-icon name="chatbubble-outline"></ion-icon>
+      </div>
+
+
+      <div>
+        <span>NUEVO MENSAJE</span>
+
+        <strong>
+          Crear aviso
+        </strong>
+      </div>
+
+    </div>
+
+
+    <!-- DESTINATARIOS -->
+
+<div class="form-field">
+
+  <label>
+    Enviar a
+  </label>
+
+  <div class="select-wrapper">
+
+    <ion-icon name="person-outline"></ion-icon>
+
+    <ion-select
+      [(ngModel)]="selectedRecipient"
+      interface="popover"
+    >
+
+      <ion-select-option value="all">
+        Toda la categoría
+      </ion-select-option>
+
+      <ion-select-option
+        *ngFor="let student of selectedStudents"
+        [value]="student.id"
+      >
+        {{ student.name }} {{ student.lastname }}
+      </ion-select-option>
+
+    </ion-select>
+
+  </div>
+
+</div>
+
+
+    <!-- CANTIDAD -->
+
+    <div class="recipient-info">
+
+      <ion-icon name="information-circle-outline"></ion-icon>
+
+      <span>
+        {{ selectedStudents.length }}
+        responsables recibirán este aviso.
+      </span>
+
+    </div>
+
+
+    <!-- TIPO -->
+
+    <div class="form-field">
+
+      <label>
+        Tipo de aviso
+      </label>
+
+
+      <div class="select-wrapper">
+
+        <ion-icon name="notifications-outline"></ion-icon>
+
+
+        <ion-select
+          [(ngModel)]="selectedType"
+          interface="popover"
+          (ionChange)="changeType()"
+        >
+
+          <ion-select-option value="payment">
+            Recordatorio de pago
+          </ion-select-option>
+
+          <ion-select-option value="training">
+            Recordatorio de entrenamiento
+          </ion-select-option>
+
+          <ion-select-option value="general">
+            Aviso general
+          </ion-select-option>
+
+        </ion-select>
+
+      </div>
+
+    </div>
+
+
+    <!-- MENSAJE -->
+
+    <div class="form-field">
+
+      <div class="message-label">
+
+        <label>
+          Mensaje
+        </label>
+
+        <span>
+          {{ message.length }} caracteres
+        </span>
+
+      </div>
+
+
+      <textarea
+        [(ngModel)]="message"
+        rows="6"
+        maxlength="500"
+        placeholder="Escribí el mensaje..."
+      ></textarea>
+
+    </div>
+
+
+    <!-- PREVIEW -->
+
+    <div class="message-preview">
+
+      <span>
+        VISTA PREVIA
+      </span>
+
+
+      <div class="preview-bubble">
+
+        <div class="preview-logo">
+          <ion-icon name="football-outline"></ion-icon>
+        </div>
+
+
+        <div>
+
+          <strong>
+            FUTGOL CLUB
+          </strong>
+
+          <p>
+            {{ message }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- WHATSAPP -->
+
+    <button
+      type="button"
+      class="send-button"
+      (click)="sendWhatsApp()"
+    >
+
+      <ion-icon name="logo-whatsapp"></ion-icon>
+
+      <span>
+        Enviar por WhatsApp
+      </span>
+
+    </button>
+
+
+  </section>
+
+
+</main>
