@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import {
   AlertController,
@@ -197,12 +197,39 @@ export class PagosPage implements OnInit {
     private alertController: AlertController,
     private toastController: ToastController,
     private router: Router,
+    private route: ActivatedRoute,
     private http: HttpClient
   ) { }
 
-
   ngOnInit(): void {
+
     this.applySavedPayments();
+
+    this.route.queryParamMap.subscribe(
+      params => {
+
+        const filter =
+          params.get('filter');
+
+
+        if (
+          filter === 'paid' ||
+          filter === 'due'
+        ) {
+
+          this.selectedFilter =
+            filter;
+
+        } else {
+
+          this.selectedFilter =
+            'all';
+
+        }
+
+      }
+    );
+
   }
 
   payWithMercadoPago(

@@ -8,7 +8,7 @@
 
   <section class="stats-grid">
 
-    <button type="button" class="stat-card">
+    <button type="button" class="stat-card" routerLink="/app/alumnos">
       <div class="stat-header">
         <div class="stat-icon icon-dark-bg">
           <ion-icon name="people-outline"></ion-icon>
@@ -21,7 +21,7 @@
       <small>Ver todos los alumnos</small>
     </button>
 
-    <button type="button" class="stat-card" routerLink="/app/pagos">
+    <button type="button" class="stat-card" routerLink="/app/pagos" [queryParams]="{ filter: 'paid' }">
       <div class="stat-header">
         <div class="stat-icon icon-green-bg">
           <ion-icon name="checkmark-circle-outline"></ion-icon>
@@ -34,7 +34,7 @@
       <small class="positive">{{ paidPercentage }}% del total</small>
     </button>
 
-    <button type="button" class="stat-card" routerLink="/app/pagos">
+    <button type="button" class="stat-card" routerLink="/app/pagos" [queryParams]="{ filter: 'due' }">
       <div class="stat-header">
         <div class="stat-icon icon-red-bg">
           <ion-icon name="alert-circle-outline"></ion-icon>
@@ -65,10 +65,11 @@
 
   </section>
 
-  <ion-button expand="block" class="main-action" routerLink="/app/nuevo-pago">
+  <ion-button expand="block" class="main-action" routerLink="/app/asistencia">
     <div class="main-action-content">
-      <span>Registrar pago</span>
-      <ion-icon name="add-circle"></ion-icon>
+      <span>Tomar asistencia</span>
+
+      <ion-icon name="checkmark-circle-outline"></ion-icon>
     </div>
   </ion-button>
 
