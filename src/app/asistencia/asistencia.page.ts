@@ -57,12 +57,31 @@ students: Student[] = [
     status: 'pending'
   }
 ];
+
+categories: string[] = [
+  'Categoría 2013/2014',
+  'Categoría 2015/2016',
+  'Categoría 2017/2018'
+];
+
+selectedCategory =
+  'Categoría 2013/2014';
+
+
+changeCategory(
+  category: string
+): void {
+
+  this.selectedCategory = category;
+
+}
   constructor(
     private actionSheetCtrl: ActionSheetController,
     private alertController: AlertController
   ) { }
 
   ngOnInit(): void { }
+  
   get presentStudentsCount(): number {
     return this.students.filter(
       student => student.status === 'present'

@@ -151,14 +151,19 @@
 
     <ion-footer class="ion-no-border menu-footer">
       <ion-toolbar>
-        <ion-button
-          expand="block"
-          fill="clear"
-          class="logout-button"
-        >
-          <ion-icon slot="start" name="log-out-outline"></ion-icon>
-          Cerrar sesión
-        </ion-button>
+       <ion-button
+  expand="block"
+  fill="clear"
+  class="logout-button"
+  (click)="logout()"
+>
+  <ion-icon
+    slot="start"
+    name="log-out-outline"
+  ></ion-icon>
+
+  Cerrar sesión
+</ion-button>
       </ion-toolbar>
     </ion-footer>
 

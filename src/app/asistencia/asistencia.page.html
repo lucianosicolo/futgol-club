@@ -9,18 +9,32 @@
       Tocá cada alumno que haya asistido al entrenamiento.
     </p>
   </section>
+  <div class="category-selector">
 
+    <div class="category-selector-icon">
+      <ion-icon name="people-outline"></ion-icon>
+    </div>
+
+    <div class="category-selector-content">
+
+      <span>Categoría</span>
+
+      <ion-select [value]="selectedCategory" interface="popover" (ionChange)="changeCategory($event.detail.value)">
+        <ion-select-option *ngFor="let category of categories" [value]="category">
+          {{ category }}
+        </ion-select-option>
+
+      </ion-select>
+
+    </div>
+
+  </div>
   <ion-card class="attendance-card">
 
     <!-- Selector de fecha -->
     <div class="attendance-navigation">
 
-      <ion-button
-        type="button"
-        fill="clear"
-        (click)="previousClass()"
-        aria-label="Entrenamiento anterior"
-      >
+      <ion-button type="button" fill="clear" (click)="previousClass()" aria-label="Entrenamiento anterior">
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
 
@@ -29,12 +43,7 @@
         <strong>{{ classDate }}</strong>
       </div>
 
-      <ion-button
-        type="button"
-        fill="clear"
-        (click)="nextClass()"
-        aria-label="Entrenamiento siguiente"
-      >
+      <ion-button type="button" fill="clear" (click)="nextClass()" aria-label="Entrenamiento siguiente">
         <ion-icon name="chevron-forward-outline"></ion-icon>
       </ion-button>
 
@@ -45,17 +54,28 @@
 
       <div>
         <span>Presentes</span>
-        <strong>{{ presentStudentsCount }}</strong>
+
+        <strong>
+          {{ presentStudentsCount }}
+        </strong>
       </div>
+
+
+      <div>
+        <span>Sin marcar</span>
+
+        <strong class="pending-count">
+          {{ students.length - presentStudentsCount }}
+        </strong>
+      </div>
+
 
       <div>
         <span>Total</span>
-        <strong>{{ students.length }}</strong>
-      </div>
 
-      <div class="category-summary">
-        <span>Categoría</span>
-        <strong>{{ classCategory }}</strong>
+        <strong class="total-count">
+          {{ students.length }}
+        </strong>
       </div>
 
     </div>
@@ -63,20 +83,11 @@
     <!-- Lista de alumnos -->
     <ion-list class="student-list" lines="full">
 
-      <ion-item
-        *ngFor="let student of students; trackBy: trackByStudentId"
-        button
-        detail="false"
-        class="student-item"
-        [class.student-present]="student.status === 'present'"
-        (click)="changeStatus(student)"
-      >
+      <ion-item *ngFor="let student of students; trackBy: trackByStudentId" button detail="false" class="student-item"
+        [class.student-present]="student.status === 'present'" (click)="changeStatus(student)">
 
         <ion-avatar slot="start">
-          <img
-            [src]="student.avatar || 'assets/section/usuario.png'"
-            [alt]="'Foto de ' + student.name"
-          />
+          <img [src]="student.avatar || 'assets/section/usuario.png'" [alt]="'Foto de ' + student.name" />
         </ion-avatar>
 
         <ion-label>
@@ -89,20 +100,14 @@
           </p>
         </ion-label>
 
-        <div
-          slot="end"
-          class="student-status"
-          [class.present]="student.status === 'present'"
-        >
-          <ion-icon
-            [name]="getStatusIcon(student.status)"
-          ></ion-icon>
+        <div slot="end" class="student-status" [class.present]="student.status === 'present'">
+          <ion-icon [name]="getStatusIcon(student.status)"></ion-icon>
 
           <span>
             {{
-              student.status === 'present'
-                ? 'Presente'
-                : 'Sin marcar'
+            student.status === 'present'
+            ? 'Presente'
+            : 'Sin marcar'
             }}
           </span>
         </div>
@@ -123,18 +128,10 @@
         </span>
       </div>
 
-      <ion-button
-        type="button"
-        expand="block"
-        class="save-button"
-        (click)="saveAttendance()"
-      >
+      <ion-button type="button" expand="block" class="save-button" (click)="saveAttendance()">
         <span>Guardar asistencia</span>
 
-        <ion-icon
-          slot="end"
-          name="checkmark-circle-outline"
-        ></ion-icon>
+        <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
       </ion-button>
 
     </div>

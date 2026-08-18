@@ -1,0 +1,389 @@
+:host {
+
+  --futgol-green: #4da934;
+  --futgol-dark-green: #377d28;
+  --futgol-green-soft: #e9f5e5;
+
+  --futgol-text: #1c211c;
+  --futgol-muted: #737973;
+  --futgol-border: #e2e7e0;
+
+}
+
+
+.calendar-container {
+
+  width: 100%;
+  max-width: 540px;
+
+  margin: 0 auto;
+
+  padding: 24px 14px 40px;
+
+}
+
+
+/* INTRO */
+
+.calendar-intro {
+
+  margin-bottom: 18px;
+
+  text-align: center;
+
+
+  .section-label {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--futgol-green);
+
+    font-size: 9px;
+    font-weight: 850;
+
+    letter-spacing: 0.9px;
+
+  }
+
+
+  h1 {
+
+    margin: 0 0 7px;
+
+    color: var(--futgol-text);
+
+    font-size: 21px;
+    font-weight: 850;
+
+  }
+
+
+  p {
+
+    max-width: 300px;
+
+    margin: 0 auto;
+
+    color: var(--futgol-muted);
+
+    font-size: 12px;
+    line-height: 1.45;
+
+  }
+
+}
+
+
+/* CALENDARIO */
+
+.calendar-card {
+
+  overflow: hidden;
+
+  margin-bottom: 20px;
+
+  padding: 4px;
+
+  background: #ffffff;
+
+  border: 1px solid var(--futgol-border);
+  border-radius: 15px;
+
+  box-shadow:
+    0 4px 16px
+    rgba(30, 45, 30, 0.06);
+
+
+  ion-datetime {
+
+    width: 100%;
+    max-width: 100%;
+
+    --background: #ffffff;
+
+    --ion-color-primary:
+      var(--futgol-green);
+
+  }
+
+}
+
+
+/* ENCABEZADO ACTIVIDADES */
+
+.activities-heading {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 10px;
+
+
+  span {
+
+    color: var(--futgol-green);
+
+    font-size: 8px;
+    font-weight: 850;
+
+    letter-spacing: 0.7px;
+
+  }
+
+
+  h2 {
+
+    margin: 3px 0 0;
+
+    color: var(--futgol-text);
+
+    font-size: 14px;
+    font-weight: 800;
+
+    text-transform: capitalize;
+
+  }
+
+}
+
+
+/* + */
+
+.add-activity-button {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 34px;
+  height: 34px;
+
+  padding: 0;
+
+  background: var(--futgol-green);
+
+  border: 0;
+  border-radius: 9px;
+
+  cursor: pointer;
+
+
+  ion-icon {
+
+    color: #ffffff;
+
+    font-size: 19px;
+
+  }
+
+
+  &:active {
+
+    transform: scale(0.96);
+
+  }
+
+}
+
+
+/* ACTIVIDAD */
+
+.activities-list {
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border: 1px solid var(--futgol-border);
+  border-radius: 13px;
+
+}
+
+
+.activity-item {
+
+  appearance: none;
+
+  display: grid;
+
+  grid-template-columns:
+    55px minmax(0, 1fr) auto;
+
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+
+  padding: 13px;
+
+  background: #ffffff;
+
+  border: 0;
+  border-bottom:
+    1px solid var(--futgol-border);
+
+  font-family: inherit;
+
+  text-align: left;
+
+  cursor: pointer;
+
+
+  &:last-child {
+
+    border-bottom: 0;
+
+  }
+
+
+  &:active {
+
+    background: #f8faf7;
+
+  }
+
+}
+
+
+.activity-time {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+
+  strong {
+
+    color: var(--futgol-green);
+
+    font-size: 12px;
+    font-weight: 850;
+
+  }
+
+
+  span {
+
+    color: var(--futgol-muted);
+
+    font-size: 7px;
+
+  }
+
+}
+
+
+.activity-information {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+  min-width: 0;
+
+
+  strong {
+
+    color: var(--futgol-text);
+
+    font-size: 11px;
+    font-weight: 750;
+
+  }
+
+
+  span {
+
+    color: var(--futgol-muted);
+
+    font-size: 9px;
+
+  }
+
+}
+
+
+.activity-chevron {
+
+  color: #a4aaa4;
+
+  font-size: 17px;
+
+}
+
+
+/* VACÍO */
+
+.empty-activities {
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  padding: 30px 20px;
+
+  background: #ffffff;
+
+  border: 1px solid var(--futgol-border);
+  border-radius: 13px;
+
+  text-align: center;
+
+
+  > div {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 43px;
+    height: 43px;
+
+    margin-bottom: 10px;
+
+    background: var(--futgol-green-soft);
+
+    border-radius: 11px;
+
+
+    ion-icon {
+
+      color: var(--futgol-green);
+
+      font-size: 21px;
+
+    }
+
+  }
+
+
+  strong {
+
+    color: var(--futgol-text);
+
+    font-size: 11px;
+
+  }
+
+
+  > span {
+
+    margin-top: 4px;
+
+    color: var(--futgol-muted);
+
+    font-size: 9px;
+
+  }
+
+}

@@ -45,6 +45,12 @@ const routes: Routes = [
             .then(m => m.AlumnosPageModule)
       },
       {
+        path: 'calendario',
+        loadChildren: () =>
+          import('../calendario/calendario.module')
+            .then(m => m.CalendarioPageModule)
+      },
+      {
         path: '',
         redirectTo: 'home',
         pathMatch: 'full'

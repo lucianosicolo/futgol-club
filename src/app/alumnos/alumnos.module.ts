@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
@@ -21,4 +21,4 @@ import { AlumnosPage } from './alumnos.page';
     AlumnosPage
   ]
 })
-export class AlumnosPageModule {}
+export class AlumnosPageModule { }

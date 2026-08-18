@@ -67,7 +67,19 @@
     --min-height: 70px;
   }
 }
+.calendar-navbar-button {
+  width: 42px;
+  height: 42px;
 
+  --padding-start: 0;
+  --padding-end: 0;
+
+  --color: #4da934;
+
+  ion-icon {
+    font-size: 22px;
+  }
+}
 .bottom-navigation {
   display: grid;
   grid-template-columns: repeat(5, 1fr);

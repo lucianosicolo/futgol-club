@@ -27,6 +27,10 @@ const routes: Routes = [
     path: '**',
     redirectTo: 'login'
   },
+  {
+    path: 'calendario',
+    loadChildren: () => import('./calendario/calendario.module').then( m => m.CalendarioPageModule)
+  },
   // {
   //   path: 'alumnos',
   //   loadChildren: () => import('./alumnos/alumnos.module').then( m => m.AlumnosPageModule)

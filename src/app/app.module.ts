@@ -11,6 +11,9 @@ import {
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {
+  provideHttpClient
+} from '@angular/common/http';
 
 registerLocaleData(localeEsAr);
 
@@ -26,6 +29,8 @@ registerLocaleData(localeEsAr);
   ],
 
   providers: [
+    provideHttpClient(),
+
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy

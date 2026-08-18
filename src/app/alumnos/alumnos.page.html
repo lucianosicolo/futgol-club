@@ -16,8 +16,9 @@
 
   <!-- Tarjetas resumen -->
   <section class="summary-grid">
+    <button type="button" class="summary-card" [class.selected]="selectedStatus === 'active'"
+      (click)="filterByStatus('active')">
 
-    <div class="summary-card">
       <div class="summary-icon active-icon">
         <ion-icon name="checkmark-circle-outline"></ion-icon>
       </div>
@@ -26,10 +27,12 @@
         <span>ACTIVOS</span>
         <strong>{{ activeCount }}</strong>
       </div>
-    </div>
+
+    </button>
 
 
-    <div class="summary-card">
+    <button type="button" class="summary-card" [class.selected]="selectedStatus === 'inactive'"
+      (click)="filterByStatus('inactive')">
       <div class="summary-icon inactive-icon">
         <ion-icon name="remove-circle-outline"></ion-icon>
       </div>
@@ -38,10 +41,11 @@
         <span>INACTIVOS</span>
         <strong>{{ inactiveCount }}</strong>
       </div>
-    </div>
+    </button>
 
 
-    <div class="summary-card">
+    <button type="button" class="summary-card" [class.selected]="selectedStatus === 'inactive'"
+      (click)="filterByStatus('all')">
       <div class="summary-icon total-icon">
         <ion-icon name="people-outline"></ion-icon>
       </div>
@@ -50,7 +54,7 @@
         <span>TOTALES</span>
         <strong>{{ totalCount }}</strong>
       </div>
-    </div>
+    </button>
 
   </section>
 
@@ -79,12 +83,12 @@
 
     <div class="filters-grid">
 
-      <!-- Categoría -->
       <div class="filter-field">
 
         <label>Categoría</label>
 
         <ion-select [(ngModel)]="selectedCategory" interface="popover">
+
           <ion-select-option value="all">
             Todas
           </ion-select-option>
@@ -92,13 +96,16 @@
           <ion-select-option *ngFor="let category of categories" [value]="category">
             {{ category }}
           </ion-select-option>
+
         </ion-select>
 
       </div>
 
+    </div>
 
-      <!-- Estado -->
-      <div class="filter-field">
+
+    <!-- Estado -->
+    <!-- <div class="filter-field">
 
         <label>Estado</label>
 
@@ -116,9 +123,9 @@
           </ion-select-option>
         </ion-select>
 
-      </div>
+      </div> -->
 
-    </div>
+    <!-- </div> -->
 
   </section>
 
@@ -151,12 +158,11 @@
 
 
     <!-- Alumnos -->
-    <button type="button" class="table-row student-row" *ngFor="
-        let student of filteredStudents;
-        trackBy: trackByStudentId
-      ">
+    <div class="table-row student-row" *ngFor="
+    let student of filteredStudents;
+    trackBy: trackByStudentId
+  ">
 
-      <!-- Alumno -->
       <div class="student-column">
 
         <ion-avatar>
@@ -165,8 +171,7 @@
 
         <div>
           <strong>
-            {{ student.name }}
-            {{ student.lastname }}
+            {{ student.name }} {{ student.lastname }}
           </strong>
 
           <small>
@@ -177,42 +182,34 @@
       </div>
 
 
-      <!-- Documento -->
       <span class="document-column">
         {{ student.document }}
       </span>
 
 
-      <!-- Categoría -->
       <span class="category-column">
         {{ student.category }}
       </span>
 
 
-      <!-- Estado -->
-   <div class="status-column">
+      <div class="status-column">
 
-  <button
-    type="button"
-    class="status-badge"
-    [class.active]="student.status === 'active'"
-    [class.inactive]="student.status === 'inactive'"
-    (click)="toggleStudentStatus(student, $event)"
-  >
+        <button type="button" class="status-badge" [class.active]="student.status === 'active'"
+          [class.inactive]="student.status === 'inactive'" (click)="toggleStudentStatus(student, $event)">
 
-    <span class="status-dot"></span>
+          <span class="status-dot"></span>
 
-    {{
-      student.status === 'active'
-        ? 'Activo'
-        : 'Inactivo'
-    }}
+          {{
+          student.status === 'active'
+          ? 'Activo'
+          : 'Inactivo'
+          }}
 
-  </button>
+        </button>
 
-</div>
+      </div>
 
-    </button>
+    </div>
 
   </section>
 

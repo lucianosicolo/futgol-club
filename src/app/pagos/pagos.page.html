@@ -1,116 +1,388 @@
-<!-- <ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home" text="" icon="chevron-back-outline"></ion-back-button>
-    </ion-buttons>
+<main class="payments-container">
 
-    <ion-title>FUTGOL CLUB</ion-title>
-  </ion-toolbar>
-</ion-header> -->
 
-  <main class="payments-container">
+  <!-- TÍTULO -->
 
-    <section class="payments-intro">
-      <h1>CONTROL DE PAGOS</h1>
-      <p>Registrá y controlá las cuotas de cada alumno.</p>
-    </section>
-    <div class="period-selector">
-      <div class="period-calendar">
-        <ion-icon name="calendar-outline"></ion-icon>
-      </div>
+  <section class="payments-intro">
 
-      <div class="period-information">
-        <span>Período </span>
-        <strong>Agosto 2026</strong>
-      </div>
+    <h1>CONTROL DE PAGOS</h1>
 
-      <ion-button type="button" fill="clear" class="period-selector-button" (click)="openMonthSelector()"
-        aria-label="Cambiar período">
-        <ion-icon slot="icon-only" name="chevron-down-outline"></ion-icon>
-      </ion-button>
+    <p>
+      Registrá y controlá las cuotas de cada alumno.
+    </p>
+
+  </section>
+
+
+  <!-- PERÍODO -->
+
+  <button type="button" class="period-selector" (click)="openMonthSelector()">
+    <div class="period-calendar">
+      <ion-icon name="calendar-outline"></ion-icon>
     </div>
-    <ion-card class="payments-card">
 
-      <!-- Barra verde -->
-      <div class="payments-header">
-        <span>Pagos</span>
+    <div class="period-information">
+      <span>Período</span>
 
-        <ion-button fill="clear" class="add-payment-button" (click)="openRegisterPayment()"
-          aria-label="Registrar nuevo pago">
-          <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-        </ion-button>
-      </div>
-      <div class="payments-summary">
-        <div>
-          <span>Al día</span>
-          <strong>{{ paidStudentsCount }}</strong>
-        </div>
+      <strong>
+        {{ currentPeriod }}
+      </strong>
+    </div>
 
-        <div>
-          <span>Deben</span>
-          <strong class="debt-number">{{ dueStudentsCount }}</strong>
-        </div>
+    <ion-icon class="period-chevron" name="chevron-down-outline"></ion-icon>
+  </button>
 
-        <div>
-          <span>Total</span>
-          <strong>{{ students.length }}</strong>
-        </div>
-      </div>
 
-      <!-- Filtros -->
-      <div class="payment-filters">
+  <!-- TARJETA PRINCIPAL -->
 
-        <button type="button" [class.active]="selectedFilter === 'all'" (click)="setFilter('all')">
-          Todos
-        </button>
+  <ion-card class="payments-card">
 
-        <button type="button" [class.active]="selectedFilter === 'paid'" (click)="setFilter('paid')">
-          Al día
-        </button>
 
-        <button type="button" [class.active]="selectedFilter === 'due'" (click)="setFilter('due')">
-          Deben
-        </button>
+    <!-- BARRA VERDE -->
 
+  
+
+
+    <!-- RESUMEN -->
+
+    <div class="payments-summary">
+
+      <div>
+        <span>Al día</span>
+
+        <strong class="paid-number">
+          {{ paidStudentsCount }}
+        </strong>
       </div>
 
-      <!-- Lista de alumnos -->
-      <ion-list class="payments-list" lines="full">
 
-        <ion-item *ngFor="let student of filteredStudents" class="payment-item">
+      <div>
+        <span>Deben</span>
+
+        <strong class="debt-number">
+          {{ dueStudentsCount }}
+        </strong>
+      </div>
+
+      <div>
+        <span>Total</span>
+
+        <strong>
+          {{ students.length }}
+        </strong>
+      </div>
+
+    </div>
+
+
+    <!-- FILTROS -->
+
+    <div class="payment-filters">
+
+      <button type="button" [class.active]="
+          selectedFilter === 'all'
+        " (click)="setFilter('all')">
+        Todos
+      </button>
+
+
+      <button type="button" [class.active]="
+          selectedFilter === 'paid'
+        " (click)="setFilter('paid')">
+        Al día
+      </button>
+
+
+      <button type="button" [class.active]="
+          selectedFilter === 'due'
+        " (click)="setFilter('due')">
+        Deben
+      </button>
+
+
+      <!-- <button type="button" [class.active]="
+          selectedFilter ===
+          'pending_validation'
+        " (click)="
+          setFilter('pending_validation')
+        ">
+        Por validar
+      </button> -->
+
+    </div>
+
+
+    <!-- LISTA -->
+
+    <ion-list class="payments-list" lines="none">
+
+
+      <ng-container *ngFor="
+          let student of filteredStudents
+        ">
+
+
+        <!-- ALUMNO -->
+
+        <ion-item class="payment-item">
+
           <ion-avatar slot="start">
-            <img [src]="student.avatar || 'assets/section/usuario.png'" [alt]="'Foto de ' + student.name" />
+
+            <img [src]="
+                student.avatar ||
+                'assets/section/usuario.png'
+              " [alt]="
+                'Foto de ' +
+                student.name
+              " />
+
           </ion-avatar>
 
+
           <ion-label>
+
             <h2>
-              {{ student.name }} {{ student.lastname }}
+              {{ student.name }}
+              {{ student.lastname }}
             </h2>
 
-            <p>{{ student.category }}</p>
+            <p>
+              {{ student.category }}
+            </p>
+
           </ion-label>
+
+
+          <!-- ESTADO -->
 
           <div slot="end" class="payment-information">
 
-            <button type="button" class="status-badge" [class.status-paid]="student.status === 'paid'"
-              [class.status-due]="student.status === 'due'" [disabled]="student.status === 'paid'"
-              (click)="registerStudentPayment(student)">
-              {{ getStatusLabel(student.status) }}
-            </button>
+            <span class="status-badge" [class.status-paid]="
+                student.status === 'paid'
+              " [class.status-due]="
+                student.status === 'due'
+              ">
 
-            <small>{{ student.period }}</small>
+              {{
+              getStatusLabel(
+              student.status
+              )
+              }}
+
+            </span>
+
+
+            <small>
+              {{ student.period }}
+            </small>
 
           </div>
+
         </ion-item>
 
-      </ion-list>
 
-      <!-- Sin resultados -->
-      <div class="empty-state" *ngIf="filteredStudents.length === 0">
-        <ion-icon name="wallet-outline"></ion-icon>
-        <p>No hay alumnos en esta categoría.</p>
-      </div>
+        <!-- ======================= -->
+        <!-- DEBE                    -->
+        <!-- ======================= -->
 
-    </ion-card>
+        <div class="debt-section" *ngIf="student.status === 'due'">
 
-  </main>
+          <div class="debt-info">
+
+            <div class="debt-text">
+              <span>Cuota pendiente</span>
+
+              <strong>
+                {{ student.period }}
+              </strong>
+            </div>
+
+            <strong class="debt-amount">
+              ${{ student.amount | number:'1.0-0' }}
+            </strong>
+
+            <button type="button" class="whatsapp-button" (click)="sendWhatsAppReminder(student, $event)">
+              <ion-icon name="logo-whatsapp"></ion-icon>
+
+              <span>
+                Avisar
+              </span>
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- ======================= -->
+        <!-- POR VALIDAR             -->
+        <!-- ======================= -->
+
+        <!-- <div class="validation-section" *ngIf="
+            student.status ===
+            'pending_validation'
+          ">
+
+
+          <div class="validation-header">
+
+            <div class="validation-icon">
+
+              <ion-icon name="document-text-outline"></ion-icon>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Comprobante recibido
+              </span>
+
+              <strong>
+                {{
+                student.receiptName ||
+                'Comprobante adjunto'
+                }}
+              </strong>
+
+            </div>
+
+
+            <strong class="validation-amount">
+
+              ${{
+              student.amount
+              | number:'1.0-0'
+              }}
+
+            </strong>
+
+          </div>
+
+
+          <div class="validation-info">
+
+            <span>
+              {{ student.period }}
+            </span>
+
+            <span *ngIf="
+                student.paymentMethod
+              ">
+              {{ student.paymentMethod }}
+            </span>
+
+            <span *ngIf="
+                student.paymentDate
+              ">
+              {{
+              student.paymentDate
+              | date:'dd/MM/yyyy'
+              }}
+            </span>
+
+          </div>
+
+
+          <div class="validation-actions">
+
+
+            <button type="button" class="view-receipt-button" (click)="
+                viewReceipt(student)
+              ">
+
+              <ion-icon name="eye-outline"></ion-icon>
+
+              Ver comprobante
+
+            </button>
+
+
+            <button type="button" class="approve-payment-button" (click)="
+                approvePayment(student)
+              ">
+
+              <ion-icon name="checkmark-outline"></ion-icon>
+
+              Aprobar
+
+            </button>
+
+
+            <button type="button" class="reject-payment-button" (click)="
+                rejectPayment(student)
+              ">
+
+              Rechazar
+
+            </button>
+
+
+          </div>
+
+        </div> -->
+
+
+        <!-- ======================= -->
+        <!-- PAGADO                  -->
+        <!-- ======================= -->
+
+        <!-- <div class="paid-section" *ngIf="
+            student.status === 'paid' &&
+            student.paymentDate
+          ">
+
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+
+
+          <div>
+
+            <strong>
+              Pago registrado
+            </strong>
+
+            <span>
+
+              {{ student.paymentMethod }}
+
+              <ng-container *ngIf="
+                  student.paymentDate
+                ">
+                ·
+                {{
+                student.paymentDate
+                | date:'dd/MM/yyyy'
+                }}
+              </ng-container>
+
+            </span>
+
+          </div>
+
+        </div> -->
+
+
+      </ng-container>
+
+
+    </ion-list>
+
+
+    <!-- SIN RESULTADOS -->
+
+    <div class="empty-state" *ngIf="
+        filteredStudents.length === 0
+      ">
+
+      <ion-icon name="wallet-outline"></ion-icon>
+
+      <p>
+        No hay alumnos en esta categoría.
+      </p>
+
+    </div>
+
+
+  </ion-card>
+
+</main>

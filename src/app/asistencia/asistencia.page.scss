@@ -134,12 +134,76 @@
     white-space: nowrap;
   }
 }
+.category-selector {
+  display: flex;
+  align-items: center;
 
+  gap: 9px;
+
+  margin-bottom: 14px;
+  padding: 8px 10px;
+
+  background: #ffffff;
+
+  border: 1px solid var(--its-border);
+  border-radius: 10px;
+}
+
+.category-selector-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 29px;
+  height: 29px;
+
+  background: var(--its-green-soft);
+  border-radius: 7px;
+
+  ion-icon {
+    color: var(--its-green);
+    font-size: 16px;
+  }
+}
+
+.category-selector-content {
+  display: flex;
+  align-items: center;
+
+  flex: 1;
+
+  gap: 6px;
+
+  min-width: 0;
+
+  span {
+    flex-shrink: 0;
+
+    color: var(--its-muted);
+    font-size: 9px;
+  }
+
+  ion-select {
+    flex: 1;
+
+    min-height: 28px;
+
+    --padding-start: 0;
+    --padding-end: 0;
+
+    color: var(--its-text);
+
+    font-size: 10px;
+    font-weight: 800;
+  }
+}
 /* Resumen */
 
 .attendance-summary {
   display: grid;
-  grid-template-columns: 1fr 1fr 1.5fr;
+  grid-template-columns: repeat(3, 1fr);
 
   padding: 13px 10px;
 

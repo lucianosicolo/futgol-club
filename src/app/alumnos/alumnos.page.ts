@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 
 
 type StudentStatus =
@@ -29,7 +30,9 @@ interface Student {
   standalone: false
 })
 export class AlumnosPage {
-
+  constructor(
+    private alertController: AlertController
+  ) { }
 
   searchTerm = '';
 
@@ -259,27 +262,43 @@ export class AlumnosPage {
 
   }
   get selectedStudentName(): string {
-  if (!this.selectedStudent) {
-    return 'Alumno';
+    if (!this.selectedStudent) {
+      return 'Alumno';
+    }
+
+    return `${this.selectedStudent.name} ${this.selectedStudent.lastname}`;
   }
+  get studentActionButtons() {
 
-  return `${this.selectedStudent.name} ${this.selectedStudent.lastname}`;
-}
-get studentActionButtons() {
+    if (!this.selectedStudent) {
+      return [];
+    }
 
-  if (!this.selectedStudent) {
-    return [];
-  }
+    if (this.selectedStudent.status === 'active') {
 
-  if (this.selectedStudent.status === 'active') {
+      return [
+        {
+          text: 'Desactivar alumno',
+          role: 'destructive',
+          icon: 'person-remove-outline',
+          handler: () => {
+            this.deactivateStudent();
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        }
+      ];
+
+    }
 
     return [
       {
-        text: 'Desactivar alumno',
-        role: 'destructive',
-        icon: 'person-remove-outline',
+        text: 'Reactivar alumno',
+        icon: 'person-add-outline',
         handler: () => {
-          this.deactivateStudent();
+          this.reactivateStudent();
         }
       },
       {
@@ -287,76 +306,115 @@ get studentActionButtons() {
         role: 'cancel'
       }
     ];
-
   }
+  openStudentActions(
+    student: Student,
+    event: Event
+  ): void {
 
-  return [
-    {
-      text: 'Reactivar alumno',
-      icon: 'person-add-outline',
-      handler: () => {
-        this.reactivateStudent();
-      }
-    },
-    {
-      text: 'Cancelar',
-      role: 'cancel'
+    event.stopPropagation();
+
+    this.selectedStudent = student;
+
+    this.isActionSheetOpen = true;
+  }
+  deactivateStudent(): void {
+
+    if (!this.selectedStudent) {
+      return;
     }
-  ];
-}
-openStudentActions(
-  student: Student,
-  event: Event
-): void {
 
-  event.stopPropagation();
+    this.selectedStudent.status = 'inactive';
 
-  this.selectedStudent = student;
+    this.isActionSheetOpen = false;
 
-  this.isActionSheetOpen = true;
-}
-deactivateStudent(): void {
-
-  if (!this.selectedStudent) {
-    return;
+    this.selectedStudent = null;
   }
+  filterByStatus(
+    status: StudentStatus | 'all'
+  ): void {
 
-  this.selectedStudent.status = 'inactive';
-
-  this.isActionSheetOpen = false;
-
-  this.selectedStudent = null;
-}
-toggleStudentStatus(
-  student: Student,
-  event: Event
-): void {
-
-  event.stopPropagation();
-
-  student.status =
-    student.status === 'active'
-      ? 'inactive'
-      : 'active';
-}
-reactivateStudent(): void {
-
-  if (!this.selectedStudent) {
-    return;
+    this.selectedStatus = status;
   }
+  async toggleStudentStatus(
+    student: Student,
+    event: Event
+  ): Promise<void> {
 
-  this.selectedStudent.status = 'active';
+    event.stopPropagation();
 
-  this.isActionSheetOpen = false;
+    const isActive =
+      student.status === 'active';
 
-  this.selectedStudent = null;
-}
-closeStudentActions(): void {
-  this.isActionSheetOpen = false;
+    const action =
+      isActive
+        ? 'desactivar'
+        : 'reactivar';
 
-  this.selectedStudent = null;
-}
-selectedStudent: Student | null = null;
+    const alert =
+      await this.alertController.create({
 
-isActionSheetOpen = false;
+        header:
+          isActive
+            ? 'Desactivar alumno'
+            : 'Reactivar alumno',
+
+        message:
+          `¿Querés ${action} a ` +
+          `${student.name} ${student.lastname}?`,
+
+        buttons: [
+
+          {
+            text: 'Cancelar',
+            role: 'cancel'
+          },
+
+          {
+            text:
+              isActive
+                ? 'Desactivar'
+                : 'Reactivar',
+
+            role:
+              isActive
+                ? 'destructive'
+                : undefined,
+
+            handler: () => {
+
+              student.status =
+                isActive
+                  ? 'inactive'
+                  : 'active';
+
+            }
+          }
+
+        ]
+
+      });
+
+    await alert.present();
+  }
+  reactivateStudent(): void {
+
+    if (!this.selectedStudent) {
+      return;
+    }
+
+    this.selectedStudent.status = 'active';
+
+    this.isActionSheetOpen = false;
+
+    this.selectedStudent = null;
+  }
+  closeStudentActions(): void {
+    this.isActionSheetOpen = false;
+
+    this.selectedStudent = null;
+  }
+  selectedStudent: Student | null = null;
+
+  isActionSheetOpen = false;
 }

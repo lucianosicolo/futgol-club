@@ -1,0 +1,143 @@
+<main class="calendar-container">
+
+  <!-- INTRO -->
+
+  <section class="calendar-intro">
+
+    <span class="section-label">
+      AGENDA
+    </span>
+
+    <h1>
+      Calendario
+    </h1>
+
+    <p>
+      Consultá los entrenamientos y actividades de la escuelita.
+    </p>
+
+  </section>
+
+
+  <!-- CALENDARIO -->
+
+  <section class="calendar-card">
+
+    <ion-datetime
+      presentation="date"
+      locale="es-AR"
+      [firstDayOfWeek]="1"
+      [value]="selectedDate"
+      (ionChange)="selectDate($event)"
+    >
+    </ion-datetime>
+
+  </section>
+
+
+  <!-- ACTIVIDADES DEL DÍA -->
+
+  <section class="activities-section">
+
+    <div class="activities-heading">
+
+      <div>
+
+        <span>
+          ACTIVIDADES
+        </span>
+
+        <h2>
+          {{ selectedDateLabel }}
+        </h2>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="add-activity-button"
+        (click)="addActivity()"
+        aria-label="Nueva actividad"
+      >
+
+        <ion-icon name="add-outline"></ion-icon>
+
+      </button>
+
+    </div>
+
+
+    <!-- ACTIVIDADES -->
+
+    <div
+      class="activities-list"
+      *ngIf="selectedActivities.length > 0"
+    >
+
+      <button
+        type="button"
+        class="activity-item"
+        *ngFor="let activity of selectedActivities"
+      >
+
+        <div class="activity-time">
+
+          <strong>
+            {{ activity.time }}
+          </strong>
+
+          <span>
+            {{ activity.duration }}
+          </span>
+
+        </div>
+
+
+        <div class="activity-information">
+
+          <strong>
+            {{ activity.name }}
+          </strong>
+
+          <span>
+            {{ activity.category }}
+          </span>
+
+        </div>
+
+
+        <ion-icon
+          class="activity-chevron"
+          name="chevron-forward-outline"
+        ></ion-icon>
+
+      </button>
+
+    </div>
+
+
+    <!-- SIN ACTIVIDADES -->
+
+    <div
+      class="empty-activities"
+      *ngIf="selectedActivities.length === 0"
+    >
+
+      <div>
+        <ion-icon name="calendar-clear-outline"></ion-icon>
+      </div>
+
+      <strong>
+        Sin actividades
+      </strong>
+
+      <span>
+        No hay entrenamientos registrados para este día.
+      </span>
+
+    </div>
+
+  </section>
+
+</main>
