@@ -12,8 +12,11 @@ import {
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {
-  provideHttpClient
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi
 } from '@angular/common/http';
+import { AuthInterceptor } from './auth/login/Interceptor/auth.interceptor';
 
 registerLocaleData(localeEsAr);
 
@@ -28,14 +31,24 @@ registerLocaleData(localeEsAr);
     AppRoutingModule
   ],
 
-  providers: [
-    provideHttpClient(),
+providers: [
 
-    {
-      provide: RouteReuseStrategy,
-      useClass: IonicRouteStrategy
-    }
-  ],
+  provideHttpClient(
+    withInterceptorsFromDi(),
+  ),
+
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true,
+  },
+
+  {
+    provide: RouteReuseStrategy,
+    useClass: IonicRouteStrategy,
+  },
+
+],
 
   bootstrap: [
     AppComponent

@@ -104,10 +104,7 @@ export class AlumnoDetallePage implements OnInit {
           .get('id')
       );
 
-    console.log(
-      'Alumno:',
-      studentId
-    );
+  
 
   }
 

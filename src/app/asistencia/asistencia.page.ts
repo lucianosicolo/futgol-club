@@ -293,15 +293,9 @@ export class AsistenciaPage implements OnInit {
       );
 
 
-    console.log(
-      'Categoría:',
-      this.selectedCategory
-    );
+  
 
-    console.log(
-      'Alumnos presentes:',
-      presentes
-    );
+  
 
 
     const toast =
@@ -335,19 +329,14 @@ export class AsistenciaPage implements OnInit {
 
   previousClass(): void {
 
-    console.log(
-      'Mostrar entrenamiento anterior'
-    );
+  
 
   }
 
 
   nextClass(): void {
 
-    console.log(
-      'Mostrar entrenamiento siguiente'
-    );
-
+  
   }
 
 }

@@ -40,7 +40,7 @@
 
     <!-- BARRA VERDE -->
 
-  
+
 
 
     <!-- RESUMEN -->
@@ -203,9 +203,23 @@
 
             <button type="button" class="whatsapp-button" (click)="sendWhatsAppReminder(student, $event)">
               <ion-icon name="logo-whatsapp"></ion-icon>
+              <span>Avisar</span>
+            </button>
+
+            <button type="button" class="mercadopago-button" [disabled]="processingFeeId === student.feeId"
+              (click)="payWithMercadoPago(student)">
+              <ion-icon [name]="
+      processingFeeId === student.feeId
+        ? 'hourglass-outline'
+        : 'card-outline'
+    "></ion-icon>
 
               <span>
-                Avisar
+                {{
+                processingFeeId === student.feeId
+                ? 'Abriendo...'
+                : 'Pagar con MP'
+                }}
               </span>
             </button>
 

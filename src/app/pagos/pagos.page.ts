@@ -1,70 +1,137 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  HttpClient,
+  HttpParams,
+} from '@angular/common/http';
 
 import {
-  AlertController,
-  ToastController
+  Component,
+  OnInit,
+} from '@angular/core';
+
+import {
+  ActivatedRoute,
+} from '@angular/router';
+
+import {
+  ToastController,
 } from '@ionic/angular';
 
+
 interface MercadoPagoResponse {
+
   preferenceId: string;
+
   checkoutUrl: string;
+
   externalReference: string;
+
 }
+
+
+interface CategoryApi {
+
+  id: string;
+
+  name: string;
+
+}
+
+
+interface StudentApi {
+
+  id: string;
+
+  name: string;
+
+  last_name: string;
+
+  avatar: string | null;
+
+  category?: CategoryApi;
+
+}
+
+
+interface FeeApi {
+
+  id: string;
+
+  student: StudentApi;
+
+  period: string;
+
+  amount: number | string;
+
+  status: 'due' | 'paid';
+
+  due_date: string;
+
+  paid_at: string | null;
+
+  active: boolean;
+
+}
+
+
+interface FeesResponse {
+
+  ok: boolean;
+
+  result: FeeApi[];
+
+  msg: string;
+
+}
+
+
 type PaymentStatus =
   | 'paid'
   | 'due';
+
 
 type PaymentFilter =
   | 'all'
   | PaymentStatus;
 
-type ValidationStatus =
-  | 'pending'
-  | 'approved'
-  | 'rejected';
-
 
 interface PaymentStudent {
-  id: number;
+
+  /*
+   * ID del alumno.
+   */
+  id: string;
+
+  /*
+   * ID de la cuota.
+   * Este es el que mandamos
+   * a Mercado Pago.
+   */
+  feeId: string;
 
   name: string;
+
   lastname: string;
 
   category: string;
+
   avatar: string;
 
   status: PaymentStatus;
 
   period: string;
+
   amount: number;
 
-  responsibleName: string;
-  phone: string;
-
-  paymentMethod?: string;
   paymentDate?: string;
-  receiptName?: string;
-}
 
+  /*
+   * Después los vamos a traer
+   * desde el responsable real.
+   */
+  responsibleName?: string;
 
-interface SavedPayment {
-  id: number;
+  phone?: string;
 
-  studentId: number;
-
-  month: string;
-  amount: number;
-
-  paymentMethod: string;
-  paymentDate: string;
-
-  receiptName?: string;
-
-  validationStatus: ValidationStatus;
-
-  createdAt: string;
 }
 
 
@@ -72,145 +139,58 @@ interface SavedPayment {
   selector: 'app-pagos',
   templateUrl: './pagos.page.html',
   styleUrls: ['./pagos.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class PagosPage implements OnInit {
 
-  selectedFilter: PaymentFilter = 'all';
 
-  currentPeriod = 'Agosto 2026';
+  private readonly apiUrl =
+    'http://localhost:3000';
 
 
-  students: PaymentStudent[] = [
-    {
-      id: 1,
+  selectedFilter:
+    PaymentFilter = 'all';
 
-      name: 'Mateo',
-      lastname: 'Torres',
 
-      category: 'Categoría 2013',
+  currentPeriod =
+    'Septiembre 2026';
 
-      avatar: 'assets/section/usuario.png',
 
-      status: 'paid',
+  students:
+    PaymentStudent[] = [];
 
-      period: 'Agosto 2026',
 
-      amount: 1,
-
-      responsibleName: 'Carlos',
-      phone: '5491123456789',
-
-      paymentMethod: 'Transferencia',
-      paymentDate: '2026-08-04'
-    },
-
-    {
-      id: 2,
-
-      name: 'Luca',
-      lastname: 'Fernández',
-
-      category: 'Categoría 2014',
-
-      avatar: 'assets/section/usuario.png',
-
-      status: 'due',
-
-      period: 'Agosto 2026',
-
-      amount: 1,
-
-      responsibleName: 'María',
-      phone: '5491198765432'
-    },
-
-    {
-      id: 3,
-
-      name: 'Thiago',
-      lastname: 'López',
-
-      category: 'Categoría 2015',
-
-      avatar: 'assets/section/usuario.png',
-
-      status: 'paid',
-
-      period: 'Agosto 2026',
-
-      amount: 1,
-
-      responsibleName: 'Juan',
-      phone: '5491165432100',
-
-      paymentMethod: 'Efectivo',
-      paymentDate: '2026-08-03'
-    },
-
-    {
-      id: 4,
-
-      name: 'Benjamín',
-      lastname: 'Ruiz',
-
-      category: 'Categoría 2016',
-
-      avatar: 'assets/section/usuario.png',
-
-      status: 'due',
-
-      period: 'Agosto 2026',
-
-      amount: 1,
-
-      responsibleName: 'Laura',
-      phone: '5491155555555'
-    },
-
-    {
-      id: 5,
-
-      name: 'Tomás',
-      lastname: 'Gómez',
-
-      category: 'Categoría 2017',
-
-      avatar: 'assets/section/usuario.png',
-
-      status: 'paid',
-
-      period: 'Agosto 2026',
-
-      amount: 1,
-
-      responsibleName: 'Martín',
-      phone: '5491144444444',
-
-      paymentMethod: 'Transferencia',
-      paymentDate: '2026-08-02'
-    }
-  ];
+  loading =
+    false;
 
 
   constructor(
-    private alertController: AlertController,
-    private toastController: ToastController,
-    private router: Router,
-    private route: ActivatedRoute,
-    private http: HttpClient
+
+    private readonly toastController:
+      ToastController,
+
+    private readonly route:
+      ActivatedRoute,
+
+    private readonly http:
+      HttpClient,
+
   ) { }
+
+
+  /* ============================= */
+  /* INIT                          */
+  /* ============================= */
 
   ngOnInit(): void {
 
-    this.applySavedPayments();
+    this.loadFees();
 
     this.route.queryParamMap.subscribe(
       params => {
 
         const filter =
           params.get('filter');
-
 
         if (
           filter === 'paid' ||
@@ -227,104 +207,245 @@ export class PagosPage implements OnInit {
 
         }
 
-      }
+      },
     );
 
   }
 
-  payWithMercadoPago(
-    student: PaymentStudent
-  ): void {
+  /* ============================= */
+  /* CUANDO ENTRA A LA PÁGINA     */
+  /* ============================= */
 
-    const body = {
+  ionViewWillEnter(): void {
 
-      studentId:
-        student.id,
+    this.loadFees();
 
-      studentName:
-        `${student.name} ${student.lastname}`,
+  }
 
-      period:
-        student.period,
 
-      amount:
-        student.amount
+  /* ============================= */
+  /* CARGAR CUOTAS REALES         */
+  /* ============================= */
 
-    };
+  loadFees(): void {
+
+
+    this.loading =
+      true;
 
 
     this.http
-      .post<MercadoPagoResponse>(
-        'http://localhost:3000/mercadopago/preference',
-        body
+      .get<FeesResponse>(
+        `${this.apiUrl}/fees`,
       )
       .subscribe({
 
-        next: (response) => {
+        next: (
+          response,
+        ) => {
 
-          console.log(
-            'Mercado Pago:',
-            response
-          );
+       
+
+          const fees =
+            response?.result ?? [];
 
 
-          if (!response.checkoutUrl) {
+          this.students =
+            fees.map(
+              fee => ({
 
-            void this.showToast(
-              'Mercado Pago no devolvió el checkout.'
+                id:
+                  fee.student.id,
+
+                feeId:
+                  fee.id,
+
+                name:
+                  fee.student.name,
+
+                lastname:
+                  fee.student.last_name,
+
+                category:
+                  fee.student.category
+                    ?.name ??
+                  'Sin categoría',
+
+                avatar:
+                  fee.student.avatar ??
+                  'assets/section/usuario.png',
+
+                status:
+                  fee.status,
+
+                period:
+                  fee.period,
+
+                amount:
+                  Number(
+                    fee.amount,
+                  ),
+
+                paymentDate:
+                  fee.paid_at ??
+                  undefined,
+
+              }),
             );
 
-            return;
-          }
 
+       
 
-          window.location.href =
-            response.checkoutUrl;
+          this.loading =
+            false;
 
         },
 
 
-        error: (error) => {
+        error: (
+          error,
+        ) => {
 
           console.error(
-            'Error Mercado Pago:',
-            error
+            'ERROR GET /fees:',
+            error,
           );
+
+
+          this.students =
+            [];
+
+          this.loading =
+            false;
 
 
           void this.showToast(
-            'No se pudo iniciar Mercado Pago.'
+            'No se pudieron cargar las cuotas.',
           );
 
-        }
+        },
 
       });
 
-  }
-  ionViewWillEnter(): void {
-    this.applySavedPayments();
+  }payWithMercadoPago(
+  student: PaymentStudent,
+): void {
+
+  if (
+    this.processingFeeId ===
+    student.feeId
+  ) {
+    return;
   }
 
 
+  this.processingFeeId =
+    student.feeId;
+
+
+  const body = {
+
+    feeId:
+      student.feeId,
+
+  };
+
+
+  this.http
+    .post<MercadoPagoResponse>(
+      `${this.apiUrl}/mercadopago/preference`,
+      body,
+    )
+    .subscribe({
+
+      next: (
+        response,
+      ) => {
+
+        if (
+          !response.checkoutUrl
+        ) {
+
+          this.processingFeeId =
+            null;
+
+
+          void this.showToast(
+            'Mercado Pago no devolvió una URL de pago.',
+          );
+
+          return;
+
+        }
+
+
+        window.location.assign(
+          response.checkoutUrl,
+        );
+
+      },
+
+
+      error: (
+        error,
+      ) => {
+
+        console.error(
+          'Error iniciando Mercado Pago:',
+          error,
+        );
+
+
+        this.processingFeeId =
+          null;
+
+
+        void this.showToast(
+          'No se pudo iniciar Mercado Pago.',
+        );
+
+      },
+
+    });
+
+}
+processingFeeId: string | null = null;
   /* ============================= */
   /* FILTROS                       */
   /* ============================= */
 
-  get filteredStudents(): PaymentStudent[] {
+  get filteredStudents():
+    PaymentStudent[] {
 
-    if (this.selectedFilter === 'all') {
+
+    if (
+      this.selectedFilter ===
+      'all'
+    ) {
+
       return this.students;
+
     }
 
+
     return this.students.filter(
+
       student =>
-        student.status === this.selectedFilter
+        student.status ===
+        this.selectedFilter,
+
     );
+
   }
 
 
-  setFilter(filter: PaymentFilter): void {
-    this.selectedFilter = filter;
+  setFilter(
+    filter: PaymentFilter,
+  ): void {
+
+    this.selectedFilter =
+      filter;
+
   }
 
 
@@ -332,69 +453,49 @@ export class PagosPage implements OnInit {
   /* CONTADORES                    */
   /* ============================= */
 
-  get paidStudentsCount(): number {
+  get paidStudentsCount():
+    number {
+
 
     return this.students.filter(
+
       student =>
-        student.status === 'paid'
+        student.status ===
+        'paid',
+
     ).length;
+
   }
 
 
-  get dueStudentsCount(): number {
+  get dueStudentsCount():
+    number {
+
 
     return this.students.filter(
+
       student =>
-        student.status === 'due'
+        student.status ===
+        'due',
+
     ).length;
+
   }
-
-
-
 
 
   /* ============================= */
-  /* ESTADOS                       */
+  /* ESTADO                        */
   /* ============================= */
 
   getStatusLabel(
-    status: PaymentStatus
+    status: PaymentStatus,
   ): string {
+
 
     return status === 'paid'
       ? 'Al día'
       : 'Debe';
-  }
 
-
-  /* ============================= */
-  /* NUEVO PAGO                    */
-  /* ============================= */
-
-  registerStudentPayment(
-    student: PaymentStudent
-  ): void {
-
-    if (student.status === 'paid') {
-      return;
-    }
-
-    this.router.navigate(
-      ['/app/nuevo-pago'],
-      {
-        queryParams: {
-          studentId: student.id
-        }
-      }
-    );
-  }
-
-
-  openRegisterPayment(): void {
-
-    this.router.navigateByUrl(
-      '/app/nuevo-pago'
-    );
   }
 
 
@@ -403,314 +504,74 @@ export class PagosPage implements OnInit {
   /* ============================= */
 
   sendWhatsAppReminder(
-    student: PaymentStudent,
-    event?: Event
+
+    student:
+      PaymentStudent,
+
+    event?:
+      Event,
+
   ): void {
+
 
     event?.stopPropagation();
 
+
+    /*
+     * Todavía no estamos cargando
+     * responsables desde el backend.
+     */
+
+    if (
+      !student.phone ||
+      !student.responsibleName
+    ) {
+
+      void this.showToast(
+        'Todavía no hay un responsable asociado para enviar el aviso.',
+      );
+
+      return;
+
+    }
+
+
     const phone =
-      student.phone.replace(/\D/g, '');
+      student.phone.replace(
+        /\D/g,
+        '',
+      );
 
 
     const message =
+
       `Hola ${student.responsibleName}, ¿cómo estás? 👋\n\n` +
 
       `Te recordamos que se encuentra pendiente ` +
+
       `la cuota de ${student.period} de ` +
+
       `${student.name} ${student.lastname}.\n\n` +
 
       `Importe: $${student.amount.toLocaleString('es-AR')}\n\n` +
 
       `Muchas gracias.\n` +
+
       `FUTGOL CLUB ⚽`;
 
 
     const url =
+
       `https://wa.me/${phone}` +
+
       `?text=${encodeURIComponent(message)}`;
 
 
     window.open(
       url,
-      '_blank'
-    );
-  }
-
-
-  /* ============================= */
-  /* VER COMPROBANTE               */
-  /* ============================= */
-
-  async viewReceipt(
-    student: PaymentStudent
-  ): Promise<void> {
-
-    const alert =
-      await this.alertController.create({
-
-        header:
-          `${student.name} ${student.lastname}`,
-
-        subHeader:
-          'Comprobante recibido',
-
-        message:
-          student.receiptName
-            ? `Archivo: ${student.receiptName}`
-            : 'No hay un comprobante disponible.',
-
-        buttons: [
-          'Cerrar'
-        ]
-      });
-
-
-    await alert.present();
-  }
-
-
-  /* ============================= */
-  /* APROBAR PAGO                  */
-  /* ============================= */
-
-  async approvePayment(
-    student: PaymentStudent
-  ): Promise<void> {
-
-    const alert =
-      await this.alertController.create({
-
-        header: 'Aprobar pago',
-
-        message:
-          `¿Confirmar el pago de ` +
-          `${student.name} ${student.lastname} ` +
-          `correspondiente a ${student.period}?`,
-
-        buttons: [
-
-          {
-            text: 'Cancelar',
-            role: 'cancel'
-          },
-
-          {
-            text: 'Aprobar',
-            handler: () => {
-
-              this.updatePaymentValidation(
-                student,
-                'approved'
-              );
-
-              student.status = 'paid';
-
-              void this.showToast(
-                'Pago aprobado correctamente.'
-              );
-            }
-          }
-
-        ]
-      });
-
-
-    await alert.present();
-  }
-
-
-  /* ============================= */
-  /* RECHAZAR PAGO                 */
-  /* ============================= */
-
-  async rejectPayment(
-    student: PaymentStudent
-  ): Promise<void> {
-
-    const alert =
-      await this.alertController.create({
-
-        header: 'Rechazar comprobante',
-
-        message:
-          `El pago de ${student.name} ` +
-          `${student.lastname} volverá a quedar pendiente.`,
-
-        buttons: [
-
-          {
-            text: 'Cancelar',
-            role: 'cancel'
-          },
-
-          {
-            text: 'Rechazar',
-            role: 'destructive',
-
-            handler: () => {
-
-              this.updatePaymentValidation(
-                student,
-                'rejected'
-              );
-
-              student.status = 'due';
-
-              student.receiptName =
-                undefined;
-
-              void this.showToast(
-                'Comprobante rechazado.'
-              );
-            }
-          }
-
-        ]
-      });
-
-
-    await alert.present();
-  }
-
-
-  /* ============================= */
-  /* LOCAL STORAGE                 */
-  /* ============================= */
-
-  private applySavedPayments(): void {
-
-    try {
-
-      const payments =
-        this.getSavedPayments();
-
-
-      this.students.forEach(
-        student => {
-
-          const studentPayments =
-            payments.filter(
-              payment =>
-                payment.studentId === student.id &&
-                payment.month === this.currentPeriod
-            );
-
-
-          if (
-            studentPayments.length === 0
-          ) {
-            return;
-          }
-
-
-          const lastPayment =
-            studentPayments[
-            studentPayments.length - 1
-            ];
-
-
-          student.period =
-            lastPayment.month;
-
-          student.amount =
-            lastPayment.amount;
-
-          student.paymentMethod =
-            lastPayment.paymentMethod;
-
-          student.paymentDate =
-            lastPayment.paymentDate;
-
-          student.receiptName =
-            lastPayment.receiptName;
-
-
-          if (
-            lastPayment.validationStatus === 'approved'
-          ) {
-
-            student.status = 'paid';
-
-          } else {
-
-            student.status = 'due';
-
-          }
-
-        }
-      );
-
-    } catch (error) {
-
-      console.error(
-        'Error leyendo pagos:',
-        error
-      );
-
-    }
-
-  }
-
-  private getSavedPayments():
-    SavedPayment[] {
-
-    return JSON.parse(
-      localStorage.getItem(
-        'futgol-payments'
-      ) || '[]'
-    );
-  }
-
-
-  private updatePaymentValidation(
-    student: PaymentStudent,
-    validationStatus: ValidationStatus
-  ): void {
-
-    const payments =
-      this.getSavedPayments();
-
-
-    const indexes =
-      payments
-        .map(
-          (payment, index) => {
-
-            const matches =
-              payment.studentId === student.id &&
-              payment.month === student.period;
-
-            return matches
-              ? index
-              : -1;
-          }
-        )
-        .filter(
-          index => index !== -1
-        );
-
-
-    if (indexes.length === 0) {
-      return;
-    }
-
-
-    const lastIndex =
-      indexes[indexes.length - 1];
-
-
-    payments[lastIndex].validationStatus =
-      validationStatus;
-
-
-    localStorage.setItem(
-      'futgol-payments',
-      JSON.stringify(payments)
+      '_blank',
     );
 
-
-    this.applySavedPayments();
   }
 
 
@@ -720,9 +581,17 @@ export class PagosPage implements OnInit {
 
   openMonthSelector(): void {
 
-    console.log(
-      'Abrir selector de mes'
-    );
+
+    /*
+     * Por ahora dejamos fijo
+     * Septiembre 2026 para probar.
+     *
+     * Después hacemos el selector
+     * real.
+     */
+
+  
+
   }
 
 
@@ -731,23 +600,30 @@ export class PagosPage implements OnInit {
   /* ============================= */
 
   private async showToast(
-    message: string
+    message: string,
   ): Promise<void> {
 
+
     const toast =
-      await this.toastController.create({
+      await this.toastController
+        .create({
 
-        message,
+          message,
 
-        duration: 2000,
+          duration:
+            2000,
 
-        position: 'bottom',
+          position:
+            'bottom',
 
-        color: 'success'
-      });
+          color:
+            'success',
+
+        });
 
 
     await toast.present();
+
   }
 
 }

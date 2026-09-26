@@ -125,10 +125,6 @@ export class CalendarioPage {
 
   addActivity(): void {
 
-    console.log(
-      'Nueva actividad:',
-      this.selectedDate
-    );
 
   }
 
