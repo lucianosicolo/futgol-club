@@ -1,0 +1,1213 @@
+<main class="student-container">
+
+
+  <!-- ======================= -->
+  <!-- ENCABEZADO              -->
+  <!-- ======================= -->
+
+  <section class="intro">
+
+    <span class="section-label">
+      GESTIÓN DE ALUMNOS
+    </span>
+
+    <h1>
+      Nuevo alumno
+    </h1>
+
+    <p>
+      Registrá al alumno y configurá quién tendrá acceso a su información en Mi FUTGOL.
+    </p>
+
+  </section>
+
+
+  <!-- ======================= -->
+  <!-- LOADING                 -->
+  <!-- ======================= -->
+
+  <div
+    class="loading-container"
+    *ngIf="loading"
+  >
+
+    <ion-spinner
+      name="crescent"
+    ></ion-spinner>
+
+    <span>
+      Cargando información...
+    </span>
+
+  </div>
+
+
+  <!-- ======================= -->
+  <!-- FORMULARIO              -->
+  <!-- ======================= -->
+
+  <form
+    *ngIf="!loading"
+    #studentForm="ngForm"
+    (ngSubmit)="save()"
+  >
+
+
+    <!-- ======================= -->
+    <!-- DATOS DEL ALUMNO        -->
+    <!-- ======================= -->
+
+    <section class="form-card">
+
+
+      <div class="card-heading">
+
+        <div class="heading-icon">
+
+          <ion-icon
+            name="football-outline"
+          ></ion-icon>
+
+        </div>
+
+
+        <div>
+
+          <strong>
+            Datos del alumno
+          </strong>
+
+          <span>
+            Información personal y deportiva
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-content">
+
+
+        <div class="two-columns">
+
+
+          <!-- NOMBRE -->
+
+          <div class="form-group">
+
+            <label>
+              Nombre *
+            </label>
+
+            <div class="field">
+
+              <ion-input
+                name="name"
+                [(ngModel)]="name"
+                placeholder="Mateo"
+                required
+              ></ion-input>
+
+            </div>
+
+          </div>
+
+
+          <!-- APELLIDO -->
+
+          <div class="form-group">
+
+            <label>
+              Apellido *
+            </label>
+
+            <div class="field">
+
+              <ion-input
+                name="lastName"
+                [(ngModel)]="lastName"
+                placeholder="Torres"
+                required
+              ></ion-input>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+        <!-- DOCUMENTO -->
+
+        <div class="form-group">
+
+          <label>
+            Documento *
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="card-outline"
+            ></ion-icon>
+
+            <ion-input
+              name="document"
+              [(ngModel)]="document"
+              placeholder="50111222"
+              required
+            ></ion-input>
+
+          </div>
+
+        </div>
+
+
+        <!-- NACIMIENTO -->
+
+        <div class="form-group">
+
+          <label>
+            Fecha de nacimiento *
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="calendar-outline"
+            ></ion-icon>
+
+            <ion-input
+              name="birthDate"
+              type="date"
+              [(ngModel)]="birthDate"
+              required
+            ></ion-input>
+
+          </div>
+
+        </div>
+
+
+        <!-- CATEGORIA -->
+
+        <div class="form-group">
+
+          <label>
+            Categoría *
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="people-outline"
+            ></ion-icon>
+
+            <ion-select
+              name="categoryId"
+              [(ngModel)]="categoryId"
+              placeholder="Seleccionar categoría"
+              interface="action-sheet"
+              required
+            >
+
+              <ion-select-option
+                *ngFor="
+                  let category
+                  of categories
+                "
+                [value]="category.id"
+              >
+
+                {{ category.name }}
+
+              </ion-select-option>
+
+            </ion-select>
+
+          </div>
+
+        </div>
+
+
+        <!-- DIRECCION -->
+
+        <div class="form-group">
+
+          <label>
+            Dirección
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="location-outline"
+            ></ion-icon>
+
+            <ion-input
+              name="address"
+              [(ngModel)]="address"
+              placeholder="Dirección"
+            ></ion-input>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ======================= -->
+    <!-- ACCESO MI FUTGOL        -->
+    <!-- ======================= -->
+
+    <section class="form-card">
+
+
+      <div class="section-header">
+
+        <div class="section-icon">
+
+          <ion-icon
+            name="phone-portrait-outline"
+          ></ion-icon>
+
+        </div>
+
+
+        <div>
+
+          <strong>
+            Acceso Mi FUTGOL
+          </strong>
+
+          <span>
+            Elegí quién administrará la información de este alumno.
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="access-options">
+
+
+        <ion-radio-group
+          name="accessMode"
+          [(ngModel)]="accessMode"
+        >
+
+
+          <!-- SIN ACCESO -->
+
+          <label
+            class="access-option"
+            [class.selected]="
+              accessMode === 'none'
+            "
+          >
+
+            <div class="radio-content">
+
+              <div class="radio-icon">
+
+                <ion-icon
+                  name="remove-circle-outline"
+                ></ion-icon>
+
+              </div>
+
+
+              <div>
+
+                <strong>
+                  Sin acceso por ahora
+                </strong>
+
+                <span>
+                  Solo registrar al alumno.
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <ion-radio
+              value="none"
+            ></ion-radio>
+
+          </label>
+
+
+
+          <!-- CUENTA PROPIA -->
+
+          <label
+            class="access-option"
+            [class.selected]="
+              accessMode === 'self'
+            "
+          >
+
+            <div class="radio-content">
+
+              <div class="radio-icon">
+
+                <ion-icon
+                  name="person-circle-outline"
+                ></ion-icon>
+
+              </div>
+
+
+              <div>
+
+                <strong>
+                  Acceso para el propio alumno
+                </strong>
+
+                <span>
+                  El alumno utilizará su propia cuenta.
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <ion-radio
+              value="self"
+            ></ion-radio>
+
+          </label>
+
+
+
+          <!-- RESPONSABLE -->
+
+          <label
+            class="access-option"
+            [class.selected]="
+              accessMode ===
+              'responsible'
+            "
+          >
+
+            <div class="radio-content">
+
+              <div class="radio-icon">
+
+                <ion-icon
+                  name="people-outline"
+                ></ion-icon>
+
+              </div>
+
+
+              <div>
+
+                <strong>
+                  Responsable
+                </strong>
+
+                <span>
+                  Padre, madre o tutor del alumno.
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <ion-radio
+              value="responsible"
+            ></ion-radio>
+
+          </label>
+
+
+        </ion-radio-group>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ======================= -->
+    <!-- CUENTA PROPIA           -->
+    <!-- ======================= -->
+
+    <section
+      class="form-card"
+      *ngIf="
+        accessMode === 'self'
+      "
+    >
+
+
+      <div class="section-header">
+
+        <div class="section-icon">
+
+          <ion-icon
+            name="person-outline"
+          ></ion-icon>
+
+        </div>
+
+
+        <div>
+
+          <strong>
+            Cuenta del alumno
+          </strong>
+
+          <span>
+            Tendrá acceso personal a Mi FUTGOL.
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-content">
+
+
+        <!-- EMAIL -->
+
+        <div class="form-group">
+
+          <label>
+            Correo electrónico *
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="mail-outline"
+            ></ion-icon>
+
+            <ion-input
+              name="accountEmail"
+              type="email"
+              [(ngModel)]="accountEmail"
+              placeholder="alumno@email.com"
+            ></ion-input>
+
+          </div>
+
+        </div>
+
+
+        <!-- TELEFONO -->
+
+        <div class="form-group">
+
+          <label>
+            Teléfono *
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="call-outline"
+            ></ion-icon>
+
+            <ion-input
+              name="accountPhone"
+              type="tel"
+              [(ngModel)]="accountPhone"
+              placeholder="299 4000000"
+            ></ion-input>
+
+          </div>
+
+        </div>
+
+
+        <!-- PASSWORD -->
+
+        <div class="form-group">
+
+          <label>
+            Contraseña inicial *
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="lock-closed-outline"
+            ></ion-icon>
+
+            <ion-input
+              name="accountPassword"
+              type="password"
+              [(ngModel)]="accountPassword"
+              placeholder="Contraseña"
+            ></ion-input>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ======================= -->
+    <!-- RESPONSABLE             -->
+    <!-- ======================= -->
+
+    <section
+      class="form-card"
+      *ngIf="
+        accessMode ===
+        'responsible'
+      "
+    >
+
+
+      <div class="section-header">
+
+        <div class="section-icon">
+
+          <ion-icon
+            name="people-outline"
+          ></ion-icon>
+
+        </div>
+
+
+        <div>
+
+          <strong>
+            Responsable
+          </strong>
+
+          <span>
+            Asociá una cuenta existente o creá una nueva.
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- ======================= -->
+      <!-- TIPO RESPONSABLE        -->
+      <!-- ======================= -->
+
+      <div class="responsible-options">
+
+
+        <ion-radio-group
+          name="responsibleMode"
+          [(ngModel)]="responsibleMode"
+        >
+
+
+          <!-- EXISTENTE -->
+
+          <label
+            class="mini-option"
+            [class.selected]="
+              responsibleMode ===
+              'existing'
+            "
+          >
+
+            <div>
+
+              <ion-icon
+                name="link-outline"
+              ></ion-icon>
+
+
+              <span>
+
+                <strong>
+                  Asociar existente
+                </strong>
+
+                <small>
+                  Ya tiene una cuenta Mi FUTGOL
+                </small>
+
+              </span>
+
+            </div>
+
+
+            <ion-radio
+              value="existing"
+            ></ion-radio>
+
+          </label>
+
+
+
+          <!-- NUEVO -->
+
+          <label
+            class="mini-option"
+            [class.selected]="
+              responsibleMode ===
+              'new'
+            "
+          >
+
+            <div>
+
+              <ion-icon
+                name="person-add-outline"
+              ></ion-icon>
+
+
+              <span>
+
+                <strong>
+                  Crear nuevo
+                </strong>
+
+                <small>
+                  Todavía no tiene una cuenta
+                </small>
+
+              </span>
+
+            </div>
+
+
+            <ion-radio
+              value="new"
+            ></ion-radio>
+
+          </label>
+
+
+        </ion-radio-group>
+
+      </div>
+
+
+
+      <!-- ======================= -->
+      <!-- RESPONSABLE EXISTENTE   -->
+      <!-- ======================= -->
+
+      <div
+        class="form-content"
+        *ngIf="
+          responsibleMode ===
+          'existing'
+        "
+      >
+
+
+        <!-- HAY RESPONSABLES -->
+
+        <div
+          class="form-group"
+          *ngIf="
+            responsibleUsers.length > 0
+          "
+        >
+
+          <label>
+            Responsable *
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="person-outline"
+            ></ion-icon>
+
+            <ion-select
+              name="selectedResponsibleId"
+              [(ngModel)]="
+                selectedResponsibleId
+              "
+              placeholder="Seleccionar responsable"
+              interface="action-sheet"
+            >
+
+              <ion-select-option
+                *ngFor="
+                  let responsible
+                  of responsibleUsers
+                "
+                [value]="
+                  responsible.id
+                "
+              >
+
+                {{ responsible.name }}
+                {{ responsible.last_name }}
+                ·
+                {{ responsible.email }}
+
+              </ion-select-option>
+
+            </ion-select>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- NO HAY RESPONSABLES -->
+
+        <div
+          class="empty-responsibles"
+          *ngIf="
+            responsibleUsers.length === 0
+          "
+        >
+
+          <ion-icon
+            name="people-outline"
+          ></ion-icon>
+
+
+          <div>
+
+            <strong>
+              No hay responsables registrados
+            </strong>
+
+            <span>
+              Elegí “Crear nuevo” para registrar uno.
+            </span>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- PREVIEW -->
+
+        <div
+          class="responsible-preview"
+          *ngIf="
+            selectedResponsible
+          "
+        >
+
+
+          <div class="preview-header">
+
+
+            <div class="preview-avatar">
+
+              {{
+                selectedResponsible
+                  ?.name
+                  ?.charAt(0)
+              }}
+
+              {{
+                selectedResponsible
+                  ?.last_name
+                  ?.charAt(0)
+              }}
+
+            </div>
+
+
+            <div>
+
+              <strong>
+
+                {{
+                  selectedResponsible
+                    ?.name
+                }}
+
+                {{
+                  selectedResponsible
+                    ?.last_name
+                }}
+
+              </strong>
+
+
+              <span>
+
+                {{
+                  selectedResponsible
+                    ?.email
+                }}
+
+              </span>
+
+            </div>
+
+
+          </div>
+
+
+
+          <!-- HIJOS ACTUALES -->
+
+          <div class="current-children">
+
+
+            <span class="current-label">
+
+              {{
+                (
+                  selectedResponsible
+                    ?.students
+                    ?.length ??
+                  0
+                ) > 0
+                  ? 'Actualmente tiene a cargo'
+                  : 'Sin alumnos a cargo'
+              }}
+
+            </span>
+
+
+            <div
+              class="child-chip"
+              *ngFor="
+                let student
+                of selectedResponsible
+                    ?.students
+              "
+            >
+
+              <ion-icon
+                name="person-outline"
+              ></ion-icon>
+
+              <span>
+
+                {{ student.name }}
+                {{ student.last_name }}
+
+              </span>
+
+            </div>
+
+
+
+            <!-- NUEVO HIJO -->
+
+            <div class="new-child-preview">
+
+              <ion-icon
+                name="add-circle-outline"
+              ></ion-icon>
+
+
+              <span>
+
+                Se agregará
+
+                <strong>
+
+                  {{
+                    name ||
+                    'el nuevo alumno'
+                  }}
+
+                  {{ lastName }}
+
+                </strong>
+
+              </span>
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- ======================= -->
+      <!-- RESPONSABLE NUEVO       -->
+      <!-- ======================= -->
+
+      <div
+        class="form-content"
+        *ngIf="
+          responsibleMode ===
+          'new'
+        "
+      >
+
+
+        <div class="two-columns">
+
+
+          <!-- NOMBRE -->
+
+          <div class="form-group">
+
+            <label>
+              Nombre *
+            </label>
+
+            <div class="field">
+
+              <ion-input
+                name="responsibleName"
+                [(ngModel)]="
+                  responsibleName
+                "
+                placeholder="María"
+              ></ion-input>
+
+            </div>
+
+          </div>
+
+
+          <!-- APELLIDO -->
+
+          <div class="form-group">
+
+            <label>
+              Apellido *
+            </label>
+
+            <div class="field">
+
+              <ion-input
+                name="responsibleLastName"
+                [(ngModel)]="
+                  responsibleLastName
+                "
+                placeholder="Torres"
+              ></ion-input>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+        <!-- EMAIL -->
+
+        <div class="form-group">
+
+          <label>
+            Correo electrónico *
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="mail-outline"
+            ></ion-icon>
+
+            <ion-input
+              name="responsibleEmail"
+              type="email"
+              [(ngModel)]="
+                responsibleEmail
+              "
+              placeholder="responsable@email.com"
+            ></ion-input>
+
+          </div>
+
+        </div>
+
+
+        <!-- TELEFONO -->
+
+        <div class="form-group">
+
+          <label>
+            Teléfono *
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="call-outline"
+            ></ion-icon>
+
+            <ion-input
+              name="responsiblePhone"
+              type="tel"
+              [(ngModel)]="
+                responsiblePhone
+              "
+              placeholder="299 4000000"
+            ></ion-input>
+
+          </div>
+
+        </div>
+
+
+        <!-- PASSWORD -->
+
+        <div class="form-group">
+
+          <label>
+            Contraseña inicial *
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="lock-closed-outline"
+            ></ion-icon>
+
+            <ion-input
+              name="responsiblePassword"
+              type="password"
+              [(ngModel)]="
+                responsiblePassword
+              "
+              placeholder="Contraseña"
+            ></ion-input>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- ======================= -->
+    <!-- RESUMEN                 -->
+    <!-- ======================= -->
+
+    <section class="summary">
+
+
+      <ion-icon
+        name="information-circle-outline"
+      ></ion-icon>
+
+
+      <div>
+
+        <strong>
+          Resumen
+        </strong>
+
+
+        <span
+          *ngIf="
+            accessMode ===
+            'none'
+          "
+        >
+          Se creará solamente la ficha del alumno.
+        </span>
+
+
+        <span
+          *ngIf="
+            accessMode ===
+            'self'
+          "
+        >
+          Se creará el alumno con su propia cuenta Mi FUTGOL.
+        </span>
+
+
+        <span
+          *ngIf="
+            accessMode ===
+              'responsible' &&
+            responsibleMode ===
+              'existing'
+          "
+        >
+          El alumno será agregado a la cuenta del responsable seleccionado.
+        </span>
+
+
+        <span
+          *ngIf="
+            accessMode ===
+              'responsible' &&
+            responsibleMode ===
+              'new'
+          "
+        >
+          Se creará el alumno y una nueva cuenta de responsable asociada.
+        </span>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ======================= -->
+    <!-- GUARDAR                 -->
+    <!-- ======================= -->
+
+    <ion-button
+      type="submit"
+      expand="block"
+      class="save-button"
+      [disabled]="saving"
+    >
+
+
+      <ion-spinner
+        *ngIf="saving"
+        name="crescent"
+      ></ion-spinner>
+
+
+      <ng-container
+        *ngIf="!saving"
+      >
+
+        Crear alumno
+
+        <ion-icon
+          slot="end"
+          name="checkmark-circle-outline"
+        ></ion-icon>
+
+      </ng-container>
+
+
+    </ion-button>
+
+
+  </form>
+
+</main>

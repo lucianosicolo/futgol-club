@@ -34,9 +34,9 @@ interface AuthUser {
   phone: string;
 
   role:
-    | 'admin'
-    | 'teacher'
-    | 'responsible';
+  | 'admin'
+  | 'teacher'
+  | 'responsible';
 
   active: boolean;
 
@@ -104,7 +104,7 @@ export class LoginPage implements OnInit {
     private readonly http:
       HttpClient,
 
-  ) {}
+  ) { }
 
 
   /* ============================= */
@@ -302,21 +302,23 @@ export class LoginPage implements OnInit {
       );
 
 
-  
+
 
       /* ============================= */
       /* REDIRECCIÓN                   */
       /* ============================= */
+      const destination =
+        response.result.user.role ===
+          'responsible'
+          ? '/app/familia'
+          : '/app/home';
+
 
       await this.router.navigateByUrl(
-
-        '/app/home',
-
+        destination,
         {
-          replaceUrl:
-            true,
+          replaceUrl: true,
         },
-
       );
 
 

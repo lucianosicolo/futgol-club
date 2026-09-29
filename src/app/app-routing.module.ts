@@ -38,7 +38,23 @@ const routes: Routes = [
   {
     path: 'avisos',
     loadChildren: () => import('./avisos/avisos.module').then( m => m.AvisosPageModule)
+  },  {
+    path: 'responsable-home',
+    loadChildren: () => import('./responsable-home/responsable-home.module').then( m => m.ResponsableHomePageModule)
   },
+  {
+    path: 'mis-cuotas',
+    loadChildren: () => import('./mis-cuotas/mis-cuotas.module').then( m => m.MisCuotasPageModule)
+  },
+  {
+    path: 'nuevo-usuario',
+    loadChildren: () => import('./nuevo-usuario/nuevo-usuario.module').then( m => m.NuevoUsuarioPageModule)
+  },
+  {
+    path: 'nuevo-alumno',
+    loadChildren: () => import('./nuevo-alumno/nuevo-alumno.module').then( m => m.NuevoAlumnoPageModule)
+  },
+
   // {
   //   path: 'alumnos',
   //   loadChildren: () => import('./alumnos/alumnos.module').then( m => m.AlumnosPageModule)

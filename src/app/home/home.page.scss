@@ -22,7 +22,37 @@
   margin: 0 auto;
   padding: 24px 16px 38px;
 }
+.users-action {
+  height: 47px;
 
+  margin:
+    0
+    0
+    16px;
+
+  --border-color:
+    var(--its-green);
+
+  --color:
+    var(--its-green);
+
+  --border-radius:
+    11px;
+
+  --box-shadow:
+    none;
+
+  font-size: 12px;
+  font-weight: 750;
+
+  text-transform: none;
+
+  .main-action-content span,
+  .main-action-content ion-icon {
+    color:
+      var(--its-green);
+  }
+}
 /* Bienvenida */
 
 .welcome-section {
@@ -445,5 +475,36 @@
 
   .activity-card ion-card-content {
     padding: 20px;
+  }
+}
+.users-action {
+  height: 47px;
+
+  margin:
+    0
+    0
+    16px;
+
+  --border-color:
+    var(--its-green);
+
+  --color:
+    var(--its-green);
+
+  --border-radius:
+    11px;
+
+  --box-shadow:
+    none;
+
+  font-size: 12px;
+  font-weight: 750;
+
+  text-transform: none;
+
+  .main-action-content span,
+  .main-action-content ion-icon {
+    color:
+      var(--its-green);
   }
 }

@@ -1,0 +1,577 @@
+:host {
+  display: block;
+
+  --futgol-green: #56b63f;
+  --futgol-dark-green: #368c27;
+  --futgol-green-soft: #edf8e9;
+
+  --futgol-red: #d84343;
+  --futgol-red-soft: #fceaea;
+
+  --futgol-background: #f5f7f3;
+  --futgol-text: #1c211c;
+  --futgol-muted: #737873;
+  --futgol-border: #e2e8df;
+}
+
+
+/* ============================= */
+/* CONTENEDOR                    */
+/* ============================= */
+
+.parent-container {
+  width: 100%;
+  max-width: 540px;
+
+  margin: 0 auto;
+
+  padding:
+    24px
+    16px
+    45px;
+}
+
+
+/* ============================= */
+/* BIENVENIDA                    */
+/* ============================= */
+
+.welcome-section {
+  margin-bottom: 28px;
+}
+
+.welcome-label {
+  margin: 0 0 5px;
+
+  color: var(--futgol-green);
+
+  font-size: 10px;
+  font-weight: 850;
+
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.welcome-section h1 {
+  margin: 0 0 6px;
+
+  color: var(--futgol-text);
+
+  font-size: 26px;
+  font-weight: 850;
+
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+
+.welcome-section p {
+  margin: 0;
+
+  color: var(--futgol-muted);
+
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+
+/* ============================= */
+/* SECCIONES                     */
+/* ============================= */
+
+.family-section {
+  margin-bottom: 28px;
+}
+
+.dependents-section {
+  margin-top: 8px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 12px;
+}
+
+.section-heading > div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.section-label {
+  color: var(--futgol-green);
+
+  font-size: 9px;
+  font-weight: 850;
+
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  color: var(--futgol-text);
+
+  font-size: 17px;
+  font-weight: 850;
+
+  line-height: 1.2;
+}
+
+.children-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 31px;
+  height: 31px;
+
+  flex-shrink: 0;
+
+  background: var(--futgol-green-soft);
+
+  border-radius: 9px;
+
+  color: var(--futgol-green);
+
+  font-size: 13px;
+  font-weight: 850;
+}
+
+
+/* ============================= */
+/* TARJETA ALUMNO                */
+/* ============================= */
+
+.student-card {
+  width: 100%;
+
+  margin-bottom: 14px;
+  padding: 16px;
+
+  background: #ffffff;
+
+  border:
+    1px solid
+    var(--futgol-border);
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 5px 18px
+    rgba(25, 40, 25, 0.055);
+}
+
+.self-card {
+  border-top:
+    4px solid
+    var(--futgol-green);
+}
+
+
+/* ============================= */
+/* DATOS DEL ALUMNO              */
+/* ============================= */
+
+.student-header {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+}
+
+.student-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 54px;
+  height: 54px;
+
+  flex-shrink: 0;
+
+  overflow: hidden;
+
+  background: var(--futgol-green-soft);
+
+  border-radius: 50%;
+
+  color: var(--futgol-green);
+}
+
+.student-avatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.student-avatar ion-icon {
+  font-size: 27px;
+}
+
+.student-info {
+  min-width: 0;
+
+  flex: 1;
+}
+
+.student-category {
+  display: block;
+
+  margin-bottom: 2px;
+
+  color: var(--futgol-green);
+
+  font-size: 9px;
+  font-weight: 850;
+
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.student-info h3 {
+  margin: 0 0 3px;
+
+  color: var(--futgol-text);
+
+  font-size: 17px;
+  font-weight: 850;
+
+  line-height: 1.2;
+}
+
+.student-info small {
+  color: var(--futgol-muted);
+
+  font-size: 10px;
+}
+
+
+/* ============================= */
+/* RESUMEN CUOTAS                */
+/* ============================= */
+
+.fee-summary {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 9px;
+
+  margin-top: 16px;
+}
+
+.summary-item {
+  padding: 12px;
+
+  background: #f7f9f6;
+
+  border:
+    1px solid
+    #edf0eb;
+
+  border-radius: 11px;
+}
+
+.summary-item span {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: var(--futgol-muted);
+
+  font-size: 9px;
+}
+
+.summary-item strong {
+  display: block;
+
+  color: var(--futgol-text);
+
+  font-size: 21px;
+  font-weight: 850;
+
+  line-height: 1;
+}
+
+.success {
+  color:
+    var(--futgol-green)
+    !important;
+}
+
+.danger {
+  color:
+    var(--futgol-red)
+    !important;
+}
+
+
+/* ============================= */
+/* DEUDA                         */
+/* ============================= */
+
+.debt-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-top: 11px;
+  padding: 12px;
+
+  background: var(--futgol-red-soft);
+
+  border:
+    1px solid
+    #f4d7d7;
+
+  border-radius: 11px;
+}
+
+.debt-box span {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #975858;
+
+  font-size: 9px;
+}
+
+.debt-box strong {
+  color: var(--futgol-red);
+
+  font-size: 17px;
+  font-weight: 850;
+}
+
+.debt-box ion-icon {
+  flex-shrink: 0;
+
+  color: var(--futgol-red);
+
+  font-size: 23px;
+}
+
+
+/* ============================= */
+/* TODO AL DÍA                   */
+/* ============================= */
+
+.paid-box {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 11px;
+  padding: 12px;
+
+  background: var(--futgol-green-soft);
+
+  border:
+    1px solid
+    #dcefd6;
+
+  border-radius: 11px;
+}
+
+.paid-box ion-icon {
+  flex-shrink: 0;
+
+  color: var(--futgol-green);
+
+  font-size: 23px;
+}
+
+.paid-box strong {
+  display: block;
+
+  color: var(--futgol-dark-green);
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.paid-box span {
+  display: block;
+
+  margin-top: 2px;
+
+  color: #698064;
+
+  font-size: 9px;
+}
+
+
+/* ============================= */
+/* BOTÓN CUOTAS                  */
+/* ============================= */
+
+.fees-button {
+  width: 100%;
+  height: 44px;
+
+  margin:
+    13px
+    0
+    0;
+
+  --background:
+    var(--futgol-green);
+
+  --background-hover:
+    var(--futgol-dark-green);
+
+  --background-activated:
+    var(--futgol-dark-green);
+
+  --color:
+    #ffffff;
+
+  --border-radius:
+    10px;
+
+  --box-shadow:
+    none;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  text-transform: none;
+}
+
+.fees-button ion-icon {
+  font-size: 17px;
+}
+
+
+/* ============================= */
+/* LOADING                       */
+/* ============================= */
+
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  min-height: 220px;
+
+  color: var(--futgol-muted);
+
+  font-size: 11px;
+}
+
+.loading-container ion-spinner {
+  color: var(--futgol-green);
+}
+
+
+/* ============================= */
+/* SIN DATOS                     */
+/* ============================= */
+
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  padding:
+    38px
+    20px;
+
+  background: #ffffff;
+
+  border:
+    1px solid
+    var(--futgol-border);
+
+  border-radius: 15px;
+
+  text-align: center;
+}
+
+.empty-state ion-icon {
+  margin-bottom: 9px;
+
+  color: var(--futgol-green);
+
+  font-size: 36px;
+}
+
+.empty-state strong {
+  color: var(--futgol-text);
+
+  font-size: 13px;
+}
+
+.empty-state p {
+  margin:
+    5px
+    0
+    0;
+
+  color: var(--futgol-muted);
+
+  font-size: 10px;
+
+  line-height: 1.4;
+}
+
+
+/* ============================= */
+/* MOBILE CHICO                  */
+/* ============================= */
+
+@media (max-width: 360px) {
+
+  .parent-container {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .student-card {
+    padding: 14px;
+  }
+
+  .student-avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .student-info h3 {
+    font-size: 15px;
+  }
+
+}
+
+
+/* ============================= */
+/* TABLET / ESCRITORIO           */
+/* ============================= */
+
+@media (min-width: 768px) {
+
+  .parent-container {
+    max-width: 620px;
+
+    padding-top: 32px;
+  }
+
+}

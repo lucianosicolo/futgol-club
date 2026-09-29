@@ -1,82 +1,417 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {
+  NgModule,
+} from '@angular/core';
 
-import { LayoutPage } from './layout.page';
+import {
+  RouterModule,
+  Routes,
+} from '@angular/router';
 
-const routes: Routes = [
+import {
+  LayoutPage,
+} from './layout.page';
+import { AuthGuard } from '../auth/login/guards/auth.guard';
+import { RoleGuard } from '../auth/login/guards/role.guard';
+
+
+
+
+const routes:
+  Routes = [
+
   {
     path: '',
-    component: LayoutPage,
+
+    component:
+      LayoutPage,
+
+    canActivate: [
+      AuthGuard,
+    ],
+
     children: [
+
+
+      /* ============================= */
+      /* ADMIN / TEACHER               */
+      /* ============================= */
+
       {
-        path: 'home',
+        path:
+          'home',
+
+        canActivate: [
+          RoleGuard,
+        ],
+
+        data: {
+          roles: [
+            'admin',
+            'teacher',
+          ],
+        },
+
         loadChildren: () =>
-          import('../home/home.module')
-            .then(m => m.HomePageModule)
+          import(
+            '../home/home.module'
+          )
+            .then(
+              m =>
+                m.HomePageModule,
+            ),
       },
+
+
       {
-        path: 'asistencia',
+        path:
+          'asistencia',
+
+        canActivate: [
+          RoleGuard,
+        ],
+
+        data: {
+          roles: [
+            'admin',
+            'teacher',
+          ],
+        },
+
         loadChildren: () =>
-          import('../asistencia/asistencia.module')
-            .then(m => m.AsistenciaPageModule)
+          import(
+            '../asistencia/asistencia.module'
+          )
+            .then(
+              m =>
+                m.AsistenciaPageModule,
+            ),
       },
+
+
       {
-        path: 'pagos',
+        path:
+          'pagos',
+
+        canActivate: [
+          RoleGuard,
+        ],
+
+        data: {
+          roles: [
+            'admin',
+            'teacher',
+          ],
+        },
+
         loadChildren: () =>
-          import('../pagos/pagos.module')
-            .then(m => m.PagosPageModule)
+          import(
+            '../pagos/pagos.module'
+          )
+            .then(
+              m =>
+                m.PagosPageModule,
+            ),
       },
+
+
       {
-        path: 'nuevo-pago',
+        path:
+          'nuevo-pago',
+
+        canActivate: [
+          RoleGuard,
+        ],
+
+        data: {
+          roles: [
+            'admin',
+            'teacher',
+          ],
+        },
+
         loadChildren: () =>
-          import('../nuevo-pago/nuevo-pago.module')
-            .then(m => m.NuevoPagoPageModule)
+          import(
+            '../nuevo-pago/nuevo-pago.module'
+          )
+            .then(
+              m =>
+                m.NuevoPagoPageModule,
+            ),
       },
+
+
       {
-        path: 'perfil',
+        path:
+          'alumnos',
+
+        canActivate: [
+          RoleGuard,
+        ],
+
+        data: {
+          roles: [
+            'admin',
+            'teacher',
+          ],
+        },
+
         loadChildren: () =>
-          import('../perfil/perfil.module')
-            .then(m => m.PerfilPageModule)
+          import(
+            '../alumnos/alumnos.module'
+          )
+            .then(
+              m =>
+                m.AlumnosPageModule,
+            ),
       },
+
+
       {
-        path: 'avisos',
+        path:
+          'alumno/:id',
+
+        canActivate: [
+          RoleGuard,
+        ],
+
+        data: {
+          roles: [
+            'admin',
+            'teacher',
+          ],
+        },
+
         loadChildren: () =>
-          import('../avisos/avisos.module')
-            .then(m => m.AvisosPageModule)
+          import(
+            '../alumno-detalle/alumno-detalle.module'
+          )
+            .then(
+              m =>
+                m.AlumnoDetallePageModule,
+            ),
       },
+
+
+      /* ============================= */
+      /* MI FUTGOL                     */
+      /* ============================= */
+
       {
-        path: 'alumnos',
+        path:
+          'familia',
+
+        canActivate: [
+          RoleGuard,
+        ],
+
+        data: {
+          roles: [
+            'responsible',
+          ],
+        },
+
         loadChildren: () =>
-          import('../alumnos/alumnos.module')
-            .then(m => m.AlumnosPageModule)
+          import(
+            '../responsable-home/responsable-home.module'
+          )
+            .then(
+              m =>
+                m.ResponsableHomePageModule,
+            ),
       },
+
+
       {
-        path: 'alumno/:id',
+        path:
+          'mis-cuotas',
+
+        canActivate: [
+          RoleGuard,
+        ],
+
+        data: {
+          roles: [
+            'responsible',
+          ],
+        },
+
         loadChildren: () =>
-          import('../alumno-detalle/alumno-detalle.module')
-            .then(m => m.AlumnoDetallePageModule)
+          import(
+            '../mis-cuotas/mis-cuotas.module'
+          )
+            .then(
+              m =>
+                m.MisCuotasPageModule,
+            ),
       },
+
+
       {
-        path: 'calendario',
+        path:
+          'responsable-cuotas/:id',
+
+        canActivate: [
+          RoleGuard,
+        ],
+
+        data: {
+          roles: [
+            'responsible',
+          ],
+        },
+
         loadChildren: () =>
-          import('../calendario/calendario.module')
-            .then(m => m.CalendarioPageModule)
+          import(
+            '../responsable-home/responsable-home.module'
+          )
+            .then(
+              m =>
+                m.ResponsableHomePageModule,
+            ),
       },
+{
+  path: 'nuevo-usuario',
+
+  canActivate: [
+    RoleGuard,
+  ],
+
+  data: {
+    roles: [
+      'admin',
+      'teacher',
+    ],
+  },
+
+  loadChildren: () =>
+    import(
+      '../nuevo-usuario/nuevo-usuario.module'
+    )
+      .then(
+        m =>
+          m.NuevoUsuarioPageModule,
+      ),
+},
+{
+  path: 'nuevo-alumno',
+
+  canActivate: [
+    RoleGuard,
+  ],
+
+  data: {
+    roles: [
+      'admin',
+      'teacher',
+    ],
+  },
+
+  loadChildren: () =>
+    import(
+      '../nuevo-alumno/nuevo-alumno.module'
+    )
+      .then(
+        m =>
+          m.NuevoAlumnoPageModule,
+      ),
+},
+{
+  path: 'nuevo-usuario',
+
+  canActivate: [
+    RoleGuard,
+  ],
+
+  data: {
+    roles: [
+      'admin',
+      'teacher',
+    ],
+  },
+
+  loadChildren: () =>
+    import(
+      '../nuevo-usuario/nuevo-usuario.module'
+    )
+      .then(
+        m =>
+          m.NuevoUsuarioPageModule,
+      ),
+},
+
+      /* ============================= */
+      /* COMPARTIDAS                   */
+      /* ============================= */
+
+      {
+        path:
+          'perfil',
+
+        loadChildren: () =>
+          import(
+            '../perfil/perfil.module'
+          )
+            .then(
+              m =>
+                m.PerfilPageModule,
+            ),
+      },
+
+
+      {
+        path:
+          'calendario',
+
+        loadChildren: () =>
+          import(
+            '../calendario/calendario.module'
+          )
+            .then(
+              m =>
+                m.CalendarioPageModule,
+            ),
+      },
+
+
+      {
+        path:
+          'avisos',
+
+        loadChildren: () =>
+          import(
+            '../avisos/avisos.module'
+          )
+            .then(
+              m =>
+                m.AvisosPageModule,
+            ),
+      },
+
+
       {
         path: '',
         redirectTo: 'home',
-        pathMatch: 'full'
-      }
-    ]
-  }
+        pathMatch: 'full',
+      },
+
+    ],
+
+  },
+
 ];
 
+
 @NgModule({
+
   imports: [
-    RouterModule.forChild(routes)
+    RouterModule.forChild(
+      routes,
+    ),
   ],
+
   exports: [
-    RouterModule
-  ]
+    RouterModule,
+  ],
+
 })
-export class LayoutPageRoutingModule { }
+export class LayoutPageRoutingModule {}

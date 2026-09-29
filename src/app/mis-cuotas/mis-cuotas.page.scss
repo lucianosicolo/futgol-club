@@ -1,0 +1,419 @@
+:host {
+  display: block;
+
+  --green: #56b63f;
+  --dark-green: #368c27;
+  --green-soft: #edf8e9;
+
+  --red: #d84343;
+  --red-soft: #fceaea;
+
+  --text: #1c211c;
+  --muted: #737873;
+  --border: #e2e8df;
+}
+
+
+.fees-container {
+  width: 100%;
+  max-width: 620px;
+
+  margin: 0 auto;
+
+  padding:
+    26px
+    16px
+    45px;
+}
+
+
+/* TITULO */
+
+.intro {
+  margin-bottom: 25px;
+}
+
+.section-label {
+  color: var(--green);
+
+  font-size: 9px;
+  font-weight: 850;
+
+  letter-spacing: 0.8px;
+}
+
+.intro h1 {
+  margin:
+    4px
+    0
+    5px;
+
+  color: var(--text);
+
+  font-size: 25px;
+  font-weight: 850;
+}
+
+.intro p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 12px;
+}
+
+
+/* PERSONA */
+
+.person-section {
+  margin-bottom: 28px;
+}
+
+.person-header {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 12px;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 48px;
+  height: 48px;
+
+  flex-shrink: 0;
+
+  overflow: hidden;
+
+  background: var(--green-soft);
+
+  border-radius: 50%;
+
+  color: var(--green);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.avatar ion-icon {
+  font-size: 25px;
+}
+
+.person-information {
+  flex: 1;
+}
+
+.person-information span {
+  color: var(--green);
+
+  font-size: 9px;
+  font-weight: 800;
+
+  text-transform: uppercase;
+}
+
+.person-information h2 {
+  margin:
+    2px
+    0
+    0;
+
+  color: var(--text);
+
+  font-size: 17px;
+  font-weight: 850;
+}
+
+.pending-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+
+  background: var(--red-soft);
+
+  border-radius: 9px;
+
+  color: var(--red);
+
+  font-size: 12px;
+  font-weight: 850;
+}
+
+
+/* TOTAL */
+
+.pending-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 10px;
+  padding:
+    11px
+    13px;
+
+  background: var(--red-soft);
+
+  border-radius: 10px;
+}
+
+.pending-summary span {
+  color: #955858;
+
+  font-size: 10px;
+}
+
+.pending-summary strong {
+  color: var(--red);
+
+  font-size: 15px;
+  font-weight: 850;
+}
+
+
+/* CUOTA */
+
+.fee-card {
+  margin-bottom: 10px;
+  padding: 14px;
+
+  background: #ffffff;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 3px 12px
+    rgba(20, 35, 20, 0.045);
+}
+
+.fee-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.period-label {
+  color: var(--muted);
+
+  font-size: 8px;
+  font-weight: 750;
+}
+
+.fee-main h3 {
+  margin:
+    2px
+    0
+    0;
+
+  color: var(--text);
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+
+/* ESTADO */
+
+.status {
+  padding:
+    4px
+    8px;
+
+  border-radius: 7px;
+
+  font-size: 8px;
+  font-weight: 850;
+
+  text-transform: uppercase;
+}
+
+.status-paid {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.status-due {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+
+/* DETALLE */
+
+.fee-detail {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 10px;
+
+  margin-top: 12px;
+  padding-top: 11px;
+
+  border-top:
+    1px solid
+    var(--border);
+}
+
+.fee-detail div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.fee-detail span {
+  color: var(--muted);
+
+  font-size: 8px;
+}
+
+.fee-detail strong {
+  color: var(--text);
+
+  font-size: 11px;
+}
+
+
+/* PAGADO */
+
+.paid-message {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 11px;
+  padding: 9px;
+
+  background: var(--green-soft);
+
+  border-radius: 9px;
+}
+
+.paid-message ion-icon {
+  color: var(--green);
+
+  font-size: 20px;
+}
+
+.paid-message strong {
+  display: block;
+
+  color: var(--dark-green);
+
+  font-size: 10px;
+}
+
+.paid-message span {
+  display: block;
+
+  margin-top: 1px;
+
+  color: #657e60;
+
+  font-size: 8px;
+}
+
+
+/* MERCADO PAGO */
+
+.mercadopago-button {
+  appearance: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  width: 100%;
+  min-height: 41px;
+
+  margin-top: 11px;
+
+  background: #009ee3;
+
+  border: 0;
+  border-radius: 9px;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 10px;
+  font-weight: 750;
+
+  cursor: pointer;
+}
+
+.mercadopago-button ion-icon {
+  font-size: 17px;
+}
+
+.mercadopago-button:active {
+  transform: scale(0.98);
+}
+
+.mercadopago-button:disabled {
+  opacity: 0.6;
+}
+
+
+/* VACIO */
+
+.no-fees,
+.empty-state,
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+  padding:
+    28px
+    15px;
+
+  color: var(--muted);
+
+  text-align: center;
+}
+
+.no-fees ion-icon,
+.empty-state ion-icon {
+  color: var(--green);
+
+  font-size: 30px;
+}
+
+.no-fees span,
+.empty-state p,
+.loading-container span {
+  margin: 0;
+
+  font-size: 10px;
+}
+
+.empty-state strong {
+  color: var(--text);
+}

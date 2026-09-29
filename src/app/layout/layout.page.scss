@@ -145,3 +145,10 @@
     font-size: 22px;
   }
 }
+.member-navigation {
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
+}

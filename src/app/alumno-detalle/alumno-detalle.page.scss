@@ -742,3 +742,730 @@
 .student-tabs button ion-icon {
   opacity: 0.9;
 }
+/* ============================= */
+/* LOADING                       */
+/* ============================= */
+
+.detail-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  min-height: 300px;
+
+  color: var(--futgol-muted);
+
+  font-size: 10px;
+
+  ion-spinner {
+    color: var(--futgol-green);
+  }
+}
+
+
+/* ============================= */
+/* ACCESO MI FUTGOL              */
+/* ============================= */
+
+.access-heading {
+  margin-top: 24px;
+}
+
+
+.responsibles-container {
+  display: flex;
+  flex-direction: column;
+
+  gap: 9px;
+}
+
+
+.access-card {
+  overflow: hidden;
+
+  margin-bottom: 9px;
+
+  background: #ffffff;
+
+  border: 1px solid var(--futgol-border);
+  border-radius: 13px;
+
+  box-shadow:
+    0 3px 12px
+    rgba(20, 35, 20, 0.035);
+}
+
+
+.own-account {
+  border-color:
+    rgba(
+      77,
+      169,
+      52,
+      0.3
+    );
+}
+
+
+.access-card-header {
+  display: grid;
+
+  grid-template-columns:
+    auto
+    minmax(0, 1fr)
+    auto;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding:
+    12px
+    13px;
+
+
+  > div:nth-child(2) {
+    display: flex;
+
+    min-width: 0;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+
+    strong,
+    small {
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+
+      white-space: nowrap;
+    }
+
+
+    strong {
+      color: var(--futgol-text);
+
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+
+    small {
+      color: var(--futgol-muted);
+
+      font-size: 8px;
+    }
+  }
+}
+
+
+.access-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 37px;
+  height: 37px;
+
+  flex-shrink: 0;
+
+  background: var(--futgol-green-soft);
+
+  border-radius: 10px;
+
+  color: var(--futgol-green);
+
+
+  ion-icon {
+    font-size: 19px;
+  }
+}
+
+
+.access-type {
+  color: var(--futgol-green);
+
+  font-size: 7px;
+  font-weight: 900;
+
+  letter-spacing: 0.5px;
+}
+
+
+.access-status {
+  padding:
+    4px
+    7px;
+
+  background: var(--futgol-green-soft);
+
+  border-radius: 6px;
+
+  color: var(--futgol-green);
+
+  font-size: 7px;
+  font-weight: 850;
+
+
+  &.inactive {
+    background: #eff1ee;
+
+    color: #777d77;
+  }
+}
+
+
+.access-contact {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  width: 100%;
+
+  padding:
+    9px
+    13px;
+
+  background: #fafcfa;
+
+  border: 0;
+  border-top: 1px solid var(--futgol-border);
+
+  color: #536053;
+
+  font-family: inherit;
+
+  cursor: pointer;
+
+
+  ion-icon {
+    color: #25d366;
+
+    font-size: 16px;
+  }
+
+
+  span {
+    font-size: 9px;
+    font-weight: 700;
+  }
+}
+
+
+/* ============================= */
+/* SIN ACCESO                    */
+/* ============================= */
+
+.no-access-card {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  padding:
+    13px;
+
+  background: #ffffff;
+
+  border:
+    1px dashed
+    #ccd2ca;
+
+  border-radius: 12px;
+
+
+  > div:last-child {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+  }
+
+
+  strong {
+    color: var(--futgol-text);
+
+    font-size: 10px;
+    font-weight: 800;
+  }
+
+
+  span {
+    color: var(--futgol-muted);
+
+    font-size: 8px;
+    line-height: 1.4;
+  }
+}
+
+
+.no-access-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 37px;
+  height: 37px;
+
+  flex-shrink: 0;
+
+  background: #eff1ee;
+
+  border-radius: 9px;
+
+  color: #777d77;
+
+
+  ion-icon {
+    font-size: 18px;
+  }
+}
+
+
+/* ============================= */
+/* PAGOS / ASISTENCIA PENDIENTE  */
+/* ============================= */
+
+.pending-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 7px;
+
+  min-height: 180px;
+
+  padding:
+    22px;
+
+  background: #ffffff;
+
+  border:
+    1px solid
+    var(--futgol-border);
+
+  border-radius: 14px;
+
+  text-align: center;
+
+
+  > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 43px;
+    height: 43px;
+
+    background: var(--futgol-green-soft);
+
+    border-radius: 11px;
+
+    color: var(--futgol-green);
+
+
+    ion-icon {
+      font-size: 22px;
+    }
+  }
+
+
+  strong {
+    color: var(--futgol-text);
+
+    font-size: 11px;
+    font-weight: 850;
+  }
+
+
+  span {
+    max-width: 290px;
+
+    color: var(--futgol-muted);
+
+    font-size: 9px;
+    line-height: 1.45;
+  }
+}
+
+
+/* ============================= */
+/* ERROR                         */
+/* ============================= */
+
+.detail-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  min-height: 300px;
+
+  gap: 9px;
+
+  text-align: center;
+
+
+  > ion-icon {
+    color: var(--futgol-red);
+
+    font-size: 34px;
+  }
+
+
+  h2 {
+    margin: 0;
+
+    color: var(--futgol-text);
+
+    font-size: 15px;
+  }
+
+
+  button {
+    margin-top: 4px;
+
+    padding:
+      9px
+      13px;
+
+    background: var(--futgol-green);
+
+    border: 0;
+    border-radius: 9px;
+
+    color: #ffffff;
+
+    font-size: 9px;
+    font-weight: 750;
+
+    cursor: pointer;
+  }
+}
+/* ============================= */
+/* BOTÓN EDITAR                  */
+/* ============================= */
+
+.edit-button,
+.cancel-edit-button {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  padding:
+    7px
+    9px;
+
+  background:
+    transparent;
+
+  border:
+    1px solid
+    var(--futgol-green);
+
+  border-radius:
+    8px;
+
+  color:
+    var(--futgol-green);
+
+  font-family:
+    inherit;
+
+  font-size:
+    8px;
+
+  font-weight:
+    800;
+
+  cursor:
+    pointer;
+
+
+  ion-icon {
+    font-size:
+      14px;
+  }
+}
+
+
+.cancel-edit-button {
+  border-color:
+    #d5dad3;
+
+  color:
+    #747a74;
+}
+
+
+/* ============================= */
+/* FORM EDICIÓN                  */
+/* ============================= */
+
+.edit-student-card {
+  padding:
+    15px;
+
+  background:
+    #ffffff;
+
+  border:
+    1px solid
+    var(--futgol-border);
+
+  border-radius:
+    14px;
+
+  box-shadow:
+    0 3px 12px
+    rgba(
+      20,
+      35,
+      20,
+      0.035
+    );
+}
+
+
+.two-columns {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    10px;
+}
+
+
+.edit-field {
+  margin-bottom:
+    13px;
+
+
+  label {
+    display:
+      block;
+
+    margin-bottom:
+      6px;
+
+    color:
+      #565c56;
+
+    font-size:
+      9px;
+
+    font-weight:
+      750;
+  }
+}
+
+
+.edit-input {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  min-height:
+    47px;
+
+  padding-left:
+    11px;
+
+  background:
+    #fafbfa;
+
+  border:
+    1px solid
+    var(--futgol-border);
+
+  border-radius:
+    9px;
+
+
+  > ion-icon {
+    flex-shrink:
+      0;
+
+    color:
+      #777d77;
+
+    font-size:
+      17px;
+  }
+
+
+  ion-input,
+  ion-select {
+    width:
+      100%;
+
+    min-height:
+      45px;
+
+    --padding-start:
+      9px;
+
+    --padding-end:
+      10px;
+
+    font-size:
+      11px;
+  }
+
+
+  &:focus-within {
+    background:
+      #ffffff;
+
+    border-color:
+      var(--futgol-green);
+
+    box-shadow:
+      0 0 0 3px
+      rgba(
+        77,
+        169,
+        52,
+        0.08
+      );
+  }
+}
+
+
+/* ============================= */
+/* ACCIONES EDICIÓN              */
+/* ============================= */
+
+.edit-actions {
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr
+    1.5fr;
+
+  gap:
+    8px;
+
+  margin-top:
+    18px;
+}
+
+
+.secondary-button,
+.save-edit-button {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    6px;
+
+  min-height:
+    43px;
+
+  padding:
+    0
+    12px;
+
+  border-radius:
+    9px;
+
+  font-family:
+    inherit;
+
+  font-size:
+    9px;
+
+  font-weight:
+    800;
+
+  cursor:
+    pointer;
+}
+
+
+.secondary-button {
+  background:
+    #ffffff;
+
+  border:
+    1px solid
+    #d8ddd6;
+
+  color:
+    #6e746e;
+}
+
+
+.save-edit-button {
+  background:
+    var(--futgol-green);
+
+  border:
+    1px solid
+    var(--futgol-green);
+
+  color:
+    #ffffff;
+
+
+  ion-icon {
+    font-size:
+      16px;
+  }
+
+
+  ion-spinner {
+    width:
+      17px;
+
+    height:
+      17px;
+  }
+}
+
+
+.secondary-button:disabled,
+.save-edit-button:disabled {
+  opacity:
+    0.6;
+
+  cursor:
+    default;
+}
+
+
+@media (max-width: 420px) {
+
+  .two-columns {
+    grid-template-columns:
+      1fr;
+  }
+
+}

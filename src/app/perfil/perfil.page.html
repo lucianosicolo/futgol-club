@@ -1,13 +1,385 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>ITS</ion-title>
-  </ion-toolbar>
-</ion-header>
+<main class="profile-container">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">perfil</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+
+  <!-- ======================= -->
+  <!-- ENCABEZADO              -->
+  <!-- ======================= -->
+
+  <section
+    class="profile-header"
+    *ngIf="user"
+  >
+
+    <div class="profile-avatar">
+      {{ initials }}
+    </div>
+
+
+    <div class="profile-main">
+
+      <span class="profile-label">
+        MI FUTGOL
+      </span>
+
+      <h1>
+        {{ user.name }}
+        {{ user.last_name }}
+      </h1>
+
+      <p>
+        {{ user.email }}
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ======================= -->
+  <!-- LOADING                 -->
+  <!-- ======================= -->
+
+  <div
+    class="loading-container"
+    *ngIf="loading"
+  >
+
+    <ion-spinner
+      name="crescent"
+    ></ion-spinner>
+
+    <span>
+      Cargando perfil...
+    </span>
+
+  </div>
+
+
+  <ng-container
+    *ngIf="
+      !loading &&
+      user
+    "
+  >
+
+
+    <!-- ======================= -->
+    <!-- DATOS PERSONALES        -->
+    <!-- ======================= -->
+
+    <section class="profile-section">
+
+      <div class="section-heading">
+
+        <span>
+          CUENTA
+        </span>
+
+        <h2>
+          Datos personales
+        </h2>
+
+      </div>
+
+
+      <div class="information-card">
+
+
+        <div class="information-row">
+
+          <div class="information-icon">
+
+            <ion-icon
+              name="person-outline"
+            ></ion-icon>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Nombre
+            </span>
+
+            <strong>
+              {{ user.name }}
+              {{ user.last_name }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="information-row">
+
+          <div class="information-icon">
+
+            <ion-icon
+              name="mail-outline"
+            ></ion-icon>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Correo electrónico
+            </span>
+
+            <strong>
+              {{ user.email }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="information-row">
+
+          <div class="information-icon">
+
+            <ion-icon
+              name="call-outline"
+            ></ion-icon>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Teléfono
+            </span>
+
+            <strong>
+              {{
+                user.phone ||
+                'Sin teléfono'
+              }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="information-row">
+
+          <div class="information-icon">
+
+            <ion-icon
+              name="shield-checkmark-outline"
+            ></ion-icon>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Tipo de cuenta
+            </span>
+
+            <strong>
+              {{ roleLabel }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ======================= -->
+    <!-- MI ACTIVIDAD            -->
+    <!-- ======================= -->
+
+    <section
+      class="profile-section"
+      *ngIf="self"
+    >
+
+      <div class="section-heading">
+
+        <span>
+          MI ACTIVIDAD
+        </span>
+
+        <h2>
+          Actividad deportiva
+        </h2>
+
+      </div>
+
+
+      <div class="activity-card">
+
+
+        <div class="student-avatar">
+
+          <img
+            *ngIf="self.avatar"
+            [src]="self.avatar"
+            [alt]="self.name"
+          />
+
+          <ion-icon
+            *ngIf="!self.avatar"
+            name="football-outline"
+          ></ion-icon>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            {{
+              self.category?.name ||
+              'Sin categoría'
+            }}
+          </span>
+
+          <strong>
+            {{ self.name }}
+            {{ self.last_name }}
+          </strong>
+
+          <small>
+            Alumno FUTGOL CLUB
+          </small>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ======================= -->
+    <!-- PERSONAS ASOCIADAS      -->
+    <!-- ======================= -->
+
+    <section
+      class="profile-section"
+      *ngIf="
+        dependents.length > 0
+      "
+    >
+
+      <div class="section-heading">
+
+        <span>
+          FAMILIA
+        </span>
+
+        <h2>
+          Personas a mi cargo
+        </h2>
+
+      </div>
+
+
+      <div class="dependents-card">
+
+
+        <div
+          class="dependent-row"
+          *ngFor="
+            let student of
+              dependents
+          "
+        >
+
+
+          <div class="dependent-avatar">
+
+            <img
+              *ngIf="
+                student.avatar
+              "
+              [src]="
+                student.avatar
+              "
+              [alt]="
+                student.name
+              "
+            />
+
+            <ion-icon
+              *ngIf="
+                !student.avatar
+              "
+              name="person-outline"
+            ></ion-icon>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              {{
+                student.category
+                  ?.name ||
+                'Sin categoría'
+              }}
+            </span>
+
+            <strong>
+              {{ student.name }}
+              {{ student.last_name }}
+            </strong>
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ======================= -->
+    <!-- CERRAR SESIÓN           -->
+    <!-- ======================= -->
+
+    <button
+      type="button"
+      class="logout-button"
+      (click)="logout()"
+    >
+
+      <ion-icon
+        name="log-out-outline"
+      ></ion-icon>
+
+      <span>
+        Cerrar sesión
+      </span>
+
+    </button>
+
+
+    <p class="version-text">
+      FUTGOL CLUB · Mi FUTGOL
+    </p>
+
+
+  </ng-container>
+
+</main>

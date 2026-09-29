@@ -934,3 +934,22 @@
         font-size: 6.5px;
     }
 }
+.students-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  min-height: 260px;
+
+  color: var(--futgol-muted);
+
+  font-size: 10px;
+
+  ion-spinner {
+    color: var(--futgol-green);
+  }
+}

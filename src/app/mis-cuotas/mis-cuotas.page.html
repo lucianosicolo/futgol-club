@@ -1,0 +1,378 @@
+<main class="fees-container">
+
+
+  <!-- TÍTULO -->
+
+  <section class="intro">
+
+    <span class="section-label">
+      MI FUTGOL
+    </span>
+
+    <h1>
+      Mis cuotas
+    </h1>
+
+    <p>
+      Consultá el estado de tus cuotas y de las personas asociadas a tu cuenta.
+    </p>
+
+  </section>
+
+
+  <!-- LOADING -->
+
+  <div
+    class="loading-container"
+    *ngIf="loading"
+  >
+
+    <ion-spinner
+      name="crescent"
+    ></ion-spinner>
+
+    <span>
+      Cargando cuotas...
+    </span>
+
+  </div>
+
+
+  <ng-container
+    *ngIf="!loading"
+  >
+
+
+    <!-- PERSONAS -->
+
+    <section
+      class="person-section"
+      *ngFor="
+        let person of people
+      "
+    >
+
+
+      <!-- PERSONA -->
+
+      <div class="person-header">
+
+        <div class="avatar">
+
+          <img
+            *ngIf="person.avatar"
+            [src]="person.avatar"
+            [alt]="person.name"
+          />
+
+          <ion-icon
+            *ngIf="!person.avatar"
+            name="person-outline"
+          ></ion-icon>
+
+        </div>
+
+
+        <div class="person-information">
+
+          <span>
+            {{
+              person.category?.name ||
+              'Sin categoría'
+            }}
+          </span>
+
+          <h2>
+            {{ person.name }}
+            {{ person.last_name }}
+          </h2>
+
+        </div>
+
+
+        <div
+          class="pending-counter"
+          *ngIf="
+            getPendingFees(
+              person.id
+            ).length > 0
+          "
+        >
+
+          {{
+            getPendingFees(
+              person.id
+            ).length
+          }}
+
+        </div>
+
+      </div>
+
+
+      <!-- TOTAL PENDIENTE -->
+
+      <div
+        class="pending-summary"
+        *ngIf="
+          getPendingFees(
+            person.id
+          ).length > 0
+        "
+      >
+
+        <span>
+          Total pendiente
+        </span>
+
+        <strong>
+          {{
+            getPendingAmount(
+              person.id
+            )
+              | currency:
+                  'ARS':
+                  'symbol':
+                  '1.0-0':
+                  'es-AR'
+          }}
+        </strong>
+
+      </div>
+
+
+      <!-- CUOTAS -->
+
+      <div
+        class="fees-list"
+      >
+
+        <article
+          class="fee-card"
+          *ngFor="
+            let fee of
+              getFeesForStudent(
+                person.id
+              )
+          "
+        >
+
+
+          <div class="fee-main">
+
+            <div>
+
+              <span class="period-label">
+                PERÍODO
+              </span>
+
+              <h3>
+                {{ fee.period }}
+              </h3>
+
+            </div>
+
+
+            <span
+              class="status"
+              [class.status-paid]="
+                fee.status ===
+                'paid'
+              "
+              [class.status-due]="
+                fee.status ===
+                'due'
+              "
+            >
+
+              {{
+                getStatusLabel(
+                  fee.status
+                )
+              }}
+
+            </span>
+
+          </div>
+
+
+          <div class="fee-detail">
+
+            <div>
+
+              <span>
+                Importe
+              </span>
+
+              <strong>
+                {{
+                  +fee.amount
+                    | currency:
+                        'ARS':
+                        'symbol':
+                        '1.0-0':
+                        'es-AR'
+                }}
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Vencimiento
+              </span>
+
+              <strong>
+                {{
+                  fee.due_date
+                    | date:
+                        'dd/MM/yyyy'
+                }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <!-- PAGADA -->
+
+          <div
+            class="paid-message"
+            *ngIf="
+              fee.status ===
+              'paid'
+            "
+          >
+
+            <ion-icon
+              name="checkmark-circle-outline"
+            ></ion-icon>
+
+            <div>
+
+              <strong>
+                Pago registrado
+              </strong>
+
+              <span
+                *ngIf="
+                  fee.paid_at
+                "
+              >
+
+                {{
+                  fee.paid_at
+                    | date:
+                        'dd/MM/yyyy'
+                }}
+
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- PAGAR -->
+
+          <button
+            type="button"
+            class="mercadopago-button"
+            *ngIf="
+              fee.status ===
+              'due'
+            "
+            [disabled]="
+              processingFeeId ===
+              fee.id
+            "
+            (click)="
+              payWithMercadoPago(
+                fee
+              )
+            "
+          >
+
+            <ion-icon
+              [name]="
+                processingFeeId ===
+                fee.id
+                  ? 'hourglass-outline'
+                  : 'card-outline'
+              "
+            ></ion-icon>
+
+
+            <span>
+
+              {{
+                processingFeeId ===
+                fee.id
+                  ? 'Abriendo...'
+                  : 'Pagar con Mercado Pago'
+              }}
+
+            </span>
+
+          </button>
+
+
+        </article>
+
+
+        <!-- SIN CUOTAS -->
+
+        <div
+          class="no-fees"
+          *ngIf="
+            getFeesForStudent(
+              person.id
+            ).length === 0
+          "
+        >
+
+          <ion-icon
+            name="receipt-outline"
+          ></ion-icon>
+
+          <span>
+            No hay cuotas registradas.
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- SIN PERSONAS -->
+
+    <div
+      class="empty-state"
+      *ngIf="
+        people.length === 0
+      "
+    >
+
+      <ion-icon
+        name="people-outline"
+      ></ion-icon>
+
+      <strong>
+        No hay actividad asociada
+      </strong>
+
+      <p>
+        Tu cuenta todavía no tiene alumnos asociados.
+      </p>
+
+    </div>
+
+
+  </ng-container>
+
+</main>

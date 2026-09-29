@@ -1,6 +1,20 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
+
+import {
+  HttpClient,
+} from '@angular/common/http';
+
+import {
+  Router,
+} from '@angular/router';
+
+import {
+  AlertController,
+  ToastController,
+} from '@ionic/angular';
 
 
 type StudentStatus =
@@ -8,19 +22,38 @@ type StudentStatus =
   | 'inactive';
 
 
+interface ApiResponse<T> {
+  ok: boolean;
+  result: T;
+  msg: string;
+}
+
+
+interface Category {
+  id: string;
+  name: string;
+  active: boolean;
+}
+
+
 interface Student {
-  id: number;
+  id: string;
 
   name: string;
-  lastname: string;
+
+  last_name: string;
 
   document: string;
 
-  category: string;
+  birth_date: string;
 
-  status: StudentStatus;
+  address: string;
 
   avatar: string;
+
+  active: boolean;
+
+  category: Category;
 }
 
 
@@ -28,160 +61,271 @@ interface Student {
   selector: 'app-alumnos',
   templateUrl: './alumnos.page.html',
   styleUrls: ['./alumnos.page.scss'],
-  standalone: false
+  standalone: false,
 })
-export class AlumnosPage {
-  constructor(
-    private alertController: AlertController,
-    private router: Router
-  ) { }
-openStudent(
-  student: Student
-): void {
+export class AlumnosPage
+  implements OnInit {
 
-  this.router.navigate(
-    ['/app/alumno', student.id]
-  );
 
-}
-  searchTerm = '';
+  private readonly apiUrl =
+    'http://localhost:3000';
 
-  selectedCategory = 'all';
+
+  loading =
+    true;
+
+
+  students:
+    Student[] =
+    [];
+
+
+  searchTerm =
+    '';
+
+
+  selectedCategory =
+    'all';
+
 
   selectedStatus:
-    StudentStatus | 'all' = 'all';
+    StudentStatus | 'all' =
+    'all';
 
 
-  students: Student[] = [
-
-    {
-      id: 1,
-      name: 'Juan',
-      lastname: 'Carlos',
-      document: '45.123.456',
-      category: '2013/2014',
-      status: 'active',
-      avatar: 'assets/section/usuario.png'
-    },
-
-    {
-      id: 2,
-      name: 'Mateo',
-      lastname: 'Fernández',
-      document: '46.222.111',
-      category: '2011/2012',
-      status: 'inactive',
-      avatar: 'assets/section/usuario.png'
-    },
-
-    {
-      id: 3,
-      name: 'Thiago',
-      lastname: 'López',
-      document: '47.345.223',
-      category: '2013/2014',
-      status: 'active',
-      avatar: 'assets/section/usuario.png'
-    },
-
-    {
-      id: 4,
-      name: 'Sofía',
-      lastname: 'Martínez',
-      document: '48.112.321',
-      category: '2015/2016',
-      status: 'active',
-      avatar: 'assets/section/usuario.png'
-    },
-
-    {
-      id: 5,
-      name: 'Valentina',
-      lastname: 'Gómez',
-      document: '47.932.445',
-      category: '2013/2014',
-      status: 'inactive',
-      avatar: 'assets/section/usuario.png'
-    },
-
-    {
-      id: 6,
-      name: 'Lautaro',
-      lastname: 'Rodríguez',
-      document: '44.412.813',
-      category: '2009/2010',
-      status: 'active',
-      avatar: 'assets/section/usuario.png'
-    }
-
-  ];
+  selectedStudent:
+    Student | null =
+    null;
 
 
-  /* CONTADORES */
+  isActionSheetOpen =
+    false;
 
-  get activeCount(): number {
 
-    return this.students.filter(
-      student =>
-        student.status === 'active'
-    ).length;
+  constructor(
+
+    private readonly http:
+      HttpClient,
+
+    private readonly alertController:
+      AlertController,
+
+    private readonly toastController:
+      ToastController,
+
+    private readonly router:
+      Router,
+
+  ) {}
+
+
+  ngOnInit(): void {
+
+    this.loadStudents();
 
   }
 
 
-  get inactiveCount(): number {
+  /*
+   * También lo dejamos para que,
+   * cuando volvamos desde Nuevo alumno,
+   * refresque el listado.
+   */
 
-    return this.students.filter(
-      student =>
-        student.status === 'inactive'
-    ).length;
+  ionViewWillEnter(): void {
+
+    this.loadStudents();
 
   }
 
 
-  get totalCount(): number {
+  /* ============================= */
+  /* CARGAR ALUMNOS                */
+  /* ============================= */
+
+  loadStudents(): void {
+
+
+    this.loading =
+      true;
+
+
+    this.http
+      .get<
+        ApiResponse<Student[]>
+      >(
+        `${this.apiUrl}/students`,
+      )
+      .subscribe({
+
+        next:
+          response => {
+
+
+            this.students =
+              response.result ??
+              [];
+
+
+            this.loading =
+              false;
+
+          },
+
+
+        error:
+          error => {
+
+
+            console.error(
+              'Error cargando alumnos:',
+              error,
+            );
+
+
+            this.loading =
+              false;
+
+
+            void this.showToast(
+              'No se pudieron cargar los alumnos.',
+              'danger',
+            );
+
+          },
+
+      });
+
+  }
+
+
+  /* ============================= */
+  /* ABRIR ALUMNO                  */
+  /* ============================= */
+
+  openStudent(
+    student: Student,
+  ): void {
+
+
+    void this.router.navigate(
+      [
+        '/app/alumno',
+        student.id,
+      ],
+    );
+
+  }
+
+
+  /* ============================= */
+  /* CONTADORES                    */
+  /* ============================= */
+
+  get activeCount():
+    number {
+
+
+    return this.students
+      .filter(
+        student =>
+          student.active,
+      )
+      .length;
+
+  }
+
+
+  get inactiveCount():
+    number {
+
+
+    return this.students
+      .filter(
+        student =>
+          !student.active,
+      )
+      .length;
+
+  }
+
+
+  get totalCount():
+    number {
 
     return this.students.length;
 
   }
 
 
-  /* CATEGORÍAS */
+  /* ============================= */
+  /* CATEGORÍAS                    */
+  /* ============================= */
 
-  get categories(): string[] {
+  get categories():
+    string[] {
+
 
     return [
       ...new Set(
-        this.students.map(
-          student => student.category
-        )
-      )
+
+        this.students
+          .map(
+            student =>
+              student.category?.name,
+          )
+          .filter(
+            (
+              category,
+            ): category is string =>
+              !!category,
+          ),
+
+      ),
     ].sort();
 
   }
 
 
-  /* FILTROS ACTIVOS */
+  /* ============================= */
+  /* FILTROS                       */
+  /* ============================= */
 
-  get hasFilters(): boolean {
+  get hasFilters():
+    boolean {
+
 
     return (
-      this.searchTerm.trim() !== '' ||
-      this.selectedCategory !== 'all' ||
-      this.selectedStatus !== 'all'
+
+      this.searchTerm
+        .trim() !==
+        '' ||
+
+      this.selectedCategory !==
+        'all' ||
+
+      this.selectedStatus !==
+        'all'
+
     );
 
   }
 
 
-  /* LISTADO FILTRADO */
-
-  get filteredStudents(): Student[] {
-
-    let result = [...this.students];
+  get filteredStudents():
+    Student[] {
 
 
-    /* Nombre o documento */
+    let result =
+      [
+        ...this.students,
+      ];
+
+
+    /*
+     * Nombre, apellido
+     * o documento.
+     */
 
     const search =
       this.searchTerm
@@ -191,54 +335,94 @@ openStudent(
 
     if (search) {
 
-      result = result.filter(
-        student => {
 
-          const fullName =
-            `${student.name} ${student.lastname}`
-              .toLowerCase();
+      result =
+        result.filter(
+          student => {
 
-          const document =
-            student.document
-              .toLowerCase();
 
-          return (
-            fullName.includes(search) ||
-            document.includes(search)
-          );
+            const fullName =
+              `${student.name} ${student.last_name}`
+                .toLowerCase();
 
-        }
-      );
+
+            const document =
+              student.document
+                ?.toLowerCase() ??
+              '';
+
+
+            return (
+
+              fullName
+                .includes(
+                  search,
+                ) ||
+
+              document
+                .includes(
+                  search,
+                )
+
+            );
+
+          },
+        );
 
     }
 
 
-    /* Categoría */
+    /*
+     * Categoría.
+     */
 
     if (
-      this.selectedCategory !== 'all'
+      this.selectedCategory !==
+      'all'
     ) {
 
-      result = result.filter(
-        student =>
-          student.category ===
-          this.selectedCategory
-      );
+
+      result =
+        result.filter(
+          student =>
+            student.category
+              ?.name ===
+            this.selectedCategory,
+        );
 
     }
 
 
-    /* Estado */
+    /*
+     * Estado.
+     */
 
     if (
-      this.selectedStatus !== 'all'
+      this.selectedStatus ===
+      'active'
     ) {
 
-      result = result.filter(
-        student =>
-          student.status ===
-          this.selectedStatus
-      );
+
+      result =
+        result.filter(
+          student =>
+            student.active,
+        );
+
+    }
+
+
+    if (
+      this.selectedStatus ===
+      'inactive'
+    ) {
+
+
+      result =
+        result.filter(
+          student =>
+            !student.active,
+        );
 
     }
 
@@ -248,183 +432,464 @@ openStudent(
   }
 
 
-  /* LIMPIAR */
+  filterByStatus(
+    status:
+      StudentStatus |
+      'all',
+  ): void {
 
-  clearFilters(): void {
-
-    this.searchTerm = '';
-
-    this.selectedCategory = 'all';
-
-    this.selectedStatus = 'all';
+    this.selectedStatus =
+      status;
 
   }
 
 
-  /* TRACK BY */
+  clearFilters(): void {
+
+
+    this.searchTerm =
+      '';
+
+
+    this.selectedCategory =
+      'all';
+
+
+    this.selectedStatus =
+      'all';
+
+  }
+
+
+  /* ============================= */
+  /* TRACK BY                      */
+  /* ============================= */
 
   trackByStudentId(
+
     _index: number,
-    student: Student
-  ): number {
+
+    student: Student,
+
+  ): string {
 
     return student.id;
 
   }
-  get selectedStudentName(): string {
-    if (!this.selectedStudent) {
+
+
+  /* ============================= */
+  /* CAMBIAR ESTADO                */
+  /* ============================= */
+
+  async toggleStudentStatus(
+
+    student: Student,
+
+    event: Event,
+
+  ): Promise<void> {
+
+
+    event.stopPropagation();
+
+
+    const isActive =
+      student.active;
+
+
+    const alert =
+      await this.alertController
+        .create({
+
+          header:
+            isActive
+              ? 'Desactivar alumno'
+              : 'Reactivar alumno',
+
+
+          message:
+
+            isActive
+
+              ? `¿Querés desactivar a ${student.name} ${student.last_name}?`
+
+              : `¿Querés reactivar a ${student.name} ${student.last_name}?`,
+
+
+          buttons: [
+
+            {
+              text:
+                'Cancelar',
+
+              role:
+                'cancel',
+            },
+
+            {
+
+              text:
+                isActive
+                  ? 'Desactivar'
+                  : 'Reactivar',
+
+              role:
+                isActive
+                  ? 'destructive'
+                  : undefined,
+
+              handler:
+                () => {
+
+                  if (isActive) {
+
+                    this.deactivateStudent(
+                      student,
+                    );
+
+                  } else {
+
+                    this.reactivateStudent(
+                      student,
+                    );
+
+                  }
+
+                },
+
+            },
+
+          ],
+
+        });
+
+
+    await alert.present();
+
+  }
+
+
+  /* ============================= */
+  /* DESACTIVAR                    */
+  /* ============================= */
+
+  private deactivateStudent(
+    student: Student,
+  ): void {
+
+
+    this.http
+      .delete<
+        ApiResponse<Student>
+      >(
+        `${this.apiUrl}/students/${student.id}`,
+      )
+      .subscribe({
+
+        next:
+          () => {
+
+
+            student.active =
+              false;
+
+
+            void this.showToast(
+              'Alumno desactivado.',
+              'success',
+            );
+
+          },
+
+
+        error:
+          error => {
+
+
+            console.error(
+              'Error desactivando alumno:',
+              error,
+            );
+
+
+            void this.showToast(
+              'No se pudo desactivar el alumno.',
+              'danger',
+            );
+
+          },
+
+      });
+
+  }
+
+
+  /* ============================= */
+  /* REACTIVAR                     */
+  /* ============================= */
+
+  private reactivateStudent(
+    student: Student,
+  ): void {
+
+
+    this.http
+      .put<
+        ApiResponse<Student>
+      >(
+        `${this.apiUrl}/students/${student.id}`,
+        {
+          active:
+            true,
+        },
+      )
+      .subscribe({
+
+        next:
+          () => {
+
+
+            student.active =
+              true;
+
+
+            void this.showToast(
+              'Alumno reactivado.',
+              'success',
+            );
+
+          },
+
+
+        error:
+          error => {
+
+
+            console.error(
+              'Error reactivando alumno:',
+              error,
+            );
+
+
+            void this.showToast(
+              'No se pudo reactivar el alumno.',
+              'danger',
+            );
+
+          },
+
+      });
+
+  }
+
+
+  /* ============================= */
+  /* ACTION SHEET                  */
+  /* ============================= */
+
+  get selectedStudentName():
+    string {
+
+
+    if (
+      !this.selectedStudent
+    ) {
+
       return 'Alumno';
+
     }
 
-    return `${this.selectedStudent.name} ${this.selectedStudent.lastname}`;
+
+    return (
+      `${this.selectedStudent.name} ` +
+      `${this.selectedStudent.last_name}`
+    );
+
   }
+
+
   get studentActionButtons() {
 
-    if (!this.selectedStudent) {
+
+    if (
+      !this.selectedStudent
+    ) {
+
       return [];
+
     }
 
-    if (this.selectedStudent.status === 'active') {
+
+    if (
+      this.selectedStudent.active
+    ) {
 
       return [
+
         {
-          text: 'Desactivar alumno',
-          role: 'destructive',
-          icon: 'person-remove-outline',
-          handler: () => {
-            this.deactivateStudent();
-          }
+
+          text:
+            'Desactivar alumno',
+
+          role:
+            'destructive',
+
+          icon:
+            'person-remove-outline',
+
+          handler:
+            () => {
+
+
+              if (
+                this.selectedStudent
+              ) {
+
+                this.deactivateStudent(
+                  this.selectedStudent,
+                );
+
+              }
+
+
+              this.closeStudentActions();
+
+            },
+
         },
+
         {
-          text: 'Cancelar',
-          role: 'cancel'
-        }
+
+          text:
+            'Cancelar',
+
+          role:
+            'cancel',
+
+        },
+
       ];
 
     }
 
+
     return [
+
       {
-        text: 'Reactivar alumno',
-        icon: 'person-add-outline',
-        handler: () => {
-          this.reactivateStudent();
-        }
-      },
-      {
-        text: 'Cancelar',
-        role: 'cancel'
-      }
-    ];
-  }
-  openStudentActions(
-    student: Student,
-    event: Event
-  ): void {
 
-    event.stopPropagation();
+        text:
+          'Reactivar alumno',
 
-    this.selectedStudent = student;
+        icon:
+          'person-add-outline',
 
-    this.isActionSheetOpen = true;
-  }
-  deactivateStudent(): void {
+        handler:
+          () => {
 
-    if (!this.selectedStudent) {
-      return;
-    }
 
-    this.selectedStudent.status = 'inactive';
+            if (
+              this.selectedStudent
+            ) {
 
-    this.isActionSheetOpen = false;
-
-    this.selectedStudent = null;
-  }
-  filterByStatus(
-    status: StudentStatus | 'all'
-  ): void {
-
-    this.selectedStatus = status;
-  }
-  async toggleStudentStatus(
-    student: Student,
-    event: Event
-  ): Promise<void> {
-
-    event.stopPropagation();
-
-    const isActive =
-      student.status === 'active';
-
-    const action =
-      isActive
-        ? 'desactivar'
-        : 'reactivar';
-
-    const alert =
-      await this.alertController.create({
-
-        header:
-          isActive
-            ? 'Desactivar alumno'
-            : 'Reactivar alumno',
-
-        message:
-          `¿Querés ${action} a ` +
-          `${student.name} ${student.lastname}?`,
-
-        buttons: [
-
-          {
-            text: 'Cancelar',
-            role: 'cancel'
-          },
-
-          {
-            text:
-              isActive
-                ? 'Desactivar'
-                : 'Reactivar',
-
-            role:
-              isActive
-                ? 'destructive'
-                : undefined,
-
-            handler: () => {
-
-              student.status =
-                isActive
-                  ? 'inactive'
-                  : 'active';
+              this.reactivateStudent(
+                this.selectedStudent,
+              );
 
             }
-          }
 
-        ]
 
-      });
+            this.closeStudentActions();
 
-    await alert.present();
+          },
+
+      },
+
+      {
+
+        text:
+          'Cancelar',
+
+        role:
+          'cancel',
+
+      },
+
+    ];
+
   }
-  reactivateStudent(): void {
 
-    if (!this.selectedStudent) {
-      return;
-    }
 
-    this.selectedStudent.status = 'active';
+  openStudentActions(
 
-    this.isActionSheetOpen = false;
+    student: Student,
 
-    this.selectedStudent = null;
+    event: Event,
+
+  ): void {
+
+
+    event.stopPropagation();
+
+
+    this.selectedStudent =
+      student;
+
+
+    this.isActionSheetOpen =
+      true;
+
   }
-  closeStudentActions(): void {
-    this.isActionSheetOpen = false;
 
-    this.selectedStudent = null;
+
+  closeStudentActions():
+    void {
+
+
+    this.isActionSheetOpen =
+      false;
+
+
+    this.selectedStudent =
+      null;
+
   }
-  selectedStudent: Student | null = null;
 
-  isActionSheetOpen = false;
+
+  /* ============================= */
+  /* TOAST                         */
+  /* ============================= */
+
+  private async showToast(
+
+    message: string,
+
+    color:
+      'success' |
+      'danger',
+
+  ): Promise<void> {
+
+
+    const toast =
+      await this.toastController
+        .create({
+
+          message,
+
+          duration:
+            2200,
+
+          position:
+            'bottom',
+
+          color,
+
+        });
+
+
+    await toast.present();
+
+  }
+
 }

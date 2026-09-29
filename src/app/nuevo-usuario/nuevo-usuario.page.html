@@ -1,0 +1,546 @@
+<main class="user-container">
+
+
+  <section class="intro">
+
+    <span class="section-label">
+      GESTIÓN DE USUARIOS
+    </span>
+
+    <h1>
+      Nuevo usuario
+    </h1>
+
+    <p>
+      Creá un acceso a Mi FUTGOL y asociá su actividad deportiva o personas a cargo.
+    </p>
+
+  </section>
+
+
+  <div
+    class="loading-container"
+    *ngIf="loading"
+  >
+
+    <ion-spinner
+      name="crescent"
+    ></ion-spinner>
+
+    <span>
+      Cargando información...
+    </span>
+
+  </div>
+
+
+  <form
+    *ngIf="!loading"
+    #userForm="ngForm"
+    (ngSubmit)="save()"
+  >
+
+
+    <!-- DATOS PERSONALES -->
+
+    <section class="form-card">
+
+      <div class="card-heading">
+
+        <div class="heading-icon">
+          <ion-icon
+            name="person-outline"
+          ></ion-icon>
+        </div>
+
+        <div>
+          <strong>
+            Datos personales
+          </strong>
+
+          <span>
+            Información de la nueva cuenta
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="form-content">
+
+
+        <div class="two-columns">
+
+          <div class="form-group">
+
+            <label>
+              Nombre *
+            </label>
+
+            <div class="field">
+
+              <ion-input
+                name="name"
+                [(ngModel)]="name"
+                placeholder="Juan"
+                required
+              ></ion-input>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Apellido *
+            </label>
+
+            <div class="field">
+
+              <ion-input
+                name="lastName"
+                [(ngModel)]="lastName"
+                placeholder="Torres"
+                required
+              ></ion-input>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Correo electrónico *
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="mail-outline"
+            ></ion-icon>
+
+            <ion-input
+              name="email"
+              type="email"
+              [(ngModel)]="email"
+              placeholder="juan@email.com"
+              required
+            ></ion-input>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Teléfono *
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="call-outline"
+            ></ion-icon>
+
+            <ion-input
+              name="phone"
+              type="tel"
+              [(ngModel)]="phone"
+              placeholder="299 4000000"
+              required
+            ></ion-input>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Contraseña inicial *
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="lock-closed-outline"
+            ></ion-icon>
+
+            <ion-input
+              name="password"
+              type="password"
+              [(ngModel)]="password"
+              placeholder="Contraseña"
+              required
+            ></ion-input>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- TAMBIÉN ENTRENA -->
+
+    <section class="option-card">
+
+      <div class="option-header">
+
+        <div>
+
+          <div class="option-icon">
+
+            <ion-icon
+              name="football-outline"
+            ></ion-icon>
+
+          </div>
+
+
+          <div>
+
+            <strong>
+              ¿También entrena en FUTGOL?
+            </strong>
+
+            <span>
+              Crea una ficha de alumno vinculada a esta cuenta.
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <ion-toggle
+          name="isStudent"
+          [(ngModel)]="isStudent"
+          (ionChange)="onStudentToggle()"
+        ></ion-toggle>
+
+      </div>
+
+
+      <div
+        class="option-content"
+        *ngIf="isStudent"
+      >
+
+
+        <div class="form-group">
+
+          <label>
+            Documento *
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="card-outline"
+            ></ion-icon>
+
+            <ion-input
+              name="document"
+              [(ngModel)]="document"
+              placeholder="40111222"
+            ></ion-input>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Fecha de nacimiento *
+          </label>
+
+          <div class="field">
+
+            <ion-input
+              name="birthDate"
+              type="date"
+              [(ngModel)]="birthDate"
+            ></ion-input>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Categoría *
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="football-outline"
+            ></ion-icon>
+
+            <ion-select
+              name="categoryId"
+              [(ngModel)]="categoryId"
+              placeholder="Seleccionar categoría"
+              interface="action-sheet"
+            >
+
+              <ion-select-option
+                *ngFor="
+                  let category of categories
+                "
+                [value]="category.id"
+              >
+
+                {{ category.name }}
+
+              </ion-select-option>
+
+            </ion-select>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Dirección
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="location-outline"
+            ></ion-icon>
+
+            <ion-input
+              name="address"
+              [(ngModel)]="address"
+              placeholder="Dirección"
+            ></ion-input>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- PERSONAS A CARGO -->
+
+    <section class="option-card">
+
+      <div class="option-header">
+
+        <div>
+
+          <div class="option-icon">
+
+            <ion-icon
+              name="people-outline"
+            ></ion-icon>
+
+          </div>
+
+
+          <div>
+
+            <strong>
+              ¿Tiene personas a cargo?
+            </strong>
+
+            <span>
+              Asociá alumnos que ya existen en FUTGOL.
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <ion-toggle
+          name="hasDependents"
+          [(ngModel)]="hasDependents"
+          (ionChange)="onDependentsToggle()"
+        ></ion-toggle>
+
+      </div>
+
+
+      <div
+        class="option-content"
+        *ngIf="hasDependents"
+      >
+
+        <div class="form-group">
+
+          <label>
+            Alumnos asociados
+          </label>
+
+          <div class="field">
+
+            <ion-icon
+              name="people-outline"
+            ></ion-icon>
+
+            <ion-select
+              name="dependentStudentIds"
+              [(ngModel)]="dependentStudentIds"
+              multiple="true"
+              placeholder="Seleccionar alumnos"
+              interface="alert"
+            >
+
+              <ion-select-option
+                *ngFor="
+                  let student of students
+                "
+                [value]="student.id"
+              >
+
+                {{ student.name }}
+                {{ student.last_name }}
+                ·
+                {{
+                  student.category?.name
+                }}
+
+              </ion-select-option>
+
+            </ion-select>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="selected-info"
+          *ngIf="
+            dependentStudentIds.length > 0
+          "
+        >
+
+          <ion-icon
+            name="checkmark-circle-outline"
+          ></ion-icon>
+
+          <span>
+
+            {{
+              dependentStudentIds.length
+            }}
+
+            {{
+              dependentStudentIds.length === 1
+                ? 'persona seleccionada'
+                : 'personas seleccionadas'
+            }}
+
+          </span>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- RESUMEN -->
+
+    <section class="summary-card">
+
+      <ion-icon
+        name="information-circle-outline"
+      ></ion-icon>
+
+      <div>
+
+        <strong>
+          Se creará una cuenta Mi FUTGOL
+        </strong>
+
+        <span>
+
+          <ng-container
+            *ngIf="isStudent"
+          >
+            También tendrá su propia ficha de alumno.
+          </ng-container>
+
+          <ng-container
+            *ngIf="
+              hasDependents &&
+              dependentStudentIds.length > 0
+            "
+          >
+            Tendrá
+            {{ dependentStudentIds.length }}
+            persona(s) asociada(s).
+          </ng-container>
+
+        </span>
+
+      </div>
+
+    </section>
+
+
+    <ion-button
+      type="submit"
+      expand="block"
+      class="save-button"
+      [disabled]="saving"
+    >
+
+      <ion-spinner
+        *ngIf="saving"
+        name="crescent"
+      ></ion-spinner>
+
+
+      <ng-container
+        *ngIf="!saving"
+      >
+
+        Crear usuario
+
+        <ion-icon
+          slot="end"
+          name="person-add-outline"
+        ></ion-icon>
+
+      </ng-container>
+
+    </ion-button>
+
+
+  </form>
+
+</main>

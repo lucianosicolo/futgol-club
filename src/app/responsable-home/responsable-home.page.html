@@ -1,0 +1,513 @@
+<main class="parent-container">
+
+
+  <!-- ======================= -->
+  <!-- BIENVENIDA              -->
+  <!-- ======================= -->
+
+  <section class="welcome-section">
+
+    <p class="welcome-label">
+      MI FUTGOL
+    </p>
+
+    <h1>
+      ¡Hola, {{ user?.name }}!
+    </h1>
+
+    <p>
+      Consultá tu actividad y las personas asociadas a tu cuenta.
+    </p>
+
+  </section>
+
+
+  <!-- ======================= -->
+  <!-- LOADING                 -->
+  <!-- ======================= -->
+
+  <div
+    class="loading-container"
+    *ngIf="loading"
+  >
+
+    <ion-spinner
+      name="crescent"
+    ></ion-spinner>
+
+    <span>
+      Cargando información...
+    </span>
+
+  </div>
+
+
+  <ng-container *ngIf="!loading">
+
+
+    <!-- ======================= -->
+    <!-- MI ACTIVIDAD            -->
+    <!-- ======================= -->
+
+    <section
+      class="family-section"
+      *ngIf="self"
+    >
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-label">
+            MI ACTIVIDAD
+          </span>
+
+          <h2>
+            Mi cuenta deportiva
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <article
+        class="student-card self-card"
+      >
+
+
+        <div class="student-header">
+
+          <div class="student-avatar">
+
+            <img
+              *ngIf="self.avatar"
+              [src]="self.avatar"
+              [alt]="self.name"
+            />
+
+            <ion-icon
+              *ngIf="!self.avatar"
+              name="person-outline"
+            ></ion-icon>
+
+          </div>
+
+
+          <div class="student-info">
+
+            <span class="student-category">
+              {{
+                self.category?.name ||
+                'Sin categoría'
+              }}
+            </span>
+
+            <h3>
+              {{ self.name }}
+              {{ self.last_name }}
+            </h3>
+
+            <small>
+              Mi actividad en FUTGOL
+            </small>
+
+          </div>
+
+        </div>
+
+
+        <div class="fee-summary">
+
+          <div class="summary-item">
+
+            <span>
+              Pendientes
+            </span>
+
+            <strong
+              [class.danger]="
+                getPendingFees(self.id).length > 0
+              "
+            >
+              {{
+                getPendingFees(
+                  self.id
+                ).length
+              }}
+            </strong>
+
+          </div>
+
+
+          <div class="summary-item">
+
+            <span>
+              Pagadas
+            </span>
+
+            <strong class="success">
+              {{
+                getPaidFees(
+                  self.id
+                ).length
+              }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="debt-box"
+          *ngIf="
+            getPendingFees(
+              self.id
+            ).length > 0
+          "
+        >
+
+          <div>
+
+            <span>
+              Total pendiente
+            </span>
+
+            <strong>
+              {{
+                getPendingAmount(
+                  self.id
+                )
+                  | currency:
+                      'ARS':
+                      'symbol':
+                      '1.0-0':
+                      'es-AR'
+              }}
+            </strong>
+
+          </div>
+
+          <ion-icon
+            name="wallet-outline"
+          ></ion-icon>
+
+        </div>
+
+
+        <div
+          class="paid-box"
+          *ngIf="
+            getPendingFees(
+              self.id
+            ).length === 0
+          "
+        >
+
+          <ion-icon
+            name="checkmark-circle-outline"
+          ></ion-icon>
+
+          <div>
+
+            <strong>
+              Todo al día
+            </strong>
+
+            <span>
+              No tenés cuotas pendientes.
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <ion-button
+          expand="block"
+          class="fees-button"
+          [routerLink]="[
+            '/app/responsable-cuotas',
+            self.id
+          ]"
+        >
+
+          Ver mis cuotas
+
+          <ion-icon
+            slot="end"
+            name="chevron-forward-outline"
+          ></ion-icon>
+
+        </ion-button>
+
+      </article>
+
+    </section>
+
+
+    <!-- ======================= -->
+    <!-- PERSONAS A CARGO        -->
+    <!-- ======================= -->
+
+    <section
+      class="family-section dependents-section"
+      *ngIf="
+        dependents.length > 0
+      "
+    >
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-label">
+            FAMILIA
+          </span>
+
+          <h2>
+            Personas a mi cargo
+          </h2>
+
+        </div>
+
+
+        <span class="children-count">
+          {{ dependents.length }}
+        </span>
+
+      </div>
+
+
+      <article
+        class="student-card"
+        *ngFor="
+          let student of dependents
+        "
+      >
+
+
+        <div class="student-header">
+
+          <div class="student-avatar">
+
+            <img
+              *ngIf="
+                student.avatar
+              "
+              [src]="
+                student.avatar
+              "
+              [alt]="
+                student.name
+              "
+            />
+
+            <ion-icon
+              *ngIf="
+                !student.avatar
+              "
+              name="person-outline"
+            ></ion-icon>
+
+          </div>
+
+
+          <div class="student-info">
+
+            <span class="student-category">
+
+              {{
+                student.category
+                  ?.name ||
+                'Sin categoría'
+              }}
+
+            </span>
+
+            <h3>
+
+              {{ student.name }}
+
+              {{ student.last_name }}
+
+            </h3>
+
+            <small>
+              Persona asociada
+            </small>
+
+          </div>
+
+        </div>
+
+
+        <div class="fee-summary">
+
+          <div class="summary-item">
+
+            <span>
+              Pendientes
+            </span>
+
+            <strong
+              [class.danger]="
+                getPendingFees(
+                  student.id
+                ).length > 0
+              "
+            >
+
+              {{
+                getPendingFees(
+                  student.id
+                ).length
+              }}
+
+            </strong>
+
+          </div>
+
+
+          <div class="summary-item">
+
+            <span>
+              Pagadas
+            </span>
+
+            <strong class="success">
+
+              {{
+                getPaidFees(
+                  student.id
+                ).length
+              }}
+
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="debt-box"
+          *ngIf="
+            getPendingFees(
+              student.id
+            ).length > 0
+          "
+        >
+
+          <div>
+
+            <span>
+              Total pendiente
+            </span>
+
+            <strong>
+
+              {{
+                getPendingAmount(
+                  student.id
+                )
+                  | currency:
+                      'ARS':
+                      'symbol':
+                      '1.0-0':
+                      'es-AR'
+              }}
+
+            </strong>
+
+          </div>
+
+          <ion-icon
+            name="alert-circle-outline"
+          ></ion-icon>
+
+        </div>
+
+
+        <div
+          class="paid-box"
+          *ngIf="
+            getPendingFees(
+              student.id
+            ).length === 0
+          "
+        >
+
+          <ion-icon
+            name="checkmark-circle-outline"
+          ></ion-icon>
+
+          <div>
+
+            <strong>
+              Todo al día
+            </strong>
+
+            <span>
+              No tiene cuotas pendientes.
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <ion-button
+          expand="block"
+          class="fees-button"
+          [routerLink]="[
+            '/app/responsable-cuotas',
+            student.id
+          ]"
+        >
+
+          Ver cuotas
+
+          <ion-icon
+            slot="end"
+            name="chevron-forward-outline"
+          ></ion-icon>
+
+        </ion-button>
+
+      </article>
+
+    </section>
+
+
+    <!-- ======================= -->
+    <!-- SIN ASOCIACIONES        -->
+    <!-- ======================= -->
+
+    <div
+      class="empty-state"
+      *ngIf="
+        !self &&
+        dependents.length === 0
+      "
+    >
+
+      <ion-icon
+        name="people-outline"
+      ></ion-icon>
+
+      <strong>
+        No hay personas asociadas
+      </strong>
+
+      <p>
+        Tu cuenta todavía no tiene actividad deportiva asociada.
+      </p>
+
+    </div>
+
+
+  </ng-container>
+
+</main>
