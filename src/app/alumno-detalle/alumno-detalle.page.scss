@@ -1469,3 +1469,443 @@
   }
 
 }
+/* ============================= */
+/* CONTADORES ASISTENCIA         */
+/* ============================= */
+
+.attendance-stats {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 8px;
+
+  margin-top: 11px;
+  margin-bottom: 14px;
+}
+
+
+.attendance-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  min-height: 67px;
+
+  padding:
+    10px
+    7px;
+
+  background: #ffffff;
+
+  border:
+    1px solid
+    var(--futgol-border);
+
+  border-radius: 11px;
+
+  box-shadow:
+    0 2px 8px
+    rgba(
+      20,
+      35,
+      20,
+      0.025
+    );
+
+
+  span {
+    color:
+      var(--futgol-muted);
+
+    font-size: 8px;
+    font-weight: 700;
+  }
+
+
+  strong {
+    color:
+      var(--futgol-green);
+
+    font-size: 20px;
+    font-weight: 900;
+
+    line-height: 1;
+  }
+}
+
+
+/* ============================= */
+/* HISTORIAL ASISTENCIA          */
+/* ============================= */
+
+.attendance-history {
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border:
+    1px solid
+    var(--futgol-border);
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 3px 12px
+    rgba(
+      20,
+      35,
+      20,
+      0.035
+    );
+}
+
+
+/* CABECERA */
+
+.attendance-history-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding:
+    13px
+    14px;
+
+  border-bottom:
+    1px solid
+    var(--futgol-border);
+
+
+  > div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+  }
+
+
+  span {
+    color:
+      var(--futgol-green);
+
+    font-size: 7px;
+    font-weight: 900;
+
+    letter-spacing:
+      0.7px;
+  }
+
+
+  strong {
+    color:
+      var(--futgol-text);
+
+    font-size: 11px;
+    font-weight: 850;
+  }
+}
+
+
+/* FILAS */
+
+.attendance-history-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  min-height: 55px;
+
+  padding:
+    10px
+    13px;
+
+  border-bottom:
+    1px solid
+    #edf0ec;
+
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+
+/* FECHA */
+
+.attendance-history-date {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  min-width: 0;
+
+
+  > span {
+    color:
+      var(--futgol-text);
+
+    font-size: 10px;
+    font-weight: 750;
+  }
+}
+
+
+.attendance-history-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 31px;
+  height: 31px;
+
+  background:
+    var(--futgol-green-soft);
+
+  border-radius: 8px;
+
+
+  ion-icon {
+    color:
+      var(--futgol-green);
+
+    font-size: 15px;
+  }
+}
+
+
+/* ESTADO */
+
+.attendance-history-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  gap: 5px;
+
+  min-width: 82px;
+
+  padding:
+    6px
+    8px;
+
+  border-radius:
+    999px;
+
+  font-size: 8px;
+  font-weight: 850;
+
+
+  ion-icon {
+    font-size: 14px;
+  }
+
+
+  &.present {
+    color:
+      var(--futgol-green);
+
+    background:
+      var(--futgol-green-soft);
+  }
+
+
+  &.absent {
+    color:
+      var(--futgol-red);
+
+    background:
+      var(--futgol-red-soft);
+  }
+}
+
+
+/* ============================= */
+/* LOADING DENTRO DE ASISTENCIA  */
+/* ============================= */
+
+.student-content {
+
+  .detail-loading {
+    min-height: 150px;
+  }
+
+}
+
+
+/* ============================= */
+/* AJUSTES CELULAR               */
+/* ============================= */
+
+@media (max-width: 420px) {
+
+  .attendance-stats {
+    gap: 6px;
+  }
+
+
+  .attendance-stat {
+    min-height: 62px;
+
+    padding:
+      9px
+      5px;
+
+
+    span {
+      font-size: 7px;
+    }
+
+
+    strong {
+      font-size: 18px;
+    }
+  }
+
+
+  .attendance-history-row {
+    padding:
+      10px
+      11px;
+  }
+
+
+  .attendance-history-status {
+    min-width: 77px;
+
+    padding:
+      6px
+      7px;
+  }
+
+}
+
+
+@media (max-width: 350px) {
+
+  .attendance-history-date {
+
+    > span {
+      font-size: 9px;
+    }
+  }
+
+
+  .attendance-history-status {
+    min-width: auto;
+
+
+    span {
+      display: none;
+    }
+
+
+    ion-icon {
+      font-size: 16px;
+    }
+  }
+
+}
+/* ============================= */
+/* PAGOS DEL ALUMNO              */
+/* ============================= */
+
+.payment-summary {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 8px;
+
+  margin-bottom: 14px;
+
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 4px;
+
+    min-height: 67px;
+
+    padding:
+      10px
+      7px;
+
+    background: #ffffff;
+
+    border:
+      1px solid
+      var(--futgol-border);
+
+    border-radius: 11px;
+
+
+    span {
+      color:
+        var(--futgol-muted);
+
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+
+    strong {
+      color:
+        var(--futgol-green);
+
+      font-size: 20px;
+      font-weight: 900;
+
+      line-height: 1;
+
+
+      &.due {
+        color:
+          var(--futgol-red);
+      }
+    }
+  }
+}
+
+
+.payments-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 9px;
+}
+
+
+.payment-amount {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  gap: 5px;
+
+
+  > strong {
+    color:
+      var(--futgol-text);
+
+    font-size: 11px;
+    font-weight: 900;
+
+    white-space: nowrap;
+  }
+}

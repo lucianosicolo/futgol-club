@@ -20,9 +20,31 @@ import {
 type StudentTab =
   | 'info'
   | 'payments'
-  | 'attendance';
+  | 'asistencia';
 
+interface FeeApi {
 
+  id: string;
+
+  period: string;
+
+  amount:
+    number |
+    string;
+
+  status:
+    'due' |
+    'paid';
+
+  due_date: string;
+
+  paid_at:
+    string |
+    null;
+
+  active: boolean;
+
+}
 interface ApiResponse<T> {
   ok: boolean;
   result: T;
@@ -72,6 +94,24 @@ interface StudentDetail {
 }
 
 
+interface AttendanceApi {
+  id: string;
+
+  date: string;
+
+  present: boolean;
+
+  student: {
+    id: string;
+    name: string;
+    last_name: string;
+  };
+
+  created_at?: string;
+  updated_at?: string;
+}
+
+
 @Component({
   selector: 'app-alumno-detalle',
   templateUrl: './alumno-detalle.page.html',
@@ -100,6 +140,57 @@ export class AlumnoDetallePage
     null;
 
 
+  isEditing =
+    false;
+
+
+  savingEdit =
+    false;
+
+
+  categories:
+    Category[] =
+    [];
+
+
+  attendanceLoading =
+    false;
+
+
+  attendances:
+    AttendanceApi[] =
+    [];
+paymentsLoading =
+  false;
+
+
+fees:
+  FeeApi[] =
+  [];
+
+  editStudent = {
+
+    name:
+      '',
+
+    last_name:
+      '',
+
+    document:
+      '',
+
+    birth_date:
+      '',
+
+    address:
+      '',
+
+    categoryId:
+      '',
+
+  };
+
+
   constructor(
 
     private readonly route:
@@ -115,87 +206,43 @@ export class AlumnoDetallePage
       ToastController,
 
   ) {}
-isEditing =
-  false;
 
+/* ============================= */
+/* CARGAR PAGOS                  */
+/* ============================= */
 
-savingEdit =
-  false;
+private loadFees(
+  studentId: string,
+): void {
 
-
-categories:
-  Category[] =
-  [];
-
-
-editStudent = {
-
-  name:
-    '',
-
-  last_name:
-    '',
-
-  document:
-    '',
-
-  birth_date:
-    '',
-
-  address:
-    '',
-
-  categoryId:
-    '',
-
-};
-
-ngOnInit(): void {
-
-
-  const studentId =
-    this.route.snapshot
-      .paramMap
-      .get('id');
-
-
-  if (!studentId) {
-
-    void this.router.navigateByUrl(
-      '/app/alumnos',
-    );
-
-    return;
-
-  }
-
-
-  this.loadCategories();
-
-
-  this.loadStudent(
-    studentId,
-  );
-
-}
-
-private loadCategories(): void {
+  this.paymentsLoading =
+    true;
 
 
   this.http
     .get<
-      ApiResponse<Category[]>
+      ApiResponse<FeeApi[]>
     >(
-      `${this.apiUrl}/categories?active=true`,
+      `${this.apiUrl}/fees?student=${studentId}&active=true`,
     )
     .subscribe({
 
       next:
         response => {
 
-          this.categories =
+          this.fees =
             response.result ??
             [];
+
+
+          this.paymentsLoading =
+            false;
+
+
+          console.log(
+            'CUOTAS DEL ALUMNO:',
+            this.fees,
+          );
 
         },
 
@@ -204,9 +251,17 @@ private loadCategories(): void {
         error => {
 
           console.error(
-            'Error cargando categorías:',
+            'Error cargando cuotas del alumno:',
             error,
           );
+
+
+          this.fees =
+            [];
+
+
+          this.paymentsLoading =
+            false;
 
         },
 
@@ -214,19 +269,260 @@ private loadCategories(): void {
 
 }
 /* ============================= */
-/* EDITAR ALUMNO                 */
+/* MÉTRICAS DE PAGOS             */
 /* ============================= */
 
-startEditing(): void {
+get totalFees():
+  number {
+
+  return this.fees.length;
+
+}
 
 
-  if (!this.student) {
-    return;
+get paidFeesCount():
+  number {
+
+  return this.fees.filter(
+    fee =>
+      fee.status ===
+      'paid',
+  ).length;
+
+}
+
+
+get dueFeesCount():
+  number {
+
+  return this.fees.filter(
+    fee =>
+      fee.status ===
+      'due',
+  ).length;
+
+}
+
+
+get paymentPercentage():
+  number {
+
+  if (
+    this.totalFees ===
+    0
+  ) {
+
+    return 0;
+
   }
 
 
-  this.editStudent =
+  return Math.round(
+    (
+      this.paidFeesCount /
+      this.totalFees
+    ) *
+    100,
+  );
+
+}
+
+
+getFeeStatusLabel(
+  status:
+    'due' |
+    'paid',
+): string {
+
+  return status ===
+    'paid'
+    ? 'Al día'
+    : 'Debe';
+
+}
+
+
+formatFeeAmount(
+  amount:
+    number |
+    string,
+): string {
+
+  const value =
+    Number(
+      amount,
+    );
+
+
+  if (
+    Number.isNaN(
+      value,
+    )
+  ) {
+
+    return '$0';
+
+  }
+
+
+  return new Intl.NumberFormat(
+    'es-AR',
     {
+      style:
+        'currency',
+
+      currency:
+        'ARS',
+
+      maximumFractionDigits:
+        0,
+    },
+  ).format(
+    value,
+  );
+
+}
+
+
+formatFeeDate(
+  date:
+    string |
+    null,
+): string {
+
+  if (!date) {
+
+    return '';
+
+  }
+
+
+  const parts =
+    date
+      .slice(
+        0,
+        10,
+      )
+      .split(
+        '-',
+      );
+
+
+  if (
+    parts.length !==
+    3
+  ) {
+
+    return date;
+
+  }
+
+
+  const [
+    year,
+    month,
+    day,
+  ] =
+    parts;
+
+
+  return (
+    `${day}/${month}/${year}`
+  );
+
+}
+  /* ============================= */
+  /* INIT                          */
+  /* ============================= */
+
+  ngOnInit(): void {
+
+    const studentId =
+      this.route.snapshot
+        .paramMap
+        .get('id');
+
+
+    if (!studentId) {
+
+      void this.router.navigateByUrl(
+        '/app/alumnos',
+      );
+
+      return;
+
+    }
+
+
+    this.loadCategories();
+
+
+    this.loadStudent(
+      studentId,
+    );
+
+
+    this.loadAttendance(
+      studentId,
+    );
+
+  }
+
+
+  /* ============================= */
+  /* CATEGORÍAS                    */
+  /* ============================= */
+
+  private loadCategories():
+    void {
+
+    this.http
+      .get<
+        ApiResponse<Category[]>
+      >(
+        `${this.apiUrl}/categories?active=true`,
+      )
+      .subscribe({
+
+        next:
+          response => {
+
+            this.categories =
+              response.result ??
+              [];
+
+          },
+
+
+        error:
+          error => {
+
+            console.error(
+              'Error cargando categorías:',
+              error,
+            );
+
+          },
+
+      });
+
+  }
+
+
+  /* ============================= */
+  /* EDITAR ALUMNO                 */
+  /* ============================= */
+
+  startEditing(): void {
+
+    if (!this.student) {
+
+      return;
+
+    }
+
+
+    this.editStudent = {
 
       name:
         this.student.name,
@@ -257,21 +553,19 @@ startEditing(): void {
     };
 
 
-  this.isEditing =
-    true;
+    this.isEditing =
+      true;
 
-}
-
-
-cancelEditing(): void {
+  }
 
 
-  this.isEditing =
-    false;
+  cancelEditing(): void {
+
+    this.isEditing =
+      false;
 
 
-  this.editStudent =
-    {
+    this.editStudent = {
 
       name:
         '',
@@ -293,40 +587,46 @@ cancelEditing(): void {
 
     };
 
-}
-async saveChanges():
-  Promise<void> {
-
-
-  if (!this.student) {
-    return;
   }
 
 
-  if (
-    !this.editStudent.name.trim() ||
-    !this.editStudent.last_name.trim() ||
-    !this.editStudent.document.trim() ||
-    !this.editStudent.birth_date ||
-    !this.editStudent.categoryId
-  ) {
+  async saveChanges():
+    Promise<void> {
 
-    await this.showToast(
-      'Completá los campos obligatorios.',
-      'danger',
-    );
+    if (!this.student) {
 
-    return;
+      return;
 
-  }
+    }
 
 
-  this.savingEdit =
-    true;
+    if (
+      !this.editStudent.name.trim() ||
+      !this.editStudent.last_name.trim() ||
+      !this.editStudent.document.trim() ||
+      !this.editStudent.birth_date ||
+      !this.editStudent.categoryId
+    ) {
+
+      await this.showToast(
+        'Completá los campos obligatorios.',
+        'danger',
+      );
+
+      return;
+
+    }
 
 
-  const payload =
-    {
+    this.savingEdit =
+      true;
+
+
+    const studentId =
+      this.student.id;
+
+
+    const payload = {
 
       name:
         this.editStudent.name.trim(),
@@ -353,75 +653,80 @@ async saveChanges():
     };
 
 
-  this.http
-    .put<
-      ApiResponse<StudentDetail>
-    >(
-      `${this.apiUrl}/students/${this.student.id}`,
-      payload,
-    )
-    .subscribe({
+    this.http
+      .put<
+        ApiResponse<StudentDetail>
+      >(
+        `${this.apiUrl}/students/${studentId}`,
+        payload,
+      )
+      .subscribe({
 
-      next:
-        response => {
+        next:
+          () => {
 
-
-          this.student =
-            response.result;
-
-
-          this.isEditing =
-            false;
+            this.isEditing =
+              false;
 
 
-          this.savingEdit =
-            false;
+            this.savingEdit =
+              false;
 
 
-          void this.showToast(
-            'Alumno actualizado correctamente.',
-            'success',
-          );
-
-        },
+            void this.showToast(
+              'Alumno actualizado correctamente.',
+              'success',
+            );
 
 
-      error:
-        error => {
+            /*
+             * Volvemos a pedir el alumno
+             * para traer la información
+             * completa y actualizada.
+             */
+            this.loadStudent(
+              studentId,
+            );
+
+          },
 
 
-          console.error(
-            'Error actualizando alumno:',
-            error,
-          );
+        error:
+          error => {
+
+            console.error(
+              'Error actualizando alumno:',
+              error,
+            );
 
 
-          this.savingEdit =
-            false;
+            this.savingEdit =
+              false;
 
 
-          const message =
-            error?.error?.message;
+            const message =
+              error?.error?.msg ??
+              error?.error?.message;
 
 
-          void this.showToast(
+            void this.showToast(
 
-            typeof message ===
-              'string'
+              typeof message ===
+                'string'
+                ? message
+                : 'No se pudo actualizar el alumno.',
 
-              ? message
+              'danger',
 
-              : 'No se pudo actualizar el alumno.',
+            );
 
-            'danger',
+          },
 
-          );
+      });
 
-        },
+  }
 
-    });
 
-}
   /* ============================= */
   /* CARGAR ALUMNO                 */
   /* ============================= */
@@ -429,7 +734,6 @@ async saveChanges():
   private loadStudent(
     studentId: string,
   ): void {
-
 
     this.loading =
       true;
@@ -446,7 +750,6 @@ async saveChanges():
         next:
           response => {
 
-
             this.student =
               response.result;
 
@@ -459,7 +762,6 @@ async saveChanges():
 
         error:
           error => {
-
 
             console.error(
               'Error cargando alumno:',
@@ -484,26 +786,230 @@ async saveChanges():
 
 
   /* ============================= */
-  /* TABS                          */
+  /* CARGAR ASISTENCIA             */
   /* ============================= */
 
-  selectTab(
-    tab: StudentTab,
+  private loadAttendance(
+    studentId: string,
   ): void {
 
-    this.selectedTab =
-      tab;
+    this.attendanceLoading =
+      true;
+
+
+    this.http
+      .get<
+        ApiResponse<AttendanceApi[]>
+      >(
+        `${this.apiUrl}/asistencia/student/${studentId}`,
+      )
+      .subscribe({
+
+        next:
+          response => {
+
+            this.attendances =
+              response.result ??
+              [];
+
+
+            this.attendanceLoading =
+              false;
+
+
+            console.log(
+              'ASISTENCIA DEL ALUMNO:',
+              this.attendances,
+            );
+
+          },
+
+
+        error:
+          error => {
+
+            console.error(
+              'Error cargando asistencia del alumno:',
+              error,
+            );
+
+
+            this.attendances =
+              [];
+
+
+            this.attendanceLoading =
+              false;
+
+          },
+
+      });
 
   }
 
 
   /* ============================= */
-  /* FECHA                         */
+  /* MÉTRICAS DE ASISTENCIA        */
+  /* ============================= */
+
+  get totalAttendances():
+    number {
+
+    return this.attendances.length;
+
+  }
+
+
+  get presentAttendances():
+    number {
+
+    return this.attendances
+      .filter(
+        attendance =>
+          attendance.present,
+      )
+      .length;
+
+  }
+
+
+  get absentAttendances():
+    number {
+
+    return (
+      this.totalAttendances -
+      this.presentAttendances
+    );
+
+  }
+
+
+  get attendancePercentage():
+    number {
+
+    if (
+      this.totalAttendances ===
+      0
+    ) {
+
+      return 0;
+
+    }
+
+
+    return Math.round(
+      (
+        this.presentAttendances /
+        this.totalAttendances
+      ) *
+      100,
+    );
+
+  }
+
+
+  get attendanceProgress():
+    number {
+
+    return this.attendancePercentage;
+
+  }
+
+
+  /* ============================= */
+  /* FORMATEAR FECHA ASISTENCIA    */
+  /* ============================= */
+
+  formatAttendanceDate(
+    date: string,
+  ): string {
+
+    if (!date) {
+
+      return '';
+
+    }
+
+
+    const parts =
+      date
+        .slice(
+          0,
+          10,
+        )
+        .split(
+          '-',
+        );
+
+
+    if (
+      parts.length !==
+      3
+    ) {
+
+      return date;
+
+    }
+
+
+    const [
+      year,
+      month,
+      day,
+    ] =
+      parts;
+
+
+    return (
+      `${day}/${month}/${year}`
+    );
+
+  }
+
+
+  /* ============================= */
+  /* TABS                          */
+  /* ============================= */
+selectTab(
+  tab: StudentTab,
+): void {
+
+  this.selectedTab =
+    tab;
+
+
+  if (
+    tab === 'asistencia' &&
+    this.student
+  ) {
+
+    this.loadAttendance(
+      this.student.id,
+    );
+
+  }
+
+
+  if (
+    tab === 'payments' &&
+    this.student
+  ) {
+
+    this.loadFees(
+      this.student.id,
+    );
+
+  }
+
+}
+
+
+  /* ============================= */
+  /* FECHA DE NACIMIENTO           */
   /* ============================= */
 
   get formattedBirthDate():
     string {
-
 
     if (
       !this.student?.birth_date
@@ -562,7 +1068,6 @@ async saveChanges():
   get age():
     number | null {
 
-
     if (
       !this.student?.birth_date
     ) {
@@ -600,10 +1105,12 @@ async saveChanges():
         parts[0],
       );
 
+
     const month =
       Number(
         parts[1],
       );
+
 
     const day =
       Number(
@@ -699,7 +1206,6 @@ async saveChanges():
     user: User,
   ): void {
 
-
     const phone =
       user.phone
         ?.replace(
@@ -724,7 +1230,6 @@ async saveChanges():
      * Si ya viene con 54,
      * no lo duplicamos.
      */
-
     const finalPhone =
       phone.startsWith(
         '54',
@@ -754,7 +1259,6 @@ async saveChanges():
       'danger',
 
   ): Promise<void> {
-
 
     const toast =
       await this.toastController

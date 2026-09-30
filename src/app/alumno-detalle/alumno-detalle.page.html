@@ -140,10 +140,10 @@
 
 
       <button type="button" [class.active]="
-          selectedTab === 'attendance'
-        " (click)="
-          selectTab('attendance')
-        ">
+    selectedTab === 'asistencia'
+  " (click)="
+    selectTab('asistencia')
+  ">
 
         <ion-icon name="checkmark-circle-outline"></ion-icon>
 
@@ -203,7 +203,7 @@
 
       <!-- DATOS PERSONALES -->
 
-      <div class="information-card">
+      <div class="information-card" *ngIf="!isEditing">
 
 
         <!-- DOCUMENTO -->
@@ -337,230 +337,181 @@
 
       </div>
 
-<!-- ======================= -->
-<!-- EDICIÓN DEL ALUMNO      -->
-<!-- ======================= -->
+      <!-- ======================= -->
+      <!-- EDICIÓN DEL ALUMNO      -->
+      <!-- ======================= -->
 
-<section
-  class="edit-student-card"
-  *ngIf="isEditing"
->
+      <section class="edit-student-card" *ngIf="isEditing">
 
 
-  <div class="two-columns">
+        <div class="two-columns">
 
 
-    <!-- NOMBRE -->
+          <!-- NOMBRE -->
 
-    <div class="edit-field">
+          <div class="edit-field">
 
-      <label>
-        Nombre *
-      </label>
+            <label>
+              Nombre *
+            </label>
 
-      <div class="edit-input">
+            <div class="edit-input">
 
-        <ion-input
-          [(ngModel)]="editStudent.name"
-          placeholder="Nombre"
-        ></ion-input>
+              <ion-input [(ngModel)]="editStudent.name" placeholder="Nombre"></ion-input>
 
-      </div>
+            </div>
 
-    </div>
+          </div>
 
 
 
-    <!-- APELLIDO -->
+          <!-- APELLIDO -->
 
-    <div class="edit-field">
+          <div class="edit-field">
 
-      <label>
-        Apellido *
-      </label>
+            <label>
+              Apellido *
+            </label>
 
-      <div class="edit-input">
+            <div class="edit-input">
 
-        <ion-input
-          [(ngModel)]="editStudent.last_name"
-          placeholder="Apellido"
-        ></ion-input>
+              <ion-input [(ngModel)]="editStudent.last_name" placeholder="Apellido"></ion-input>
 
-      </div>
+            </div>
 
-    </div>
+          </div>
 
 
-  </div>
+        </div>
 
 
 
-  <!-- DOCUMENTO -->
+        <!-- DOCUMENTO -->
 
-  <div class="edit-field">
+        <div class="edit-field">
 
-    <label>
-      Documento *
-    </label>
+          <label>
+            Documento *
+          </label>
 
-    <div class="edit-input">
+          <div class="edit-input">
 
-      <ion-icon
-        name="card-outline"
-      ></ion-icon>
+            <ion-icon name="card-outline"></ion-icon>
 
-      <ion-input
-        [(ngModel)]="editStudent.document"
-        placeholder="Documento"
-      ></ion-input>
+            <ion-input [(ngModel)]="editStudent.document" placeholder="Documento"></ion-input>
 
-    </div>
+          </div>
 
-  </div>
+        </div>
 
 
 
-  <!-- NACIMIENTO -->
+        <!-- NACIMIENTO -->
 
-  <div class="edit-field">
+        <div class="edit-field">
 
-    <label>
-      Fecha de nacimiento *
-    </label>
+          <label>
+            Fecha de nacimiento *
+          </label>
 
-    <div class="edit-input">
+          <div class="edit-input">
 
-      <ion-icon
-        name="calendar-outline"
-      ></ion-icon>
+            <ion-icon name="calendar-outline"></ion-icon>
 
-      <ion-input
-        type="date"
-        [(ngModel)]="editStudent.birth_date"
-      ></ion-input>
+            <ion-input type="date" [(ngModel)]="editStudent.birth_date"></ion-input>
 
-    </div>
+          </div>
 
-  </div>
+        </div>
 
 
 
-  <!-- CATEGORÍA -->
+        <!-- CATEGORÍA -->
 
-  <div class="edit-field">
+        <div class="edit-field">
 
-    <label>
-      Categoría *
-    </label>
+          <label>
+            Categoría *
+          </label>
 
-    <div class="edit-input">
+          <div class="edit-input">
 
-      <ion-icon
-        name="football-outline"
-      ></ion-icon>
+            <ion-icon name="football-outline"></ion-icon>
 
-      <ion-select
-        [(ngModel)]="editStudent.categoryId"
-        interface="action-sheet"
-        placeholder="Seleccionar categoría"
-      >
+            <ion-select [(ngModel)]="editStudent.categoryId" interface="action-sheet"
+              placeholder="Seleccionar categoría">
 
-        <ion-select-option
-          *ngFor="
+              <ion-select-option *ngFor="
             let category
             of categories
-          "
-          [value]="category.id"
-        >
+          " [value]="category.id">
 
-          {{ category.name }}
+                {{ category.name }}
 
-        </ion-select-option>
+              </ion-select-option>
 
-      </ion-select>
+            </ion-select>
 
-    </div>
+          </div>
 
-  </div>
+        </div>
 
 
 
-  <!-- DIRECCIÓN -->
+        <!-- DIRECCIÓN -->
 
-  <div class="edit-field">
+        <div class="edit-field">
 
-    <label>
-      Dirección
-    </label>
+          <label>
+            Dirección
+          </label>
 
-    <div class="edit-input">
+          <div class="edit-input">
 
-      <ion-icon
-        name="location-outline"
-      ></ion-icon>
+            <ion-icon name="location-outline"></ion-icon>
 
-      <ion-input
-        [(ngModel)]="editStudent.address"
-        placeholder="Dirección"
-      ></ion-input>
+            <ion-input [(ngModel)]="editStudent.address" placeholder="Dirección"></ion-input>
 
-    </div>
+          </div>
 
-  </div>
+        </div>
 
 
 
-  <!-- ACCIONES -->
+        <!-- ACCIONES -->
 
-  <div class="edit-actions">
-
-
-    <button
-      type="button"
-      class="secondary-button"
-      [disabled]="savingEdit"
-      (click)="cancelEditing()"
-    >
-
-      Cancelar
-
-    </button>
+        <div class="edit-actions">
 
 
-    <button
-      type="button"
-      class="save-edit-button"
-      [disabled]="savingEdit"
-      (click)="saveChanges()"
-    >
+          <button type="button" class="secondary-button" [disabled]="savingEdit" (click)="cancelEditing()">
+
+            Cancelar
+
+          </button>
 
 
-      <ion-spinner
-        *ngIf="savingEdit"
-        name="crescent"
-      ></ion-spinner>
+          <button type="button" class="save-edit-button" [disabled]="savingEdit" (click)="saveChanges()">
 
 
-      <ng-container
-        *ngIf="!savingEdit"
-      >
-
-        <ion-icon
-          name="checkmark-outline"
-        ></ion-icon>
-
-        Guardar cambios
-
-      </ng-container>
+            <ion-spinner *ngIf="savingEdit" name="crescent"></ion-spinner>
 
 
-    </button>
+            <ng-container *ngIf="!savingEdit">
+
+              <ion-icon name="checkmark-outline"></ion-icon>
+
+              Guardar cambios
+
+            </ng-container>
 
 
-  </div>
+          </button>
 
 
-</section>
+        </div>
+
+
+      </section>
 
       <!-- ======================= -->
       <!-- MI FUTGOL               -->
@@ -778,49 +729,258 @@
     <!-- ======================= -->
     <!-- PAGOS                   -->
     <!-- ======================= -->
+<!-- ======================= -->
+<!-- PAGOS                   -->
+<!-- ======================= -->
 
-    <section class="student-content" *ngIf="
-        selectedTab === 'payments'
-      ">
+<section
+  class="student-content"
+  *ngIf="
+    selectedTab === 'payments'
+  "
+>
+
+  <div class="content-heading">
+
+    <div>
+
+      <span>
+        CUOTAS
+      </span>
+
+      <h2>
+        Estado de pagos
+      </h2>
+
+    </div>
+
+  </div>
 
 
-      <div class="content-heading">
+  <!-- ======================= -->
+  <!-- CARGANDO                -->
+  <!-- ======================= -->
 
-        <div>
+  <div
+    class="detail-loading"
+    *ngIf="paymentsLoading"
+  >
 
-          <span>
-            CUOTAS
-          </span>
+    <ion-spinner
+      name="crescent"
+    ></ion-spinner>
 
-          <h2>
-            Estado de pagos
-          </h2>
+    <span>
+      Cargando cuotas...
+    </span>
 
-        </div>
-
-      </div>
+  </div>
 
 
-      <div class="pending-section">
+  <!-- ======================= -->
+  <!-- CON CUOTAS              -->
+  <!-- ======================= -->
 
-        <div>
+  <ng-container
+    *ngIf="
+      !paymentsLoading &&
+      fees.length > 0
+    "
+  >
 
-          <ion-icon name="wallet-outline"></ion-icon>
+    <!-- RESUMEN -->
 
-        </div>
+    <div class="payment-summary">
 
-        <strong>
-          Pagos del alumno
-        </strong>
+      <div>
 
         <span>
-          En el próximo paso conectamos esta pestaña a las cuotas reales del backend.
+          Al día
         </span>
+
+        <strong>
+          {{ paidFeesCount }}
+        </strong>
 
       </div>
 
 
-    </section>
+      <div>
+
+        <span>
+          Debe
+        </span>
+
+        <strong class="due">
+          {{ dueFeesCount }}
+        </strong>
+
+      </div>
+
+
+      <div>
+
+        <span>
+          Total
+        </span>
+
+        <strong>
+          {{ totalFees }}
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- LISTA DE CUOTAS -->
+
+    <div class="payments-list">
+
+      <div
+        class="payment-status-card"
+        *ngFor="
+          let fee
+          of fees
+        "
+        [class.due]="
+          fee.status === 'due'
+        "
+      >
+
+        <!-- ICONO -->
+
+        <div class="payment-status-icon">
+
+          <ion-icon
+            [name]="
+              fee.status === 'paid'
+                ? 'checkmark-circle-outline'
+                : 'alert-circle-outline'
+            "
+          ></ion-icon>
+
+        </div>
+
+
+        <!-- DATOS -->
+
+        <div class="payment-status-info">
+
+          <span>
+            {{ fee.period }}
+          </span>
+
+
+          <strong>
+            {{
+              getFeeStatusLabel(
+                fee.status
+              )
+            }}
+          </strong>
+
+
+          <small
+            *ngIf="
+              fee.status === 'due'
+            "
+          >
+            Vence:
+            {{
+              formatFeeDate(
+                fee.due_date
+              )
+            }}
+          </small>
+
+
+          <small
+            *ngIf="
+              fee.status === 'paid'
+            "
+          >
+            Pagado:
+            {{
+              formatFeeDate(
+                fee.paid_at
+              )
+            }}
+          </small>
+
+        </div>
+
+
+        <!-- IMPORTE -->
+
+        <div class="payment-amount">
+
+          <strong>
+            {{
+              formatFeeAmount(
+                fee.amount
+              )
+            }}
+          </strong>
+
+
+          <span
+            class="payment-badge"
+            [class.due]="
+              fee.status === 'due'
+            "
+          >
+
+            {{
+              getFeeStatusLabel(
+                fee.status
+              )
+            }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </ng-container>
+
+
+  <!-- ======================= -->
+  <!-- SIN CUOTAS              -->
+  <!-- ======================= -->
+
+  <div
+    class="pending-section"
+    *ngIf="
+      !paymentsLoading &&
+      fees.length === 0
+    "
+  >
+
+    <div>
+
+      <ion-icon
+        name="wallet-outline"
+      ></ion-icon>
+
+    </div>
+
+
+    <strong>
+      Sin cuotas registradas
+    </strong>
+
+
+    <span>
+      Este alumno todavía no tiene cuotas cargadas.
+    </span>
+
+  </div>
+
+</section>
 
 
 
@@ -828,10 +988,13 @@
     <!-- ASISTENCIA              -->
     <!-- ======================= -->
 
-    <section class="student-content" *ngIf="
-        selectedTab === 'attendance'
-      ">
+    <!-- ======================= -->
+    <!-- ASISTENCIA              -->
+    <!-- ======================= -->
 
+   <section class="student-content" *ngIf="
+    selectedTab === 'asistencia'
+  ">
 
       <div class="content-heading">
 
@@ -850,27 +1013,258 @@
       </div>
 
 
-      <div class="pending-section">
+      <!-- ======================= -->
+      <!-- CARGANDO                -->
+      <!-- ======================= -->
 
-        <div>
+      <div class="detail-loading" *ngIf="attendanceLoading">
 
-          <ion-icon name="checkmark-circle-outline"></ion-icon>
+        <ion-spinner name="crescent"></ion-spinner>
+
+        <span>
+          Cargando asistencia...
+        </span>
+
+      </div>
+
+
+      <!-- ======================= -->
+      <!-- CON REGISTROS           -->
+      <!-- ======================= -->
+
+      <ng-container *ngIf="
+      !attendanceLoading &&
+      attendances.length > 0
+    ">
+
+
+        <!-- RESUMEN -->
+
+        <div class="attendance-card">
+
+          <div class="attendance-top">
+
+            <div>
+
+              <span>
+                ASISTENCIA TOTAL
+              </span>
+
+              <strong>
+                {{ attendancePercentage }}%
+              </strong>
+
+            </div>
+
+
+            <div class="attendance-icon">
+
+              <ion-icon name="checkmark-circle-outline"></ion-icon>
+
+            </div>
+
+          </div>
+
+
+          <div class="attendance-progress">
+
+            <div class="attendance-progress-value" [style.width.%]="
+            attendanceProgress
+          "></div>
+
+          </div>
+
+
+          <div class="attendance-footer">
+
+            <ion-icon name="football-outline"></ion-icon>
+
+            <span>
+
+              {{ presentAttendances }}
+
+              de
+
+              {{ totalAttendances }}
+
+              entrenamientos
+
+            </span>
+
+          </div>
 
         </div>
 
+
+        <!-- ======================= -->
+        <!-- CONTADORES              -->
+        <!-- ======================= -->
+
+        <div class="attendance-stats">
+
+
+          <div class="attendance-stat">
+
+            <span>
+              Presentes
+            </span>
+
+            <strong>
+              {{ presentAttendances }}
+            </strong>
+
+          </div>
+
+
+          <div class="attendance-stat">
+
+            <span>
+              Ausentes
+            </span>
+
+            <strong>
+              {{ absentAttendances }}
+            </strong>
+
+          </div>
+
+
+          <div class="attendance-stat">
+
+            <span>
+              Total
+            </span>
+
+            <strong>
+              {{ totalAttendances }}
+            </strong>
+
+          </div>
+
+
+        </div>
+
+
+        <!-- ======================= -->
+        <!-- HISTORIAL               -->
+        <!-- ======================= -->
+
+        <div class="attendance-history">
+
+
+          <div class="attendance-history-title">
+
+            <div>
+
+              <span>
+                HISTORIAL
+              </span>
+
+              <strong>
+                Últimos entrenamientos
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="attendance-history-row" *ngFor="
+          let attendance
+          of attendances
+        ">
+
+
+            <!-- FECHA -->
+
+            <div class="attendance-history-date">
+
+              <div class="attendance-history-icon">
+
+                <ion-icon name="calendar-outline"></ion-icon>
+
+              </div>
+
+
+              <span>
+
+                {{
+                formatAttendanceDate(
+                attendance.date
+                )
+                }}
+
+              </span>
+
+            </div>
+
+
+            <!-- ESTADO -->
+
+            <div class="attendance-history-status" [class.present]="
+            attendance.present
+          " [class.absent]="
+            !attendance.present
+          ">
+
+              <ion-icon [name]="
+              attendance.present
+                ? 'checkmark-circle-outline'
+                : 'close-circle-outline'
+            "></ion-icon>
+
+
+              <span>
+
+                {{
+                attendance.present
+                ? 'Presente'
+                : 'Ausente'
+                }}
+
+              </span>
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+      </ng-container>
+
+
+      <!-- ======================= -->
+      <!-- SIN REGISTROS           -->
+      <!-- ======================= -->
+
+      <div class="pending-section" *ngIf="
+      !attendanceLoading &&
+      attendances.length === 0
+    ">
+
+        <div>
+
+          <ion-icon name="calendar-outline"></ion-icon>
+
+        </div>
+
+
         <strong>
-          Asistencia del alumno
+          Sin registros de asistencia
         </strong>
 
+
         <span>
-          Esta pestaña la conectamos después con los registros reales de asistencia.
+          Todavía no se guardó ninguna asistencia para este alumno.
         </span>
 
       </div>
 
 
     </section>
-
 
   </ng-container>
 

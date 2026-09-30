@@ -13,6 +13,7 @@ import {
 } from '@angular/router';
 
 import {
+  AlertController,
   ToastController,
 } from '@ionic/angular';
 
@@ -36,7 +37,28 @@ interface CategoryApi {
 
 }
 
+interface UserApi {
 
+  id: string;
+
+  name: string;
+
+  last_name: string;
+
+  phone: string;
+
+  active: boolean;
+
+}
+interface FeeResponse {
+
+  ok: boolean;
+
+  result: FeeApi;
+
+  msg: string;
+
+}
 interface StudentApi {
 
   id: string;
@@ -49,8 +71,11 @@ interface StudentApi {
 
   category?: CategoryApi;
 
-}
+  user?: UserApi | null;
 
+  responsibles?: UserApi[];
+
+}
 
 interface FeeApi {
 
@@ -124,14 +149,8 @@ interface PaymentStudent {
 
   paymentDate?: string;
 
-  /*
-   * Después los vamos a traer
-   * desde el responsable real.
-   */
-  responsibleName?: string;
-
-  phone?: string;
-
+contacts:
+  UserApi[];
 }
 
 
@@ -168,6 +187,9 @@ export class PagosPage implements OnInit {
 
     private readonly toastController:
       ToastController,
+
+    private readonly alertController:
+      AlertController,
 
     private readonly route:
       ActivatedRoute,
@@ -221,140 +243,42 @@ export class PagosPage implements OnInit {
     this.loadFees();
 
   }
+/* ============================= */
+/* CARGAR CUOTAS REALES         */
+/* ============================= */
+
+loadFees(): void {
+
+  this.loading =
+    true;
 
 
-  /* ============================= */
-  /* CARGAR CUOTAS REALES         */
-  /* ============================= */
+  const params =
+    new HttpParams()
 
-  loadFees(): void {
-
-
-    this.loading =
-      true;
-
-
-    this.http
-      .get<FeesResponse>(
-        `${this.apiUrl}/fees`,
+      .set(
+        'period',
+        this.currentPeriod,
       )
-      .subscribe({
 
-        next: (
-          response,
-        ) => {
-
-       
-
-          const fees =
-            response?.result ?? [];
+      .set(
+        'active',
+        'true',
+      );
 
 
-          this.students =
-            fees.map(
-              fee => ({
-
-                id:
-                  fee.student.id,
-
-                feeId:
-                  fee.id,
-
-                name:
-                  fee.student.name,
-
-                lastname:
-                  fee.student.last_name,
-
-                category:
-                  fee.student.category
-                    ?.name ??
-                  'Sin categoría',
-
-                avatar:
-                  fee.student.avatar ??
-                  'assets/section/usuario.png',
-
-                status:
-                  fee.status,
-
-                period:
-                  fee.period,
-
-                amount:
-                  Number(
-                    fee.amount,
-                  ),
-
-                paymentDate:
-                  fee.paid_at ??
-                  undefined,
-
-              }),
-            );
-
-
-       
-
-          this.loading =
-            false;
-
-        },
-
-
-        error: (
-          error,
-        ) => {
-
-          console.error(
-            'ERROR GET /fees:',
-            error,
-          );
-
-
-          this.students =
-            [];
-
-          this.loading =
-            false;
-
-
-          void this.showToast(
-            'No se pudieron cargar las cuotas.',
-          );
-
-        },
-
-      });
-
-  }payWithMercadoPago(
-  student: PaymentStudent,
-): void {
-
-  if (
-    this.processingFeeId ===
-    student.feeId
-  ) {
-    return;
-  }
-
-
-  this.processingFeeId =
-    student.feeId;
-
-
-  const body = {
-
-    feeId:
-      student.feeId,
-
-  };
+  console.log(
+    'CARGANDO PERÍODO:',
+    this.currentPeriod,
+  );
 
 
   this.http
-    .post<MercadoPagoResponse>(
-      `${this.apiUrl}/mercadopago/preference`,
-      body,
+    .get<FeesResponse>(
+      `${this.apiUrl}/fees`,
+      {
+        params,
+      },
     )
     .subscribe({
 
@@ -362,26 +286,105 @@ export class PagosPage implements OnInit {
         response,
       ) => {
 
-        if (
-          !response.checkoutUrl
-        ) {
-
-          this.processingFeeId =
-            null;
+        const fees =
+          response?.result ??
+          [];
 
 
-          void this.showToast(
-            'Mercado Pago no devolvió una URL de pago.',
-          );
-
-          return;
-
-        }
-
-
-        window.location.assign(
-          response.checkoutUrl,
+        console.log(
+          'CUOTAS DEL PERÍODO:',
+          fees,
         );
+
+
+          this.students =
+  fees.map(
+    fee => {
+
+      const contacts = [
+
+        ...(
+          fee.student.responsibles ??
+          []
+        ),
+
+        ...(
+          fee.student.user
+            ? [
+                fee.student.user,
+              ]
+            : []
+        ),
+
+      ]
+        .filter(
+          contact =>
+            contact.active &&
+            !!contact.phone,
+        )
+        .filter(
+          (
+            contact,
+            index,
+            array,
+          ) =>
+            array.findIndex(
+              item =>
+                item.id ===
+                contact.id,
+            ) ===
+            index,
+        );
+
+
+      return {
+
+        id:
+          fee.student.id,
+
+        feeId:
+          fee.id,
+
+        name:
+          fee.student.name,
+
+        lastname:
+          fee.student.last_name,
+
+        category:
+          fee.student.category
+            ?.name ??
+          'Sin categoría',
+
+        avatar:
+          fee.student.avatar ??
+          'assets/section/usuario.png',
+
+        status:
+          fee.status,
+
+        period:
+          fee.period,
+
+        amount:
+          Number(
+            fee.amount,
+          ),
+
+        paymentDate:
+          fee.paid_at ??
+          undefined,
+
+        contacts,
+
+      };
+
+    },
+  );
+
+
+        this.loading =
+          false;
 
       },
 
@@ -391,25 +394,263 @@ export class PagosPage implements OnInit {
       ) => {
 
         console.error(
-          'Error iniciando Mercado Pago:',
+          'ERROR GET /fees:',
           error,
         );
 
 
-        this.processingFeeId =
-          null;
+        this.students =
+          [];
+
+
+        this.loading =
+          false;
 
 
         void this.showToast(
-          'No se pudo iniciar Mercado Pago.',
+          'No se pudieron cargar las cuotas.',
         );
 
       },
 
     });
 
+} 
+
+updatingFeeId:
+  string | null =
+  null;
+  /* ============================= */
+/* REGISTRAR PAGO                */
+/* ============================= */
+
+async registerStudentPayment(
+  student:
+    PaymentStudent,
+): Promise<void> {
+
+  if (
+    student.status ===
+    'paid'
+  ) {
+
+    return;
+
+  }
+
+
+  const alert =
+    await this.alertController
+      .create({
+
+        header:
+          'Registrar pago',
+
+        subHeader:
+          `${student.name} ${student.lastname}`,
+
+        message:
+          `¿Confirmar el pago de la cuota de ${student.period} por $${student.amount.toLocaleString('es-AR')}?`,
+
+        buttons: [
+
+          {
+            text:
+              'Cancelar',
+
+            role:
+              'cancel',
+          },
+
+          {
+            text:
+              'Confirmar pago',
+
+            handler:
+              () => {
+
+                this.markFeeAsPaid(
+                  student,
+                );
+
+              },
+          },
+
+        ],
+
+      });
+
+
+  await alert.present();
+
 }
-processingFeeId: string | null = null;
+private markFeeAsPaid(
+  student:
+    PaymentStudent,
+): void {
+
+  if (
+    this.updatingFeeId ===
+    student.feeId
+  ) {
+
+    return;
+
+  }
+
+
+  this.updatingFeeId =
+    student.feeId;
+
+
+  const body = {
+
+    status:
+      'paid',
+
+  };
+
+
+  this.http
+    .put<FeeResponse>(
+      `${this.apiUrl}/fees/${student.feeId}`,
+      body,
+    )
+    .subscribe({
+
+      next:
+        response => {
+
+          console.log(
+            'PAGO REGISTRADO:',
+            response,
+          );
+
+
+          this.updatingFeeId =
+            null;
+
+
+          /*
+           * Volvemos a traer
+           * la información real
+           * del backend.
+           */
+          this.loadFees();
+
+
+          void this.showToast(
+            'Pago registrado correctamente.',
+          );
+
+        },
+
+
+      error:
+        error => {
+
+          console.error(
+            'ERROR REGISTRANDO PAGO:',
+            error,
+          );
+
+
+          this.updatingFeeId =
+            null;
+
+
+          void this.showToast(
+            'No se pudo registrar el pago.',
+          );
+
+        },
+
+    });
+
+}
+payWithMercadoPago(
+    student: PaymentStudent,
+  ): void {
+
+    if (
+      this.processingFeeId ===
+      student.feeId
+    ) {
+      return;
+    }
+
+
+    this.processingFeeId =
+      student.feeId;
+
+
+    const body = {
+
+      feeId:
+        student.feeId,
+
+    };
+
+
+    this.http
+      .post<MercadoPagoResponse>(
+        `${this.apiUrl}/mercadopago/preference`,
+        body,
+      )
+      .subscribe({
+
+        next: (
+          response,
+        ) => {
+
+          if (
+            !response.checkoutUrl
+          ) {
+
+            this.processingFeeId =
+              null;
+
+
+            void this.showToast(
+              'Mercado Pago no devolvió una URL de pago.',
+            );
+
+            return;
+
+          }
+
+
+          window.location.assign(
+            response.checkoutUrl,
+          );
+
+        },
+
+
+        error: (
+          error,
+        ) => {
+
+          console.error(
+            'Error iniciando Mercado Pago:',
+            error,
+          );
+
+
+          this.processingFeeId =
+            null;
+
+
+          void this.showToast(
+            'No se pudo iniciar Mercado Pago.',
+          );
+
+        },
+
+      });
+
+  }
+  processingFeeId: string | null = null;
   /* ============================= */
   /* FILTROS                       */
   /* ============================= */
@@ -498,101 +739,366 @@ processingFeeId: string | null = null;
 
   }
 
+async sendWhatsAppReminder(
 
-  /* ============================= */
-  /* WHATSAPP                      */
-  /* ============================= */
+  student:
+    PaymentStudent,
 
-  sendWhatsAppReminder(
+  event?:
+    Event,
 
-    student:
-      PaymentStudent,
+): Promise<void> {
 
-    event?:
-      Event,
-
-  ): void {
+  event?.stopPropagation();
 
 
-    event?.stopPropagation();
+  const contacts =
+    student.contacts ??
+    [];
 
 
-    /*
-     * Todavía no estamos cargando
-     * responsables desde el backend.
-     */
+  if (
+    contacts.length ===
+    0
+  ) {
 
-    if (
-      !student.phone ||
-      !student.responsibleName
-    ) {
-
-      void this.showToast(
-        'Todavía no hay un responsable asociado para enviar el aviso.',
-      );
-
-      return;
-
-    }
-
-
-    const phone =
-      student.phone.replace(
-        /\D/g,
-        '',
-      );
-
-
-    const message =
-
-      `Hola ${student.responsibleName}, ¿cómo estás? 👋\n\n` +
-
-      `Te recordamos que se encuentra pendiente ` +
-
-      `la cuota de ${student.period} de ` +
-
-      `${student.name} ${student.lastname}.\n\n` +
-
-      `Importe: $${student.amount.toLocaleString('es-AR')}\n\n` +
-
-      `Muchas gracias.\n` +
-
-      `FUTGOL CLUB ⚽`;
-
-
-    const url =
-
-      `https://wa.me/${phone}` +
-
-      `?text=${encodeURIComponent(message)}`;
-
-
-    window.open(
-      url,
-      '_blank',
+    await this.showToast(
+      'Este alumno no tiene un responsable con teléfono cargado.',
     );
+
+    return;
 
   }
 
+
+  /*
+   * Si hay un solo contacto,
+   * abre WhatsApp directamente.
+   */
+  if (
+    contacts.length ===
+    1
+  ) {
+
+    this.openWhatsAppReminder(
+      student,
+      contacts[0],
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Si hay más de uno,
+   * elegimos a quién avisar.
+   */
+  const alert =
+    await this.alertController
+      .create({
+
+        header:
+          'Enviar aviso a',
+
+        subHeader:
+          `${student.name} ${student.lastname}`,
+
+        inputs:
+          contacts.map(
+            contact => ({
+
+              type:
+                'radio',
+
+              label:
+                `${contact.name} ${contact.last_name}`,
+
+              value:
+                contact.id,
+
+            }),
+          ),
+
+        buttons: [
+
+          {
+            text:
+              'Cancelar',
+
+            role:
+              'cancel',
+          },
+
+          {
+            text:
+              'Continuar',
+
+            handler:
+              (
+                contactId:
+                  string,
+              ) => {
+
+                const contact =
+                  contacts.find(
+                    item =>
+                      item.id ===
+                      contactId,
+                  );
+
+
+                if (!contact) {
+                  return;
+                }
+
+
+                this.openWhatsAppReminder(
+                  student,
+                  contact,
+                );
+
+              },
+          },
+
+        ],
+
+      });
+
+
+  await alert.present();
+
+}
 
   /* ============================= */
   /* PERÍODO                       */
   /* ============================= */
 
-  openMonthSelector(): void {
+/* ============================= */
+/* PERÍODO                       */
+/* ============================= */
+private getPeriodOptions():
+  string[] {
+
+  const months = [
+
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre',
+
+  ];
 
 
-    /*
-     * Por ahora dejamos fijo
-     * Septiembre 2026 para probar.
-     *
-     * Después hacemos el selector
-     * real.
-     */
+  const today =
+    new Date();
 
-  
+
+  const periods:
+    string[] =
+    [];
+
+
+  /*
+   * Mostramos:
+   * 6 meses anteriores,
+   * mes actual,
+   * 6 meses siguientes.
+   */
+  for (
+    let offset = -6;
+    offset <= 6;
+    offset++
+  ) {
+
+    const date =
+      new Date(
+
+        today.getFullYear(),
+
+        today.getMonth() +
+          offset,
+
+        1,
+
+      );
+
+
+    const period =
+      `${months[
+        date.getMonth()
+      ]} ${date.getFullYear()}`;
+
+
+    periods.push(
+      period,
+    );
 
   }
+
+
+  return periods;
+
+}private openWhatsAppReminder(
+
+  student:
+    PaymentStudent,
+
+  contact:
+    UserApi,
+
+): void {
+
+  const phone =
+    contact.phone
+      .replace(
+        /\D/g,
+        '',
+      );
+
+
+  if (!phone) {
+
+    void this.showToast(
+      'El responsable no tiene un teléfono válido.',
+    );
+
+    return;
+
+  }
+
+
+  const finalPhone =
+    phone.startsWith(
+      '54',
+    )
+      ? phone
+      : `54${phone}`;
+
+
+  const message =
+    `Hola ${contact.name}, ¿cómo estás?\n\n` +
+    `Te recordamos que se encuentra pendiente la cuota de ${student.period} de ${student.name} ${student.lastname}.\n\n` +
+    `Importe: $${student.amount.toLocaleString('es-AR')}\n\n` +
+    `Muchas gracias.\n` +
+    `FUTGOL CLUB`;
+
+
+  const url =
+    `https://wa.me/${finalPhone}` +
+    `?text=${encodeURIComponent(
+      message,
+    )}`;
+
+
+  window.open(
+    url,
+    '_blank',
+  );
+
+}
+async openMonthSelector():
+  Promise<void> {
+
+  const periods =
+    this.getPeriodOptions();
+
+
+  const alert =
+    await this.alertController
+      .create({
+
+        header:
+          'Seleccionar período',
+
+        inputs:
+          periods.map(
+            period => ({
+
+              type:
+                'radio',
+
+              label:
+                period,
+
+              value:
+                period,
+
+              checked:
+                period ===
+                this.currentPeriod,
+
+            }),
+          ),
+
+        buttons: [
+
+          {
+            text:
+              'Cancelar',
+
+            role:
+              'cancel',
+          },
+
+          {
+            text:
+              'Aceptar',
+
+            handler:
+              (
+                period:
+                  string,
+              ) => {
+
+                if (
+                  !period ||
+                  period ===
+                    this.currentPeriod
+                ) {
+
+                  return;
+
+                }
+
+
+                this.currentPeriod =
+                  period;
+
+
+                /*
+                 * Cuando cambia de mes,
+                 * volvemos a Todos.
+                 */
+                this.selectedFilter =
+                  'all';
+
+
+                /*
+                 * Volvemos a pedir
+                 * las cuotas al backend.
+                 */
+                this.loadFees();
+
+              },
+          },
+
+        ],
+
+      });
+
+
+  await alert.present();
+
+}
 
 
   /* ============================= */

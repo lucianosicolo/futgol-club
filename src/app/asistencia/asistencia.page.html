@@ -1,141 +1,471 @@
 <main class="attendance-container">
 
-  <section class="attendance-intro">
-    <span class="section-label">ENTRENAMIENTO</span>
+  <!-- ======================= -->
+  <!-- ENCABEZADO              -->
+  <!-- ======================= -->
 
-    <h1>Control de asistencia</h1>
+  <section class="attendance-intro">
+
+    <span class="section-label">
+      ENTRENAMIENTO
+    </span>
+
+    <h1>
+      Control de asistencia
+    </h1>
 
     <p>
       Tocá cada alumno que haya asistido al entrenamiento.
     </p>
+
   </section>
-  <div class="category-selector">
 
-    <div class="category-selector-icon">
-      <ion-icon name="people-outline"></ion-icon>
-    </div>
 
-    <div class="category-selector-content">
+  <!-- ======================= -->
+  <!-- CARGANDO ALUMNOS        -->
+  <!-- ======================= -->
 
-      <span>Categoría</span>
+  <section
+    class="students-loading"
+    *ngIf="loading"
+  >
 
-      <ion-select [value]="selectedCategory" interface="popover" (ionChange)="changeCategory($event.detail.value)">
-        <ion-select-option *ngFor="let category of categories" [value]="category">
-          {{ category }}
-        </ion-select-option>
+    <ion-spinner
+      name="crescent"
+    ></ion-spinner>
 
-      </ion-select>
+    <span>
+      Cargando alumnos...
+    </span>
 
-    </div>
+  </section>
 
-  </div>
-  <ion-card class="attendance-card">
 
-    <!-- Selector de fecha -->
-    <div class="attendance-navigation">
+  <!-- ======================= -->
+  <!-- CONTENIDO               -->
+  <!-- ======================= -->
 
-      <ion-button type="button" fill="clear" (click)="previousClass()" aria-label="Entrenamiento anterior">
-        <ion-icon name="chevron-back-outline"></ion-icon>
-      </ion-button>
+  <ng-container *ngIf="!loading">
 
-      <div class="attendance-date">
-        <small>Asistencia del día</small>
-        <strong>{{ classDate }}</strong>
-      </div>
 
-      <ion-button type="button" fill="clear" (click)="nextClass()" aria-label="Entrenamiento siguiente">
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-      </ion-button>
+    <!-- ======================= -->
+    <!-- SELECTOR DE CATEGORÍA   -->
+    <!-- ======================= -->
 
-    </div>
+    <div
+      class="category-selector"
+      *ngIf="categories.length > 0"
+    >
 
-    <!-- Resumen -->
-    <div class="attendance-summary">
+      <div class="category-selector-icon">
 
-      <div>
-        <span>Presentes</span>
+        <ion-icon
+          name="people-outline"
+        ></ion-icon>
 
-        <strong>
-          {{ presentStudentsCount }}
-        </strong>
       </div>
 
 
-      <div>
-        <span>Sin marcar</span>
-
-        <strong class="pending-count">
-         {{ filteredStudents.length - presentStudentsCount }}
-        </strong>
-      </div>
-
-
-      <div>
-        <span>Total</span>
-
-        <strong class="total-count">
-          {{ filteredStudents.length }}
-        </strong>
-      </div>
-
-    </div>
-
-    <!-- Lista de alumnos -->
-    <ion-list class="student-list" lines="full">
-
-      <ion-item *ngFor="let student of filteredStudents; trackBy: trackByStudentId"
-        [class.student-present]="student.status === 'present'" (click)="changeStatus(student)">
-
-        <ion-avatar slot="start">
-          <img [src]="student.avatar || 'assets/section/usuario.png'" [alt]="'Foto de ' + student.name" />
-        </ion-avatar>
-
-        <ion-label>
-          <h2>
-            {{ student.name }} {{ student.lastname }}
-          </h2>
-
-          <p>
-            {{ student.course }}
-          </p>
-        </ion-label>
-
-        <div slot="end" class="student-status" [class.present]="student.status === 'present'">
-          <ion-icon [name]="getStatusIcon(student.status)"></ion-icon>
-
-          <span>
-            {{
-            student.status === 'present'
-            ? 'Presente'
-            : 'Sin marcar'
-            }}
-          </span>
-        </div>
-
-      </ion-item>
-
-    </ion-list>
-
-    <!-- Guardar -->
-    <div class="save-container">
-
-      <div class="save-information">
-        <ion-icon name="information-circle-outline"></ion-icon>
+      <div class="category-selector-content">
 
         <span>
-          Marcaste {{ presentStudentsCount }}
-        de {{ filteredStudents.length }} alumnos.
+          Categoría
         </span>
+
+
+        <ion-select
+          [value]="selectedCategory"
+          interface="popover"
+          (ionChange)="
+            changeCategory(
+              $event.detail.value
+            )
+          "
+        >
+
+          <ion-select-option
+            *ngFor="
+              let category
+              of categories
+            "
+            [value]="category"
+          >
+
+            {{ category }}
+
+          </ion-select-option>
+
+        </ion-select>
+
       </div>
-
-      <ion-button type="button" expand="block" class="save-button" (click)="saveAttendance()">
-        <span>Guardar asistencia</span>
-
-        <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
-      </ion-button>
 
     </div>
 
-  </ion-card>
+
+    <!-- ======================= -->
+    <!-- TARJETA ASISTENCIA      -->
+    <!-- ======================= -->
+
+    <ion-card
+      class="attendance-card"
+      *ngIf="categories.length > 0"
+    >
+
+
+      <!-- ======================= -->
+      <!-- FECHA                   -->
+      <!-- ======================= -->
+
+      <div class="attendance-navigation">
+
+        <ion-button
+          type="button"
+          fill="clear"
+          (click)="previousClass()"
+          aria-label="Entrenamiento anterior"
+        >
+
+          <ion-icon
+            name="chevron-back-outline"
+          ></ion-icon>
+
+        </ion-button>
+
+
+        <div class="attendance-date">
+
+          <small>
+            Asistencia del día
+          </small>
+
+          <strong>
+            {{ classDate }}
+          </strong>
+
+        </div>
+
+
+        <ion-button
+          type="button"
+          fill="clear"
+          (click)="nextClass()"
+          aria-label="Entrenamiento siguiente"
+        >
+
+          <ion-icon
+            name="chevron-forward-outline"
+          ></ion-icon>
+
+        </ion-button>
+
+      </div>
+
+
+      <!-- ======================= -->
+      <!-- CARGANDO ASISTENCIA     -->
+      <!-- ======================= -->
+
+      <div
+        class="attendance-loading"
+        *ngIf="attendanceLoading"
+      >
+
+        <ion-spinner
+          name="crescent"
+        ></ion-spinner>
+
+        <span>
+          Cargando asistencia...
+        </span>
+
+      </div>
+
+
+      <ng-container *ngIf="!attendanceLoading">
+
+
+        <!-- ======================= -->
+        <!-- RESUMEN                 -->
+        <!-- ======================= -->
+
+        <div class="attendance-summary">
+
+          <div>
+
+            <span>
+              Presentes
+            </span>
+
+            <strong>
+              {{ presentStudentsCount }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Sin marcar
+            </span>
+
+            <strong class="pending-count">
+              {{ pendingStudentsCount }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Total
+            </span>
+
+            <strong class="total-count">
+              {{ filteredStudents.length }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <!-- ======================= -->
+        <!-- LISTA DE ALUMNOS        -->
+        <!-- ======================= -->
+
+        <ion-list
+          class="student-list"
+          lines="full"
+          *ngIf="filteredStudents.length > 0"
+        >
+
+          <ion-item
+            *ngFor="
+              let student
+              of filteredStudents;
+              trackBy: trackByStudentId
+            "
+            [class.student-present]="
+              student.status === 'present'
+            "
+            (click)="changeStatus(student)"
+          >
+
+            <!-- FOTO -->
+
+            <ion-avatar slot="start">
+
+              <img
+                [src]="
+                  student.avatar ||
+                  'assets/section/usuario.png'
+                "
+                [alt]="
+                  'Foto de ' +
+                  student.name
+                "
+              />
+
+            </ion-avatar>
+
+
+            <!-- DATOS -->
+
+            <ion-label>
+
+              <h2>
+                {{ student.name }}
+                {{ student.lastname }}
+              </h2>
+
+              <p>
+                {{ student.course }}
+              </p>
+
+            </ion-label>
+
+
+            <!-- ESTADO -->
+
+            <div
+              slot="end"
+              class="student-status"
+              [class.present]="
+                student.status === 'present'
+              "
+            >
+
+              <ion-icon
+                [name]="
+                  getStatusIcon(
+                    student.status
+                  )
+                "
+              ></ion-icon>
+
+
+              <span>
+
+                {{
+                  student.status ===
+                    'present'
+                    ? 'Presente'
+                    : 'Sin marcar'
+                }}
+
+              </span>
+
+            </div>
+
+          </ion-item>
+
+        </ion-list>
+
+
+        <!-- ======================= -->
+        <!-- SIN ALUMNOS             -->
+        <!-- ======================= -->
+
+        <div
+          class="empty-state"
+          *ngIf="
+            filteredStudents.length === 0
+          "
+        >
+
+          <ion-icon
+            name="people-outline"
+          ></ion-icon>
+
+          <strong>
+            No hay alumnos
+          </strong>
+
+          <span>
+            No hay alumnos activos en esta categoría.
+          </span>
+
+        </div>
+
+
+        <!-- ======================= -->
+        <!-- GUARDAR                 -->
+        <!-- ======================= -->
+
+        <div
+          class="save-container"
+          *ngIf="
+            filteredStudents.length > 0
+          "
+        >
+
+          <div class="save-information">
+
+            <ion-icon
+              name="information-circle-outline"
+            ></ion-icon>
+
+            <span>
+
+              Marcaste
+
+              {{ presentStudentsCount }}
+
+              de
+
+              {{ filteredStudents.length }}
+
+              alumnos.
+
+            </span>
+
+          </div>
+
+
+          <ion-button
+            type="button"
+            expand="block"
+            class="save-button"
+            [disabled]="
+              savingAttendance ||
+              attendanceLoading
+            "
+            (click)="saveAttendance()"
+          >
+
+
+            <!-- GUARDANDO -->
+
+            <ng-container
+              *ngIf="savingAttendance"
+            >
+
+              <ion-spinner
+                name="crescent"
+              ></ion-spinner>
+
+              <span>
+                Guardando...
+              </span>
+
+            </ng-container>
+
+
+            <!-- NORMAL -->
+
+            <ng-container
+              *ngIf="!savingAttendance"
+            >
+
+              <span>
+                Guardar asistencia
+              </span>
+
+              <ion-icon
+                slot="end"
+                name="checkmark-circle-outline"
+              ></ion-icon>
+
+            </ng-container>
+
+          </ion-button>
+
+        </div>
+
+
+      </ng-container>
+
+    </ion-card>
+
+
+    <!-- ======================= -->
+    <!-- SIN ALUMNOS ACTIVOS     -->
+    <!-- ======================= -->
+
+    <section
+      class="empty-state"
+      *ngIf="
+        students.length === 0
+      "
+    >
+
+      <ion-icon
+        name="people-outline"
+      ></ion-icon>
+
+      <strong>
+        No hay alumnos activos
+      </strong>
+
+      <span>
+        Creá o reactivá un alumno para tomar asistencia.
+      </span>
+
+    </section>
+
+
+  </ng-container>
 
 </main>

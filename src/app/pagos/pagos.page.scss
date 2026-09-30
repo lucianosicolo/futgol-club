@@ -7,447 +7,263 @@
   --futgol-border: #e3e7e1;
   --futgol-red: #d94b4b;
 }
+
+
 /* ============================= */
-/* SELECTOR DE PERÍODO           */
+/* PÁGINA                        */
 /* ============================= */
-
-.period-selector {
-  display: flex;
-  align-items: center;
-
-  width: 100%;
-
-  margin-bottom: 16px;
-  padding: 0 2px;
-
-  gap: 8px;
-}
-
-.period-calendar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
-
-  width: 27px;
-  height: 27px;
-
-  background: #edf6e9;
-  border-radius: 7px;
-
-  ion-icon {
-    color: var(--futgol-green);
-    font-size: 15px;
-  }
-}
-
-.period-information {
-  display: flex;
-  align-items: center;
-
-  flex: 1;
-
-  gap: 4px;
-
-  min-width: 0;
-
-  span {
-    color: var(--futgol-muted);
-    font-size: 11px;
-  }
-
-  strong {
-    color: var(--futgol-text);
-    font-size: 12px;
-    font-weight: 800;
-  }
-}
-.period-selector {
-  appearance: none;
-
-  display: flex;
-  align-items: center;
-
-  width: 100%;
-
-  margin-bottom: 16px;
-  padding: 7px 8px;
-
-  gap: 8px;
-
-  background: transparent;
-  border: 0;
-  border-radius: 9px;
-
-  text-align: left;
-
-  cursor: pointer;
-
-  &:active {
-    background: rgba(77, 169, 52, 0.06);
-  }
-}
-/* ============================= */
-/* CUOTA PENDIENTE               */
-/* ============================= */
-
-.debt-section {
-  width: calc(100% - 20px);
-
-  margin: 0 10px 7px;
-  padding: 7px 8px;
-
-  background: #fafcf9;
-
-  border: 1px solid #e6ebe3;
-  border-radius: 8px;
-}
-
-.debt-info {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
-
-  align-items: center;
-
-  gap: 8px;
-}
-
-.debt-text {
-  display: flex;
-  flex-direction: column;
-
-  gap: 1px;
-
-  min-width: 0;
-
-  span {
-    color: var(--futgol-muted);
-    font-size: 7px;
-  }
-
-  strong {
-    color: var(--futgol-text);
-
-    font-size: 8px;
-    font-weight: 750;
-
-    white-space: nowrap;
-  }
-}
-
-.debt-amount {
-  color: var(--futgol-red) !important;
-
-  font-size: 12px !important;
-  font-weight: 850 !important;
-
-  white-space: nowrap;
-}
-
-/* WHATSAPP */
-
-.whatsapp-button {
-  appearance: none;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 4px;
-
-  min-height: 28px;
-
-  padding: 0 8px;
-
-  background: #edf9f0;
-
-  border: 1px solid #d1ecd8;
-  border-radius: 7px;
-
-  color: #218c43;
-
-  font-family: inherit;
-  font-size: 7px;
-  font-weight: 750;
-
-  white-space: nowrap;
-
-  cursor: pointer;
-
-  ion-icon {
-    color: #25d366;
-    font-size: 14px;
-  }
-
-  &:active {
-    transform: scale(0.97);
-  }
-}
-.period-chevron {
-  flex-shrink: 0;
-
-  color: var(--futgol-green);
-  font-size: 17px;
-}
-.period-selector-button {
-  flex-shrink: 0;
-
-  width: 30px;
-  height: 30px;
-
-  margin: 0;
-
-  --padding-start: 0;
-  --padding-end: 0;
-
-  --color: var(--futgol-green);
-
-  ion-icon {
-    font-size: 17px;
-  }
-}
-ion-toolbar {
-  --background: #ffffff;
-  --color: var(--futgol-text);
-}
-
-ion-title {
-  font-size: 15px;
-  font-weight: 800;
-  text-align: center;
-}
 
 ion-content {
   --background: var(--futgol-background);
   --color: var(--futgol-text);
 }
 
+
 .payments-container {
   width: 100%;
   max-width: 540px;
+
   margin: 0 auto;
-  padding: 22px 14px 35px;
+
+  padding:
+    22px
+    14px
+    35px;
 }
 
-/* Introducción */
+
+/* ============================= */
+/* INTRO                         */
+/* ============================= */
 
 .payments-intro {
   margin-bottom: 18px;
+
   text-align: center;
-
-  h1 {
-    margin: 0 0 7px;
-    color: var(--futgol-text);
-    font-size: 20px;
-    font-weight: 900;
-  }
-
-  p {
-    max-width: 270px;
-    margin: 0 auto;
-    color: var(--futgol-muted);
-    font-size: 13px;
-    line-height: 1.4;
-  }
-}
-
-/* Tarjeta principal */
-
-.payments-card {
-  --background: #ffffff;
-  --color: var(--futgol-text);
-
-  margin: 0;
-  overflow: hidden;
-
-  background: #ffffff;
-
-  border: 1px solid var(--futgol-border);
-  border-top: 4px solid var(--futgol-green);
-
-  border-radius: 12px;
-
-  box-shadow:
-    0 4px 16px rgba(30, 45, 30, 0.08);
-}
-
-/* Encabezado verde */
-
-.payments-header {
-  min-height: 38px;
-  padding: 0 40px;
-
-  background: var(--futgol-green);
-  color: #ffffff;
-
-  span {
-    font-size: 12px;
-    font-weight: 700;
-  }
 }
 
 
+.payments-intro h1 {
+  margin:
+    0
+    0
+    6px;
 
-/* Filtros */
+  color:
+    var(--futgol-text);
 
-.payment-filters {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  font-size:
+    20px;
+
+  font-weight:
+    900;
+
+  letter-spacing:
+    -0.4px;
+}
+
+
+.payments-intro p {
+  max-width:
+    290px;
+
+  margin:
+    0 auto;
+
+  color:
+    var(--futgol-muted);
+
+  font-size:
+    12px;
+
+  line-height:
+    1.4;
+}
+
+
+/* ============================= */
+/* SELECTOR DE PERÍODO           */
+/* ============================= */
+
+.period-selector {
+  appearance: none;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
 
   width: 100%;
 
-  background: #ffffff;
-  border-bottom: 1px solid var(--futgol-border);
+  margin-bottom:
+    14px;
 
-  button {
-    position: relative;
+  padding:
+    10px
+    11px;
 
-    min-height: 44px;
+  background:
+    #ffffff;
 
-    background: transparent;
-    border: 0;
+  border:
+    1px solid
+    var(--futgol-border);
 
-    color: var(--futgol-muted);
+  border-radius:
+    11px;
 
-    font-size: 8px;
-    font-weight: 650;
+  box-shadow:
+    0 2px 8px
+    rgba(
+      30,
+      45,
+      30,
+      0.04
+    );
 
-    cursor: pointer;
+  font-family:
+    inherit;
 
-    &.active {
-      color: var(--futgol-green);
-      font-weight: 800;
+  text-align:
+    left;
 
-      &::after {
-        content: '';
-
-        position: absolute;
-
-        right: 10px;
-        bottom: 0;
-        left: 10px;
-
-        height: 2px;
-
-        background: var(--futgol-green);
-      }
-    }
-  }
+  cursor:
+    pointer;
 }
 
-/* Lista */
 
-.payments-list {
-  margin: 0;
-  padding: 0;
-  background: #ffffff;
+.period-selector:active {
+  transform:
+    scale(0.99);
 }
 
-.payment-item {
-  --background: #ffffff;
-  --color: var(--futgol-text);
-  --border-color: var(--futgol-border);
 
-  --padding-start: 14px;
-  --inner-padding-end: 6px;
-  --min-height: 70px;
-
-  border-bottom: 1px solid #f0f2ef;
-
-  ion-avatar {
-    width: 42px;
-    height: 42px;
-  }
-
-  ion-label {
-    margin-right: 8px;
-
-    h2 {
-      margin: 0;
-      color: var(--futgol-text);
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    p {
-      margin-top: 4px;
-      color: var(--futgol-muted);
-      font-size: 10px;
-    }
-  }
-}
-
-.payment-information {
+.period-calendar {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink:
+    0;
+
+  width:
+    32px;
+
+  height:
+    32px;
+
+  background:
+    #edf6e9;
+
+  border-radius:
+    8px;
+}
+
+
+.period-calendar ion-icon {
+  color:
+    var(--futgol-green);
+
+  font-size:
+    17px;
+}
+
+
+.period-information {
+  display: flex;
   flex-direction: column;
 
-  gap: 4px;
+  flex:
+    1;
 
-  min-width: 0;
+  gap:
+    2px;
 
-  margin-inline-start: 6px;
-  margin-inline-end: 0;
-
-  small {
-    color: var(--futgol-muted);
-    font-size: 8px;
-    white-space: nowrap;
-  }
-}
-/* Estados */
-
-.status-badge {
-  min-width: 0;
-  padding: 3px 7px;
-
-  border: 0;
-  border-radius: 6px;
-
-  font-size: 9px;
-  font-weight: 900;
-  text-transform: uppercase;
-
-  white-space: nowrap;
-}
-
-.status-paid {
-  background: #edf7e9;
-  color: var(--futgol-green);
-}
-
-.status-due {
-  background: #fceeee;
-  color: var(--futgol-red);
+  min-width:
+    0;
 }
 
 
-/* Lista vacía */
+.period-information span {
+  color:
+    var(--futgol-muted);
 
-.empty-state {
-  padding: 35px 20px;
-  background: #ffffff;
-  text-align: center;
+  font-size:
+    8px;
 
-  ion-icon {
-    color: var(--futgol-green);
-    font-size: 40px;
-  }
-
-  p {
-    margin: 8px 0 0;
-    color: var(--futgol-muted);
-    font-size: 13px;
-  }
+  font-weight:
+    650;
 }
 
-@media (min-width: 768px) {
-  .payments-container {
-    max-width: 600px;
-    padding-top: 35px;
-  }
+
+.period-information strong {
+  color:
+    var(--futgol-text);
+
+  font-size:
+    12px;
+
+  font-weight:
+    850;
 }
+
+
+.period-chevron {
+  flex-shrink:
+    0;
+
+  color:
+    var(--futgol-green);
+
+  font-size:
+    17px;
+}
+
+
+/* ============================= */
+/* TARJETA PRINCIPAL             */
+/* ============================= */
+
+.payments-card {
+  --background:
+    #ffffff;
+
+  --color:
+    var(--futgol-text);
+
+  width:
+    100%;
+
+  margin:
+    0;
+
+  overflow:
+    hidden;
+
+  background:
+    #ffffff;
+
+  border:
+    1px solid
+    var(--futgol-border);
+
+  border-top:
+    4px solid
+    var(--futgol-green);
+
+  border-radius:
+    13px;
+
+  box-shadow:
+    0 4px 16px
+    rgba(
+      30,
+      45,
+      30,
+      0.08
+    );
+}
+
 
 /* ============================= */
 /* RESUMEN                       */
@@ -455,277 +271,842 @@ ion-content {
 
 .payments-summary {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
 
-  width: 100%;
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
 
-  padding: 12px 0;
+  width:
+    100%;
 
-  background: transparent;
-  border-bottom: 1px solid var(--futgol-border);
+  padding:
+    12px
+    0;
 
-  > div {
-    position: relative;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-
-    gap: 3px;
-
-    min-height: 42px;
-
-    &:not(:last-child)::after {
-      content: '';
-
-      position: absolute;
-      right: 0;
-      top: 6px;
-
-      width: 1px;
-      height: 30px;
-
-      background: var(--futgol-border);
-    }
-  }
-
-  span {
-    color: var(--futgol-muted);
-    font-size: 8px;
-  }
-
-  strong {
-    color: var(--futgol-text);
-
-    font-size: 15px;
-    font-weight: 850;
-  }
+  border-bottom:
+    1px solid
+    var(--futgol-border);
 }
+
+
+.payments-summary > div {
+  position:
+    relative;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    3px;
+
+  min-height:
+    42px;
+}
+
+
+.payments-summary
+  > div:not(:last-child)::after {
+
+  content:
+    '';
+
+  position:
+    absolute;
+
+  top:
+    6px;
+
+  right:
+    0;
+
+  width:
+    1px;
+
+  height:
+    30px;
+
+  background:
+    var(--futgol-border);
+}
+
+
+.payments-summary span {
+  color:
+    var(--futgol-muted);
+
+  font-size:
+    8px;
+
+  font-weight:
+    650;
+}
+
+
+.payments-summary strong {
+  color:
+    var(--futgol-text);
+
+  font-size:
+    18px;
+
+  font-weight:
+    900;
+
+  line-height:
+    1;
+}
+
 
 .paid-number {
-  color: var(--futgol-green) !important;
+  color:
+    var(--futgol-green) !important;
 }
+
 
 .debt-number {
-  color: #d34848 !important;
+  color:
+    var(--futgol-red) !important;
 }
-
 
 
 /* ============================= */
-/* CUOTA PENDIENTE + WHATSAPP    */
+/* FILTROS                       */
+/* ============================= */
+
+.payment-filters {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
+
+  width:
+    100%;
+
+  background:
+    #ffffff;
+
+  border-bottom:
+    1px solid
+    var(--futgol-border);
+}
+
+
+.payment-filters button {
+  position:
+    relative;
+
+  min-height:
+    42px;
+
+  padding:
+    0;
+
+  background:
+    transparent;
+
+  border:
+    0;
+
+  color:
+    var(--futgol-muted);
+
+  font-family:
+    inherit;
+
+  font-size:
+    9px;
+
+  font-weight:
+    700;
+
+  cursor:
+    pointer;
+}
+
+
+.payment-filters button.active {
+  color:
+    var(--futgol-green);
+
+  font-weight:
+    850;
+}
+
+
+.payment-filters button.active::after {
+  content:
+    '';
+
+  position:
+    absolute;
+
+  right:
+    13px;
+
+  bottom:
+    0;
+
+  left:
+    13px;
+
+  height:
+    2px;
+
+  background:
+    var(--futgol-green);
+
+  border-radius:
+    10px;
+}
+
+
+/* ============================= */
+/* LISTA                         */
+/* ============================= */
+
+.payments-list {
+  margin:
+    0;
+
+  padding:
+    0;
+
+  background:
+    #ffffff;
+}
+
+
+/* ============================= */
+/* ALUMNO                        */
+/* ============================= */
+
+.payment-item {
+  --background:
+    #ffffff;
+
+  --color:
+    var(--futgol-text);
+
+  --padding-start:
+    13px;
+
+  --inner-padding-end:
+    10px;
+
+  --min-height:
+    69px;
+
+  border-bottom:
+    1px solid
+    #f0f2ef;
+}
+
+
+.payment-item ion-avatar {
+  width:
+    40px;
+
+  height:
+    40px;
+}
+
+
+.payment-item ion-avatar img {
+  width:
+    100%;
+
+  height:
+    100%;
+
+  object-fit:
+    cover;
+
+  border-radius:
+    50%;
+}
+
+
+.payment-item ion-label {
+  margin-right:
+    7px;
+}
+
+
+.payment-item ion-label h2 {
+  margin:
+    0;
+
+  color:
+    var(--futgol-text);
+
+  font-size:
+    12px;
+
+  font-weight:
+    800;
+}
+
+
+.payment-item ion-label p {
+  margin:
+    3px
+    0
+    0;
+
+  color:
+    var(--futgol-muted);
+
+  font-size:
+    9px;
+}
+
+
+/* ============================= */
+/* ESTADO                        */
+/* ============================= */
+
+.payment-information {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-end;
+
+  gap:
+    4px;
+
+  margin-inline-start:
+    5px;
+}
+
+
+.payment-information small {
+  color:
+    var(--futgol-muted);
+
+  font-size:
+    7px;
+
+  white-space:
+    nowrap;
+}
+
+
+.status-badge {
+  padding:
+    4px
+    7px;
+
+  border-radius:
+    7px;
+
+  font-size:
+    8px;
+
+  font-weight:
+    900;
+
+  text-transform:
+    uppercase;
+
+  white-space:
+    nowrap;
+}
+
+
+.status-paid {
+  background:
+    #edf7e9;
+
+  color:
+    var(--futgol-green);
+}
+
+
+.status-due {
+  background:
+    #fceeee;
+
+  color:
+    var(--futgol-red);
+}
+
+
+/* ============================= */
+/* CUOTA PENDIENTE               */
 /* ============================= */
 
 .debt-section {
-  width: calc(100% - 20px);
+  width:
+    calc(
+      100% - 20px
+    );
 
-  margin: -1px 10px 6px;
-  padding: 6px 8px;
+  margin:
+    -1px
+    10px
+    8px;
 
-  background: #fafcf9;
+  padding:
+    9px;
 
-  border: 1px solid #e6ebe3;
-  border-radius: 8px;
+  background:
+    #fafcf9;
+
+  border:
+    1px solid
+    #e5ebe2;
+
+  border-radius:
+    9px;
 }
 
-.payment-detail {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 
-  gap: 12px;
-  margin-bottom: 8px;
+.debt-info {
+  display:
+    flex;
 
-  >div {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
+  flex-direction:
+    column;
 
-  span {
-    color: var(--futgol-muted);
-    font-size: 8px;
-  }
-
-  strong {
-    color: var(--futgol-text);
-    font-size: 10px;
-    font-weight: 700;
-  }
+  gap:
+    9px;
 }
 
-.debt-detail>div {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+
+/* ============================= */
+/* CABECERA DEUDA                */
+/* ============================= */
+
+.debt-header {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    10px;
 }
 
-.debt-detail span {
-  color: #737973;
-  font-size: 9px;
+
+.debt-text {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    2px;
 }
 
-.debt-detail strong {
-  color: #1c211c;
-  font-size: 11px;
-  font-weight: 700;
+
+.debt-text span {
+  color:
+    var(--futgol-muted);
+
+  font-size:
+    8px;
 }
+
+
+.debt-text strong {
+  color:
+    var(--futgol-text);
+
+  font-size:
+    9px;
+
+  font-weight:
+    800;
+}
+
 
 .debt-amount {
-  color: #d34848 !important;
-  font-size: 11px !important;
-  font-weight: 800 !important;
+  color:
+    var(--futgol-red) !important;
+
+  font-size:
+    13px !important;
+
+  font-weight:
+    900 !important;
+
+  white-space:
+    nowrap;
 }
 
 
-/* BOTONES */
+/* ============================= */
+/* BOTONES DE DEUDA              */
+/* ============================= */
 
 .debt-actions {
-  display: block;
-  width: 100%;
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
+  gap:
+    7px;
+
+  width:
+    100%;
 }
 
-.whatsapp-button {
-  width: 100%;
-}
 
 .whatsapp-button,
+.register-payment-button,
+.mercadopago-button {
+  appearance:
+    none;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    5px;
+
+  width:
+    100%;
+
+  min-height:
+    36px;
+
+  padding:
+    0
+    7px;
+
+  border-radius:
+    8px;
+
+  font-family:
+    inherit;
+
+  font-size:
+    8px;
+
+  font-weight:
+    800;
+
+  cursor:
+    pointer;
+
+  transition:
+    transform
+    0.15s ease,
+    opacity
+    0.15s ease;
+}
 
 
-/* WHATSAPP */
+/* WhatsApp */
 
 .whatsapp-button {
-  background: #eaf8ee;
-  border: 1px solid #ccebd5;
+  background:
+    #edf9f0;
 
-  color: #218c43;
+  border:
+    1px solid
+    #d1ecd8;
+
+  color:
+    #218c43;
 }
+
 
 .whatsapp-button ion-icon {
-  color: #25d366;
-  font-size: 18px;
+  color:
+    #25d366;
+
+  font-size:
+    15px;
 }
 
 
-/* REGISTRAR PAGO */
+/* Registrar pago */
 
 .register-payment-button {
-  background: #4da934;
-  border: 1px solid #4da934;
+  background:
+    var(--futgol-green);
 
-  color: #ffffff;
+  border:
+    1px solid
+    var(--futgol-green);
+
+  color:
+    #ffffff;
 }
+
 
 .register-payment-button ion-icon {
-  color: #ffffff;
-  font-size: 17px;
+  color:
+    #ffffff;
+
+  font-size:
+    15px;
 }
 
 
-/* EFECTO AL TOCAR */
+/* Mercado Pago */
+
+.mercadopago-button {
+  grid-column:
+    1 / -1;
+
+  background:
+    #009ee3;
+
+  border:
+    1px solid
+    #009ee3;
+
+  color:
+    #ffffff;
+}
+
+
+.mercadopago-button ion-icon {
+  color:
+    #ffffff;
+
+  font-size:
+    15px;
+}
+
+
+/* Disabled */
+
+.register-payment-button:disabled,
+.mercadopago-button:disabled {
+  opacity:
+    0.55;
+
+  cursor:
+    default;
+}
+
+
+/* Touch */
 
 .whatsapp-button:active,
-.register-payment-button:active {
-  transform: scale(0.97);
+.register-payment-button:active,
+.mercadopago-button:active {
+  transform:
+    scale(0.98);
 }
 
 
-/* CELULARES CHICOS */
+/* ============================= */
+/* PAGO REGISTRADO               */
+/* ============================= */
+
+.paid-section {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+
+  width:
+    calc(
+      100% - 20px
+    );
+
+  margin:
+    -1px
+    10px
+    8px;
+
+  padding:
+    8px
+    9px;
+
+  background:
+    #f0f8ed;
+
+  border:
+    1px solid
+    #d6ead0;
+
+  border-radius:
+    9px;
+}
+
+
+.paid-section > ion-icon {
+  flex-shrink:
+    0;
+
+  color:
+    var(--futgol-green);
+
+  font-size:
+    20px;
+}
+
+
+.paid-section > div {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    2px;
+}
+
+
+.paid-section strong {
+  color:
+    var(--futgol-green);
+
+  font-size:
+    9px;
+
+  font-weight:
+    850;
+}
+
+
+.paid-section span {
+  color:
+    var(--futgol-muted);
+
+  font-size:
+    7px;
+}
+
+
+/* ============================= */
+/* VACÍO                         */
+/* ============================= */
+
+.empty-state {
+  padding:
+    32px
+    20px;
+
+  text-align:
+    center;
+
+  background:
+    #ffffff;
+}
+
+
+.empty-state ion-icon {
+  color:
+    var(--futgol-green);
+
+  font-size:
+    38px;
+}
+
+
+.empty-state p {
+  margin:
+    7px
+    0
+    0;
+
+  color:
+    var(--futgol-muted);
+
+  font-size:
+    11px;
+}
+
+
+/* ============================= */
+/* RESPONSIVE                    */
+/* ============================= */
 
 @media (max-width: 360px) {
 
-  .debt-section {
-    width: calc(100% - 16px);
+  .payments-container {
+    padding-right:
+      10px;
 
-    margin-right: 8px;
-    margin-left: 8px;
-
-    padding: 9px;
+    padding-left:
+      10px;
   }
+
+
+  .payment-item {
+    --padding-start:
+      10px;
+
+    --inner-padding-end:
+      7px;
+  }
+
+
+  .payment-item ion-avatar {
+    width:
+      37px;
+
+    height:
+      37px;
+  }
+
 
   .debt-actions {
-    gap: 6px;
+    grid-template-columns:
+      1fr;
   }
 
-  .whatsapp-button,
-  .register-payment-button {
-    padding: 0 6px;
-    font-size: 8px;
+
+  .mercadopago-button {
+    grid-column:
+      auto;
   }
+
 }
 
-/* ============================= */
-/* MERCADO PAGO - PRUEBA         */
-/* ============================= */
 
-.mercadopago-button {
-  appearance: none;
+@media (min-width: 768px) {
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .payments-container {
+    max-width:
+      600px;
 
-  gap: 7px;
-
-  width: 100%;
-  min-height: 40px;
-
-  margin-top: 8px;
-  padding: 0 10px;
-
-  background: #009ee3;
-
-  border: 0;
-  border-radius: 9px;
-
-  color: #ffffff;
-
-  font-family: inherit;
-  font-size: 9px;
-  font-weight: 750;
-
-  cursor: pointer;
-
-  ion-icon {
-    color: #ffffff;
-    font-size: 17px;
+    padding-top:
+      35px;
   }
 
-  &:active {
-    transform: scale(0.98);
-  }
-
-  .period-selector {
-    display: flex;
-    align-items: center;
-
-    gap: 8px;
-
-    margin-bottom: 16px;
-  }
-
-  .period-information {
-    display: flex;
-    align-items: center;
-
-    gap: 4px;
-
-    flex: 1;
-  }
-
-  .period-selector-button {
-    width: 32px;
-    height: 32px;
-
-    margin: 0;
-
-    --padding-start: 0;
-    --padding-end: 0;
-
-    ion-icon {
-      color: var(--futgol-green);
-      font-size: 18px;
-    }
-  }
 }
