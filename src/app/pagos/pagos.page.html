@@ -22,17 +22,11 @@
   <!-- PERÍODO                 -->
   <!-- ======================= -->
 
-  <button
-    type="button"
-    class="period-selector"
-    (click)="openMonthSelector()"
-  >
+  <button type="button" class="period-selector" (click)="openMonthSelector()">
 
     <div class="period-calendar">
 
-      <ion-icon
-        name="calendar-outline"
-      ></ion-icon>
+      <ion-icon name="calendar-outline"></ion-icon>
 
     </div>
 
@@ -50,13 +44,9 @@
     </div>
 
 
-    <ion-icon
-      class="period-chevron"
-      name="chevron-down-outline"
-    ></ion-icon>
+    <ion-icon class="period-chevron" name="chevron-down-outline"></ion-icon>
 
   </button>
-
 
   <!-- ======================= -->
   <!-- TARJETA PRINCIPAL       -->
@@ -121,35 +111,23 @@
     <div class="payment-filters">
 
 
-      <button
-        type="button"
-        [class.active]="
+      <button type="button" [class.active]="
           selectedFilter === 'all'
-        "
-        (click)="setFilter('all')"
-      >
+        " (click)="setFilter('all')">
         Todos
       </button>
 
 
-      <button
-        type="button"
-        [class.active]="
+      <button type="button" [class.active]="
           selectedFilter === 'paid'
-        "
-        (click)="setFilter('paid')"
-      >
+        " (click)="setFilter('paid')">
         Al día
       </button>
 
 
-      <button
-        type="button"
-        [class.active]="
+      <button type="button" [class.active]="
           selectedFilter === 'due'
-        "
-        (click)="setFilter('due')"
-      >
+        " (click)="setFilter('due')">
         Deben
       </button>
 
@@ -161,43 +139,31 @@
     <!-- LISTA                   -->
     <!-- ======================= -->
 
-    <ion-list
-      class="payments-list"
-      lines="none"
-    >
+    <ion-list class="payments-list" lines="none">
 
 
-      <ng-container
-        *ngFor="
+      <ng-container *ngFor="
           let student
           of filteredStudents
-        "
-      >
+        ">
 
 
         <!-- ======================= -->
         <!-- ALUMNO                  -->
         <!-- ======================= -->
 
-        <ion-item
-          class="payment-item"
-        >
+        <ion-item class="payment-item">
 
 
-          <ion-avatar
-            slot="start"
-          >
+          <ion-avatar slot="start">
 
-            <img
-              [src]="
+            <img [src]="
                 student.avatar ||
                 'assets/section/usuario.png'
-              "
-              [alt]="
+              " [alt]="
                 'Foto de ' +
                 student.name
-              "
-            />
+              " />
 
           </ion-avatar>
 
@@ -220,25 +186,18 @@
 
           <!-- ESTADO -->
 
-          <div
-            slot="end"
-            class="payment-information"
-          >
+          <div slot="end" class="payment-information">
 
-            <span
-              class="status-badge"
-              [class.status-paid]="
+            <span class="status-badge" [class.status-paid]="
                 student.status === 'paid'
-              "
-              [class.status-due]="
+              " [class.status-due]="
                 student.status === 'due'
-              "
-            >
+              ">
 
               {{
-                getStatusLabel(
-                  student.status
-                )
+              getStatusLabel(
+              student.status
+              )
               }}
 
             </span>
@@ -258,12 +217,9 @@
         <!-- CUOTA PENDIENTE         -->
         <!-- ======================= -->
 
-        <div
-          class="debt-section"
-          *ngIf="
+        <div class="debt-section" *ngIf="
             student.status === 'due'
-          "
-        >
+          ">
 
 
           <div class="debt-info">
@@ -286,13 +242,11 @@
               </div>
 
 
-              <strong
-                class="debt-amount"
-              >
+              <strong class="debt-amount">
 
                 ${{
-                  student.amount
-                    | number:'1.0-0'
+                student.amount
+                | number:'1.0-0'
                 }}
 
               </strong>
@@ -309,20 +263,14 @@
 
               <!-- WHATSAPP -->
 
-              <button
-                type="button"
-                class="whatsapp-button"
-                (click)="
+              <button type="button" class="whatsapp-button" (click)="
                   sendWhatsAppReminder(
                     student,
                     $event
                   )
-                "
-              >
+                ">
 
-                <ion-icon
-                  name="logo-whatsapp"
-                ></ion-icon>
+                <ion-icon name="logo-whatsapp"></ion-icon>
 
                 <span>
                   Avisar
@@ -333,37 +281,30 @@
 
               <!-- REGISTRAR PAGO -->
 
-              <button
-                type="button"
-                class="register-payment-button"
-                [disabled]="
+              <button type="button" class="register-payment-button" [disabled]="
                   updatingFeeId ===
                   student.feeId
-                "
-                (click)="
+                " (click)="
                   registerStudentPayment(
                     student
                   )
-                "
-              >
+                ">
 
-                <ion-icon
-                  [name]="
+                <ion-icon [name]="
                     updatingFeeId ===
                     student.feeId
                       ? 'hourglass-outline'
                       : 'checkmark-circle-outline'
-                  "
-                ></ion-icon>
+                  "></ion-icon>
 
 
                 <span>
 
                   {{
-                    updatingFeeId ===
-                    student.feeId
-                      ? 'Registrando...'
-                      : 'Registrar pago'
+                  updatingFeeId ===
+                  student.feeId
+                  ? 'Registrando...'
+                  : 'Registrar pago manual'
                   }}
 
                 </span>
@@ -373,43 +314,7 @@
 
               <!-- MERCADO PAGO -->
 
-              <button
-                type="button"
-                class="mercadopago-button"
-                [disabled]="
-                  processingFeeId ===
-                  student.feeId
-                "
-                (click)="
-                  payWithMercadoPago(
-                    student
-                  )
-                "
-              >
-
-                <ion-icon
-                  [name]="
-                    processingFeeId ===
-                    student.feeId
-                      ? 'hourglass-outline'
-                      : 'card-outline'
-                  "
-                ></ion-icon>
-
-
-                <span>
-
-                  {{
-                    processingFeeId ===
-                    student.feeId
-                      ? 'Abriendo...'
-                      : 'Pagar con MP'
-                  }}
-
-                </span>
-
-              </button>
-
+             
 
             </div>
 
@@ -424,16 +329,11 @@
         <!-- PAGADO                  -->
         <!-- ======================= -->
 
-        <div
-          class="paid-section"
-          *ngIf="
+        <div class="paid-section" *ngIf="
             student.status === 'paid'
-          "
-        >
+          ">
 
-          <ion-icon
-            name="checkmark-circle-outline"
-          ></ion-icon>
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
 
 
           <div>
@@ -447,17 +347,15 @@
 
               {{ student.period }}
 
-              <ng-container
-                *ngIf="
+              <ng-container *ngIf="
                   student.paymentDate
-                "
-              >
+                ">
 
                 ·
 
                 {{
-                  student.paymentDate
-                    | date:'dd/MM/yyyy'
+                student.paymentDate
+                | date:'dd/MM/yyyy'
                 }}
 
               </ng-container>
@@ -480,17 +378,12 @@
     <!-- SIN RESULTADOS          -->
     <!-- ======================= -->
 
-    <div
-      class="empty-state"
-      *ngIf="
+    <div class="empty-state" *ngIf="
         !loading &&
         filteredStudents.length === 0
-      "
-    >
+      ">
 
-      <ion-icon
-        name="wallet-outline"
-      ></ion-icon>
+      <ion-icon name="wallet-outline"></ion-icon>
 
       <p>
         No hay cuotas para este período.

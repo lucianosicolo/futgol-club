@@ -1,11 +1,11 @@
-export type AttendanceStatus = 'present' | 'pending';
+export type AsistenciaStatus = 'present' | 'pending';
 export interface Student {
     id: number;
   name: string;
   lastname: string;
   course: string;
   avatar: string;
-  status: AttendanceStatus;
+  status: AsistenciaStatus;
 
     // email: string;
     // password: string;

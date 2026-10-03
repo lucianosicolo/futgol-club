@@ -1110,3 +1110,229 @@ ion-content {
   }
 
 }
+/* ============================= */
+/* GENERAR CUOTAS                */
+/* ============================= */
+
+.generate-fees-button {
+
+  appearance: none;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+
+  width: 100%;
+
+
+  margin:
+
+    -2px
+
+    0
+
+    14px;
+
+
+  padding:
+
+    11px
+
+    12px;
+
+
+  background:
+
+    #edf6e9;
+
+
+  border:
+
+    1px solid
+
+    rgba(
+      77,
+      169,
+      52,
+      0.22
+    );
+
+
+  border-radius:
+
+    11px;
+
+
+  font-family:
+
+    inherit;
+
+
+  text-align:
+
+    left;
+
+
+  cursor:
+
+    pointer;
+
+}
+
+
+.generate-fees-button:active {
+
+  transform:
+
+    scale(0.99);
+
+}
+
+
+.generate-fees-button:disabled {
+
+  opacity:
+
+    0.65;
+
+
+  cursor:
+
+    default;
+
+}
+
+
+.generate-fees-icon {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+
+  flex-shrink:
+
+    0;
+
+
+  width:
+
+    34px;
+
+
+  height:
+
+    34px;
+
+
+  background:
+
+    #ffffff;
+
+
+  border-radius:
+
+    9px;
+
+}
+
+
+.generate-fees-icon ion-icon {
+
+  color:
+
+    var(--futgol-green);
+
+
+  font-size:
+
+    19px;
+
+}
+
+
+.generate-fees-information {
+
+  display: flex;
+
+  flex-direction: column;
+
+
+  flex:
+
+    1;
+
+
+  gap:
+
+    2px;
+
+}
+
+
+.generate-fees-information strong {
+
+  color:
+
+    var(--futgol-dark-green);
+
+
+  font-size:
+
+    12px;
+
+
+  font-weight:
+
+    850;
+
+}
+
+
+.generate-fees-information span {
+
+  color:
+
+    var(--futgol-muted);
+
+
+  font-size:
+
+    9px;
+
+
+  font-weight:
+
+    600;
+
+}
+
+
+.generate-fees-chevron {
+
+  color:
+
+    var(--futgol-green);
+
+
+  font-size:
+
+    17px;
+
+}
+:host ::ng-deep
+.generate-fees-alert
+.alert-message {
+
+  white-space:
+    pre-line;
+
+  line-height:
+    1.45;
+
+}

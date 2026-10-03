@@ -103,10 +103,52 @@ export class RoleGuard
       ] as string[] | undefined;
 
 
-    /*
-     * Si una ruta no define roles,
-     * alcanza con estar logueado.
-     */
+    const redirectByRole =
+      route.data[
+        'redirectByRole'
+      ] as boolean | undefined;
+
+
+    /* ============================= */
+    /* REDIRECT SEGÚN ROL            */
+    /* ============================= */
+
+    if (
+      redirectByRole
+    ) {
+
+      if (
+        user.role ===
+        'responsible'
+      ) {
+
+        void this.router.navigateByUrl(
+          '/app/familia',
+          {
+            replaceUrl: true,
+          },
+        );
+
+      } else {
+
+        void this.router.navigateByUrl(
+          '/app/home',
+          {
+            replaceUrl: true,
+          },
+        );
+
+      }
+
+
+      return false;
+
+    }
+
+
+    /* ============================= */
+    /* RUTA SIN ROLES DEFINIDOS      */
+    /* ============================= */
 
     if (
       !allowedRoles ||
@@ -117,6 +159,10 @@ export class RoleGuard
 
     }
 
+
+    /* ============================= */
+    /* ROL PERMITIDO                 */
+    /* ============================= */
 
     if (
       allowedRoles.includes(
@@ -129,11 +175,9 @@ export class RoleGuard
     }
 
 
-    /*
-     * Si intenta entrar a una
-     * pantalla que no corresponde,
-     * lo mandamos a su home.
-     */
+    /* ============================= */
+    /* ROL NO PERMITIDO              */
+    /* ============================= */
 
     if (
       user.role ===

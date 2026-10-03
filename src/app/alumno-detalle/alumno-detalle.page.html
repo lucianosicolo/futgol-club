@@ -1034,7 +1034,7 @@
 
       <ng-container *ngIf="
       !attendanceLoading &&
-      attendances.length > 0
+      asistencias.length > 0
     ">
 
 
@@ -1081,11 +1081,11 @@
 
             <span>
 
-              {{ presentAttendances }}
+              {{ presentasistencias }}
 
               de
 
-              {{ totalAttendances }}
+              {{ totalasistencias }}
 
               entrenamientos
 
@@ -1110,7 +1110,7 @@
             </span>
 
             <strong>
-              {{ presentAttendances }}
+              {{ presentasistencias }}
             </strong>
 
           </div>
@@ -1123,7 +1123,7 @@
             </span>
 
             <strong>
-              {{ absentAttendances }}
+              {{ absentasistencias }}
             </strong>
 
           </div>
@@ -1136,7 +1136,7 @@
             </span>
 
             <strong>
-              {{ totalAttendances }}
+              {{ totalasistencias }}
             </strong>
 
           </div>
@@ -1171,7 +1171,7 @@
 
           <div class="attendance-history-row" *ngFor="
           let attendance
-          of attendances
+          of asistencias
         ">
 
 
@@ -1242,7 +1242,7 @@
 
       <div class="pending-section" *ngIf="
       !attendanceLoading &&
-      attendances.length === 0
+      asistencias.length === 0
     ">
 
         <div>

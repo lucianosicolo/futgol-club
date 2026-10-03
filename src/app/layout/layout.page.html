@@ -2,10 +2,21 @@
   <ion-toolbar class="main-toolbar">
 
     <ion-buttons slot="start" class="header-side">
-      <ion-menu-button *ngIf="isHomePage" auto-hide="false" aria-label="Abrir menú"></ion-menu-button>
+      <ion-menu-button
+        *ngIf="isHomePage"
+        auto-hide="false"
+        aria-label="Abrir menú"
+      ></ion-menu-button>
 
-      <ion-button *ngIf="!isHomePage" (click)="goBack()" aria-label="Volver">
-        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      <ion-button
+        *ngIf="!isHomePage"
+        (click)="goBack()"
+        aria-label="Volver"
+      >
+        <ion-icon
+          slot="icon-only"
+          name="chevron-back-outline"
+        ></ion-icon>
       </ion-button>
     </ion-buttons>
 
@@ -14,40 +25,63 @@
     </ion-title>
 
     <ion-buttons slot="end" class="header-side header-end">
-      <ion-button routerLink="/app/calendario" aria-label="Calendario">
-        <ion-icon slot="icon-only" name="calendar-outline"></ion-icon>
+    <ion-button
+  *ngIf="isAdmin || isTeacher"
+  routerLink="/app/calendario"
+  aria-label="Calendario"
+>
+        <ion-icon
+          slot="icon-only"
+          name="calendar-outline"
+        ></ion-icon>
       </ion-button>
-      <ion-button aria-label="Notificaciones">
-        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+
+      <ion-button
+        aria-label="Notificaciones"
+      >
+        <ion-icon
+          slot="icon-only"
+          name="notifications-outline"
+        ></ion-icon>
       </ion-button>
     </ion-buttons>
 
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content class="layout-content">
   <router-outlet></router-outlet>
 </ion-content>
+
+
 <ion-footer class="layout-footer">
 
   <ion-toolbar>
 
 
     <!-- ======================= -->
-    <!-- ADMIN / PROFESOR        -->
+    <!-- ADMIN                   -->
     <!-- ======================= -->
 
-    <nav class="bottom-navigation" *ngIf="isAdminOrTeacher">
+    <nav
+      class="bottom-navigation"
+      *ngIf="isAdmin"
+    >
 
-
-      <a routerLink="/app/home" routerLinkActive="active" [routerLinkActiveOptions]="{
+      <a
+        routerLink="/app/home"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{
           exact: true
-        }" ariaCurrentWhenActive="page">
+        }"
+        ariaCurrentWhenActive="page"
+      >
 
         <div class="navigation-icon">
-
-          <ion-icon name="home-outline"></ion-icon>
-
+          <ion-icon
+            name="home-outline"
+          ></ion-icon>
         </div>
 
         <span>
@@ -57,12 +91,16 @@
       </a>
 
 
-      <a routerLink="/app/alumnos" routerLinkActive="active" ariaCurrentWhenActive="page">
+      <a
+        routerLink="/app/alumnos"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+      >
 
         <div class="navigation-icon">
-
-          <ion-icon name="people-outline"></ion-icon>
-
+          <ion-icon
+            name="people-outline"
+          ></ion-icon>
         </div>
 
         <span>
@@ -72,33 +110,16 @@
       </a>
 
 
-      <a routerLink="/app/pagos" [class.active]="
-          isPaymentsPage
-        " [attr.aria-current]="
-          isPaymentsPage
-            ? 'page'
-            : null
-        ">
+      <a
+        routerLink="/app/asistencia"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+      >
 
         <div class="navigation-icon">
-
-          <ion-icon name="wallet-outline"></ion-icon>
-
-        </div>
-
-        <span>
-          Pagos
-        </span>
-
-      </a>
-
-
-      <a routerLink="/app/asistencia" routerLinkActive="active" ariaCurrentWhenActive="page">
-
-        <div class="navigation-icon">
-
-          <ion-icon name="person-outline"></ion-icon>
-
+          <ion-icon
+            name="person-outline"
+          ></ion-icon>
         </div>
 
         <span>
@@ -108,25 +129,55 @@
       </a>
 
 
+      <a
+        routerLink="/app/administrativo"
+        [class.active]="
+          isAdministrativePage
+        "
+        [attr.aria-current]="
+          isAdministrativePage
+            ? 'page'
+            : null
+        "
+      >
+
+        <div class="navigation-icon">
+          <ion-icon
+            name="briefcase-outline"
+          ></ion-icon>
+        </div>
+
+        <span>
+          Admin
+        </span>
+
+      </a>
+
     </nav>
 
 
-
     <!-- ======================= -->
-    <!-- MI FUTGOL              -->
+    <!-- PROFESOR                -->
     <!-- ======================= -->
 
-    <nav class="bottom-navigation member-navigation" *ngIf="isResponsible">
+    <nav
+      class="bottom-navigation"
+      *ngIf="isTeacher"
+    >
 
-
-      <a routerLink="/app/familia" routerLinkActive="active" [routerLinkActiveOptions]="{
+      <a
+        routerLink="/app/home"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{
           exact: true
-        }" ariaCurrentWhenActive="page">
+        }"
+        ariaCurrentWhenActive="page"
+      >
 
         <div class="navigation-icon">
-
-          <ion-icon name="home-outline"></ion-icon>
-
+          <ion-icon
+            name="home-outline"
+          ></ion-icon>
         </div>
 
         <span>
@@ -136,12 +187,109 @@
       </a>
 
 
-      <a routerLink="/app/mis-cuotas" routerLinkActive="active" ariaCurrentWhenActive="page">
+      <a
+        routerLink="/app/alumnos"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+      >
 
         <div class="navigation-icon">
+          <ion-icon
+            name="people-outline"
+          ></ion-icon>
+        </div>
 
-          <ion-icon name="card-outline"></ion-icon>
+        <span>
+          Alumnos
+        </span>
 
+      </a>
+
+
+      <a
+        routerLink="/app/asistencia"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+      >
+
+        <div class="navigation-icon">
+          <ion-icon
+            name="checkmark-circle-outline"
+          ></ion-icon>
+        </div>
+
+        <span>
+          Asistencia
+        </span>
+
+      </a>
+
+
+      <a
+        routerLink="/app/calendario"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+      >
+
+        <div class="navigation-icon">
+          <ion-icon
+            name="calendar-outline"
+          ></ion-icon>
+        </div>
+
+        <span>
+          Calendario
+        </span>
+
+      </a>
+
+    </nav>
+
+
+    <!-- ======================= -->
+    <!-- RESPONSABLE             -->
+    <!-- ======================= -->
+
+    <nav
+      class="
+        bottom-navigation
+        member-navigation
+      "
+      *ngIf="isResponsible"
+    >
+
+      <a
+        routerLink="/app/familia"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{
+          exact: true
+        }"
+        ariaCurrentWhenActive="page"
+      >
+
+        <div class="navigation-icon">
+          <ion-icon
+            name="home-outline"
+          ></ion-icon>
+        </div>
+
+        <span>
+          Inicio
+        </span>
+
+      </a>
+
+
+      <a
+        routerLink="/app/mis-cuotas"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+      >
+
+        <div class="navigation-icon">
+          <ion-icon
+            name="card-outline"
+          ></ion-icon>
         </div>
 
         <span>
@@ -151,12 +299,16 @@
       </a>
 
 
-      <a routerLink="/app/perfil" routerLinkActive="active" ariaCurrentWhenActive="page">
+      <a
+        routerLink="/app/perfil"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+      >
 
         <div class="navigation-icon">
-
-          <ion-icon name="person-circle-outline"></ion-icon>
-
+          <ion-icon
+            name="person-circle-outline"
+          ></ion-icon>
         </div>
 
         <span>
@@ -164,7 +316,6 @@
         </span>
 
       </a>
-
 
     </nav>
 

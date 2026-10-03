@@ -1,0 +1,1472 @@
+.fees-management-content {
+
+  --background:
+    #f5f7f4;
+
+}
+
+
+.fees-management-container {
+
+  padding:
+
+    18px
+
+    16px
+
+    120px;
+
+}
+
+
+/* ============================= */
+/* HEADER                        */
+/* ============================= */
+
+.page-header {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    13px;
+
+
+  margin-bottom:
+    20px;
+
+}
+
+
+.header-icon {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+
+  width:
+    50px;
+
+  height:
+    50px;
+
+
+  flex-shrink:
+    0;
+
+
+  border-radius:
+    14px;
+
+
+  background:
+    #eaf5e6;
+
+
+  color:
+    var(
+      --futgol-green,
+      #58a942
+    );
+
+}
+
+
+.header-icon ion-icon {
+
+  font-size:
+    24px;
+
+}
+
+
+.eyebrow {
+
+  display:
+    block;
+
+
+  margin-bottom:
+    2px;
+
+
+  color:
+    var(
+      --futgol-green,
+      #58a942
+    );
+
+
+  font-size:
+    8px;
+
+  font-weight:
+    900;
+
+  letter-spacing:
+    1px;
+
+}
+
+
+.page-header h1 {
+
+  margin:
+    0;
+
+
+  color:
+    var(
+      --futgol-dark-green,
+      #203c27
+    );
+
+
+  font-size:
+    22px;
+
+  font-weight:
+    900;
+
+}
+
+
+.page-header p {
+
+  margin:
+
+    4px
+
+    0
+
+    0;
+
+
+  max-width:
+    270px;
+
+
+  color:
+    #79867d;
+
+
+  font-size:
+    10px;
+
+  line-height:
+    1.4;
+
+}
+
+
+/* ============================= */
+/* LOADING                       */
+/* ============================= */
+
+.loading-state {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    10px;
+
+
+  padding:
+    60px 0;
+
+
+  color:
+    #7c897f;
+
+
+  font-size:
+    11px;
+
+}
+
+
+.loading-state ion-spinner {
+
+  color:
+    var(
+      --futgol-green,
+      #58a942
+    );
+
+}
+
+
+/* ============================= */
+/* CARD                          */
+/* ============================= */
+
+.management-card {
+
+  margin-bottom:
+    13px;
+
+
+  padding:
+    15px;
+
+
+  border:
+    1px solid
+    rgba(
+      28,
+      57,
+      36,
+      0.07
+    );
+
+
+  border-radius:
+    15px;
+
+
+  background:
+    #ffffff;
+
+
+  box-shadow:
+    0 5px 18px
+    rgba(
+      29,
+      48,
+      34,
+      0.04
+    );
+
+}
+
+
+.section-header {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    10px;
+
+}
+
+
+.section-icon {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+
+  width:
+    34px;
+
+  height:
+    34px;
+
+
+  flex-shrink:
+    0;
+
+
+  border-radius:
+    9px;
+
+
+  background:
+    #edf6e9;
+
+
+  color:
+    var(
+      --futgol-green,
+      #58a942
+    );
+
+}
+
+
+.section-icon ion-icon {
+
+  font-size:
+    17px;
+
+}
+
+
+.section-header > div:last-child {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    2px;
+
+}
+
+
+.section-header strong {
+
+  color:
+    #203c27;
+
+
+  font-size:
+    12px;
+
+  font-weight:
+    850;
+
+}
+
+
+.section-header span {
+
+  color:
+    #8a958d;
+
+
+  font-size:
+    9px;
+
+}
+
+
+/* ============================= */
+/* PERÍODO                       */
+/* ============================= */
+
+.period-selector {
+
+  appearance:
+    none;
+
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+
+  width:
+    100%;
+
+
+  margin-top:
+    13px;
+
+
+  padding:
+    11px 12px;
+
+
+  border:
+    1px solid
+    #e4e9e5;
+
+
+  border-radius:
+    10px;
+
+
+  background:
+    #f8faf8;
+
+
+  font-family:
+    inherit;
+
+  text-align:
+    left;
+
+
+  cursor:
+    pointer;
+
+}
+
+
+.period-selector div {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    2px;
+
+}
+
+
+.period-selector small {
+
+  color:
+    #8b968e;
+
+
+  font-size:
+    8px;
+
+}
+
+
+.period-selector strong {
+
+  color:
+    #203c27;
+
+
+  font-size:
+    12px;
+
+  font-weight:
+    800;
+
+}
+
+
+.period-selector ion-icon {
+
+  color:
+    #6d7c70;
+
+
+  font-size:
+    16px;
+
+}
+
+
+/* ============================= */
+/* CATEGORÍAS                    */
+/* ============================= */
+
+.category-list {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+
+  margin-top:
+    12px;
+
+}
+
+
+.category-row {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    10px;
+
+
+  min-height:
+    56px;
+
+
+  padding:
+
+    9px
+
+    0;
+
+
+  border-bottom:
+    1px solid
+    #edf0ed;
+
+}
+
+
+.category-row:last-child {
+
+  border-bottom:
+    0;
+
+}
+
+
+.category-information {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    2px;
+
+
+  min-width:
+    85px;
+
+}
+
+
+.category-information strong {
+
+  color:
+    #263d2c;
+
+
+  font-size:
+    11px;
+
+  font-weight:
+    800;
+
+}
+
+
+.category-information span {
+
+  color:
+    #9aa39d;
+
+
+  font-size:
+    8px;
+
+}
+
+
+.price-editor {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+
+  width:
+    155px;
+
+
+  padding-left:
+    10px;
+
+
+  border:
+    1px solid
+    #dfe5e0;
+
+
+  border-radius:
+    9px;
+
+
+  background:
+    #fafbfa;
+
+
+  overflow:
+    hidden;
+
+}
+
+
+.currency {
+
+  color:
+    #607066;
+
+
+  font-size:
+    11px;
+
+  font-weight:
+    800;
+
+}
+
+
+.price-editor ion-input {
+
+  --padding-start:
+    5px;
+
+  --padding-end:
+    5px;
+
+
+  min-height:
+    38px;
+
+
+  color:
+    #203c27;
+
+
+  font-size:
+    11px;
+
+  font-weight:
+    750;
+
+}
+
+
+.save-price-button {
+
+  appearance:
+    none;
+
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+
+  width:
+    38px;
+
+  height:
+    38px;
+
+
+  flex-shrink:
+    0;
+
+
+  border:
+    0;
+
+
+  background:
+    var(
+      --futgol-green,
+      #58a942
+    );
+
+
+  color:
+    #ffffff;
+
+
+  cursor:
+    pointer;
+
+}
+
+
+.save-price-button ion-icon {
+
+  font-size:
+    16px;
+
+}
+
+
+.save-price-button ion-spinner {
+
+  width:
+    15px;
+
+  height:
+    15px;
+
+}
+
+
+.save-price-button:disabled {
+
+  opacity:
+    0.65;
+
+}
+
+
+/* ============================= */
+/* VENCIMIENTO                   */
+/* ============================= */
+
+.due-date-box {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    12px;
+
+
+  margin-top:
+    13px;
+
+
+  padding:
+    11px;
+
+
+  border:
+    1px solid
+    #e4e9e5;
+
+
+  border-radius:
+    10px;
+
+
+  background:
+    #f8faf8;
+
+}
+
+
+.due-date-information {
+
+  display:
+    flex;
+
+  flex:
+    1;
+
+  flex-direction:
+    column;
+
+  gap:
+    3px;
+
+}
+
+
+.due-date-information small {
+
+  color:
+    #263d2c;
+
+
+  font-size:
+    9px;
+
+  font-weight:
+    800;
+
+}
+
+
+.due-date-information span {
+
+  color:
+    #929d95;
+
+
+  font-size:
+    8px;
+
+  line-height:
+    1.35;
+
+}
+
+
+.due-date-input {
+
+  --padding-start:
+    8px;
+
+  --padding-end:
+    8px;
+
+
+  max-width:
+    135px;
+
+
+  min-height:
+    38px;
+
+
+  border:
+    1px solid
+    #dce3dd;
+
+
+  border-radius:
+    8px;
+
+
+  background:
+    #ffffff;
+
+
+  font-size:
+    10px;
+
+}
+
+
+/* ============================= */
+/* WARNING                       */
+/* ============================= */
+
+.warning-card {
+
+  display:
+    flex;
+
+  gap:
+    10px;
+
+
+  margin-bottom:
+    13px;
+
+
+  padding:
+    12px;
+
+
+  border:
+    1px solid
+    #f2d7a8;
+
+
+  border-radius:
+    12px;
+
+
+  background:
+    #fff9ef;
+
+
+  color:
+    #b2761b;
+
+}
+
+
+.warning-card > ion-icon {
+
+  flex-shrink:
+    0;
+
+
+  margin-top:
+    2px;
+
+
+  font-size:
+    19px;
+
+}
+
+
+.warning-card div {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+}
+
+
+.warning-card strong {
+
+  color:
+    #8b5d17;
+
+
+  font-size:
+    10px;
+
+  font-weight:
+    850;
+
+}
+
+
+.warning-card span {
+
+  margin-top:
+    2px;
+
+
+  font-size:
+    8px;
+
+  line-height:
+    1.4;
+
+}
+
+
+.warning-categories {
+
+  display:
+    flex !important;
+
+  flex-flow:
+    row wrap !important;
+
+  gap:
+    5px;
+
+
+  margin-top:
+    7px;
+
+}
+
+
+.warning-categories span {
+
+  margin:
+    0;
+
+
+  padding:
+    4px 6px;
+
+
+  border-radius:
+    5px;
+
+
+  background:
+    #fbe8c5;
+
+
+  font-size:
+    7px;
+
+  font-weight:
+    800;
+
+}
+
+
+/* ============================= */
+/* GENERADAS                     */
+/* ============================= */
+
+.generated-card {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    10px;
+
+
+  margin-bottom:
+    13px;
+
+
+  padding:
+    12px;
+
+
+  border:
+    1px solid
+    #cee6c8;
+
+
+  border-radius:
+    12px;
+
+
+  background:
+    #f1f9ef;
+
+}
+
+
+.generated-icon {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+
+  width:
+    35px;
+
+  height:
+    35px;
+
+
+  flex-shrink:
+    0;
+
+
+  border-radius:
+    50%;
+
+
+  background:
+    #dff1da;
+
+
+  color:
+    #4fa43b;
+
+}
+
+
+.generated-icon ion-icon {
+
+  font-size:
+    20px;
+
+}
+
+
+.generated-card > div:last-child {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    2px;
+
+}
+
+
+.generated-card strong {
+
+  color:
+    #347a26;
+
+
+  font-size:
+    10px;
+
+  font-weight:
+    850;
+
+}
+
+
+.generated-card span {
+
+  color:
+    #779171;
+
+
+  font-size:
+    8px;
+
+  line-height:
+    1.35;
+
+}
+
+
+/* ============================= */
+/* RESUMEN                       */
+/* ============================= */
+
+.summary-grid {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      1fr
+    );
+
+
+  gap:
+    8px;
+
+
+  margin-top:
+    13px;
+
+}
+
+
+.summary-item {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    3px;
+
+
+  padding:
+    10px;
+
+
+  border-radius:
+    9px;
+
+
+  background:
+    #f6f8f6;
+
+}
+
+
+.summary-item span {
+
+  color:
+    #8a968e;
+
+
+  font-size:
+    8px;
+
+}
+
+
+.summary-item strong {
+
+  color:
+    #263d2c;
+
+
+  font-size:
+    16px;
+
+  font-weight:
+    900;
+
+}
+
+
+.summary-item.highlighted {
+
+  background:
+    #edf6e9;
+
+}
+
+
+.summary-item.highlighted strong {
+
+  color:
+    #4b9939;
+
+}
+
+
+.summary-item.total {
+
+  background:
+    #203c27;
+
+}
+
+
+.summary-item.total span {
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.7
+    );
+
+}
+
+
+.summary-item.total strong {
+
+  color:
+    #ffffff;
+
+
+  font-size:
+    14px;
+
+}
+
+
+.summary-due-date {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    6px;
+
+
+  margin-top:
+    10px;
+
+
+  padding-top:
+    10px;
+
+
+  border-top:
+    1px solid
+    #edf0ed;
+
+
+  color:
+    #78857b;
+
+
+  font-size:
+    8px;
+
+}
+
+
+.summary-due-date ion-icon {
+
+  color:
+    var(
+      --futgol-green,
+      #58a942
+    );
+
+
+  font-size:
+    13px;
+
+}
+
+
+.summary-due-date strong {
+
+  color:
+    #334d39;
+
+}
+
+
+/* ============================= */
+/* GENERAR                       */
+/* ============================= */
+
+.generate-button {
+
+  appearance:
+    none;
+
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    8px;
+
+
+  width:
+    100%;
+
+
+  min-height:
+    48px;
+
+
+  padding:
+    12px;
+
+
+  border:
+    0;
+
+
+  border-radius:
+    12px;
+
+
+  background:
+    var(
+      --futgol-green,
+      #58a942
+    );
+
+
+  color:
+    #ffffff;
+
+
+  font-family:
+    inherit;
+
+  font-size:
+    11px;
+
+  font-weight:
+    850;
+
+
+  cursor:
+    pointer;
+
+
+  box-shadow:
+    0 7px 18px
+    rgba(
+      79,
+      156,
+      57,
+      0.22
+    );
+
+}
+
+
+.generate-button ion-icon {
+
+  font-size:
+    18px;
+
+}
+
+
+.generate-button ion-spinner {
+
+  width:
+    17px;
+
+  height:
+    17px;
+
+}
+
+
+.generate-button:disabled {
+
+  background:
+    #c4cbc5;
+
+
+  box-shadow:
+    none;
+
+
+  cursor:
+    default;
+
+}
+
+
+.generation-help {
+
+  margin:
+
+    8px
+
+    15px
+
+    0;
+
+
+  color:
+    #929d95;
+
+
+  font-size:
+    8px;
+
+  line-height:
+    1.4;
+
+  text-align:
+    center;
+
+}
+
+
+.empty-state {
+
+  padding:
+    15px 0;
+
+
+  color:
+    #919c94;
+
+
+  font-size:
+    9px;
+
+  text-align:
+    center;
+
+}

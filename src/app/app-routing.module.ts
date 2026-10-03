@@ -1,75 +1,92 @@
-import { NgModule } from '@angular/core';
+import {
+  NgModule,
+} from '@angular/core';
+
 import {
   PreloadAllModules,
   RouterModule,
-  Routes
+  Routes,
 } from '@angular/router';
 
-const routes: Routes = [
+
+const routes:
+  Routes = [
+
   {
-    path: 'login',
+    path:
+      'login',
+
     loadChildren: () =>
-      import('./auth/login/login.module')
-        .then(m => m.LoginPageModule)
-  },
-  {
-    path: 'app',
-    loadChildren: () =>
-      import('./layout/layout.module')
-        .then(m => m.LayoutPageModule)
-  },
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
-  {
-    path: '**',
-    redirectTo: 'login'
-  },
-  {
-    path: 'calendario',
-    loadChildren: () => import('./calendario/calendario.module').then( m => m.CalendarioPageModule)
-  },
-  {
-    path: 'alumno-detalle',
-    loadChildren: () => import('./alumno-detalle/alumno-detalle.module').then( m => m.AlumnoDetallePageModule)
-  },
-  {
-    path: 'avisos',
-    loadChildren: () => import('./avisos/avisos.module').then( m => m.AvisosPageModule)
-  },  {
-    path: 'responsable-home',
-    loadChildren: () => import('./responsable-home/responsable-home.module').then( m => m.ResponsableHomePageModule)
-  },
-  {
-    path: 'mis-cuotas',
-    loadChildren: () => import('./mis-cuotas/mis-cuotas.module').then( m => m.MisCuotasPageModule)
-  },
-  {
-    path: 'nuevo-usuario',
-    loadChildren: () => import('./nuevo-usuario/nuevo-usuario.module').then( m => m.NuevoUsuarioPageModule)
-  },
-  {
-    path: 'nuevo-alumno',
-    loadChildren: () => import('./nuevo-alumno/nuevo-alumno.module').then( m => m.NuevoAlumnoPageModule)
+      import(
+        './auth/login/login.module'
+      )
+        .then(
+          m =>
+            m.LoginPageModule,
+        ),
   },
 
-  // {
-  //   path: 'alumnos',
-  //   loadChildren: () => import('./alumnos/alumnos.module').then( m => m.AlumnosPageModule)
-  // }
+
+  {
+    path:
+      'app',
+
+    loadChildren: () =>
+      import(
+        './layout/layout.module'
+      )
+        .then(
+          m =>
+            m.LayoutPageModule,
+        ),
+  },
+
+
+  {
+    path:
+      '',
+
+    redirectTo:
+      'login',
+
+    pathMatch:
+      'full',
+  },
+
+
+  {
+    path:
+      '**',
+
+    redirectTo:
+      'login',
+  },
+
 ];
 
+
 @NgModule({
+
   imports: [
-  RouterModule.forRoot(routes, {
-  preloadingStrategy: PreloadAllModules,
-  useHash: true
-})
+
+    RouterModule.forRoot(
+      routes,
+      {
+
+        preloadingStrategy:
+          PreloadAllModules,
+
+        useHash:
+          true,
+
+      },
+    ),
+
   ],
+
   exports: [
-    RouterModule
-  ]
+    RouterModule,
+  ],
+
 })
 export class AppRoutingModule {}

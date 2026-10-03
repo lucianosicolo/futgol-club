@@ -1,10 +1,11 @@
-<main class="attendance-container">
+<main class="asistencia-container">
+
 
   <!-- ======================= -->
   <!-- ENCABEZADO              -->
   <!-- ======================= -->
 
-  <section class="attendance-intro">
+  <section class="asistencia-intro">
 
     <span class="section-label">
       ENTRENAMIENTO
@@ -45,11 +46,13 @@
   <!-- CONTENIDO               -->
   <!-- ======================= -->
 
-  <ng-container *ngIf="!loading">
+  <ng-container
+    *ngIf="!loading"
+  >
 
 
     <!-- ======================= -->
-    <!-- SELECTOR DE CATEGORÍA   -->
+    <!-- SELECTOR CATEGORÍA      -->
     <!-- ======================= -->
 
     <div
@@ -57,7 +60,9 @@
       *ngIf="categories.length > 0"
     >
 
-      <div class="category-selector-icon">
+      <div
+        class="category-selector-icon"
+      >
 
         <ion-icon
           name="people-outline"
@@ -66,7 +71,9 @@
       </div>
 
 
-      <div class="category-selector-content">
+      <div
+        class="category-selector-content"
+      >
 
         <span>
           Categoría
@@ -103,11 +110,11 @@
 
 
     <!-- ======================= -->
-    <!-- TARJETA ASISTENCIA      -->
+    <!-- TARJETA                 -->
     <!-- ======================= -->
 
     <ion-card
-      class="attendance-card"
+      class="asistencia-card"
       *ngIf="categories.length > 0"
     >
 
@@ -116,13 +123,15 @@
       <!-- FECHA                   -->
       <!-- ======================= -->
 
-      <div class="attendance-navigation">
+      <div
+        class="asistencia-navigation"
+      >
 
         <ion-button
           type="button"
           fill="clear"
           (click)="previousClass()"
-          aria-label="Entrenamiento anterior"
+          aria-label="Día anterior"
         >
 
           <ion-icon
@@ -132,7 +141,9 @@
         </ion-button>
 
 
-        <div class="attendance-date">
+        <div
+          class="asistencia-date"
+        >
 
           <small>
             Asistencia del día
@@ -149,7 +160,7 @@
           type="button"
           fill="clear"
           (click)="nextClass()"
-          aria-label="Entrenamiento siguiente"
+          aria-label="Día siguiente"
         >
 
           <ion-icon
@@ -166,8 +177,8 @@
       <!-- ======================= -->
 
       <div
-        class="attendance-loading"
-        *ngIf="attendanceLoading"
+        class="asistencia-loading"
+        *ngIf="asistenciaLoading"
       >
 
         <ion-spinner
@@ -181,14 +192,18 @@
       </div>
 
 
-      <ng-container *ngIf="!attendanceLoading">
+      <ng-container
+        *ngIf="!asistenciaLoading"
+      >
 
 
         <!-- ======================= -->
         <!-- RESUMEN                 -->
         <!-- ======================= -->
 
-        <div class="attendance-summary">
+        <div
+          class="asistencia-summary"
+        >
 
           <div>
 
@@ -209,7 +224,9 @@
               Sin marcar
             </span>
 
-            <strong class="pending-count">
+            <strong
+              class="pending-count"
+            >
               {{ pendingStudentsCount }}
             </strong>
 
@@ -222,7 +239,9 @@
               Total
             </span>
 
-            <strong class="total-count">
+            <strong
+              class="total-count"
+            >
               {{ filteredStudents.length }}
             </strong>
 
@@ -232,36 +251,42 @@
 
 
         <!-- ======================= -->
-        <!-- LISTA DE ALUMNOS        -->
+        <!-- LISTA                   -->
         <!-- ======================= -->
 
         <ion-list
           class="student-list"
           lines="full"
-          *ngIf="filteredStudents.length > 0"
+          *ngIf="
+            filteredStudents.length > 0
+          "
         >
 
           <ion-item
+            class="student-item"
             *ngFor="
               let student
               of filteredStudents;
               trackBy: trackByStudentId
             "
             [class.student-present]="
-              student.status === 'present'
+              student.status ===
+              'present'
             "
-            (click)="changeStatus(student)"
+            (click)="
+              changeStatus(
+                student
+              )
+            "
           >
 
-            <!-- FOTO -->
 
-            <ion-avatar slot="start">
+            <ion-avatar
+              slot="start"
+            >
 
               <img
-                [src]="
-                  student.avatar ||
-                  'assets/section/usuario.png'
-                "
+                [src]="student.avatar"
                 [alt]="
                   'Foto de ' +
                   student.name
@@ -270,8 +295,6 @@
 
             </ion-avatar>
 
-
-            <!-- DATOS -->
 
             <ion-label>
 
@@ -287,13 +310,12 @@
             </ion-label>
 
 
-            <!-- ESTADO -->
-
             <div
               slot="end"
               class="student-status"
               [class.present]="
-                student.status === 'present'
+                student.status ===
+                'present'
               "
             >
 
@@ -325,7 +347,7 @@
 
 
         <!-- ======================= -->
-        <!-- SIN ALUMNOS             -->
+        <!-- SIN ALUMNOS CATEGORÍA   -->
         <!-- ======================= -->
 
         <div
@@ -361,7 +383,9 @@
           "
         >
 
-          <div class="save-information">
+          <div
+            class="save-information"
+          >
 
             <ion-icon
               name="information-circle-outline"
@@ -389,17 +413,15 @@
             expand="block"
             class="save-button"
             [disabled]="
-              savingAttendance ||
-              attendanceLoading
+              savingAsistencia ||
+              asistenciaLoading
             "
-            (click)="saveAttendance()"
+            (click)="saveAsistencia()"
           >
 
 
-            <!-- GUARDANDO -->
-
             <ng-container
-              *ngIf="savingAttendance"
+              *ngIf="savingAsistencia"
             >
 
               <ion-spinner
@@ -413,10 +435,8 @@
             </ng-container>
 
 
-            <!-- NORMAL -->
-
             <ng-container
-              *ngIf="!savingAttendance"
+              *ngIf="!savingAsistencia"
             >
 
               <span>
@@ -441,7 +461,7 @@
 
 
     <!-- ======================= -->
-    <!-- SIN ALUMNOS ACTIVOS     -->
+    <!-- SIN ALUMNOS             -->
     <!-- ======================= -->
 
     <section

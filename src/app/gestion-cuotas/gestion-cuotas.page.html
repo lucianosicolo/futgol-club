@@ -1,0 +1,686 @@
+<ion-content
+  class="fees-management-content"
+>
+
+  <div
+    class="fees-management-container"
+  >
+
+
+    <!-- ======================= -->
+    <!-- HEADER                  -->
+    <!-- ======================= -->
+
+    <section
+      class="page-header"
+    >
+
+      <div
+        class="header-icon"
+      >
+
+        <ion-icon
+          name="settings-outline"
+        ></ion-icon>
+
+      </div>
+
+
+      <div>
+
+        <span
+          class="eyebrow"
+        >
+          ADMINISTRATIVO
+        </span>
+
+        <h1>
+          Gestión de cuotas
+        </h1>
+
+        <p>
+          Configurá los aranceles y generá
+          las cuotas mensuales del club.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================= -->
+    <!-- LOADING                 -->
+    <!-- ======================= -->
+
+    <div
+      class="loading-state"
+      *ngIf="loading"
+    >
+
+      <ion-spinner
+        name="crescent"
+      ></ion-spinner>
+
+      <span>
+        Cargando información...
+      </span>
+
+    </div>
+
+
+    <ng-container
+      *ngIf="!loading"
+    >
+
+
+      <!-- ======================= -->
+      <!-- PERÍODO                 -->
+      <!-- ======================= -->
+
+      <section
+        class="management-card"
+      >
+
+        <div
+          class="section-header"
+        >
+
+          <div
+            class="section-icon"
+          >
+            <ion-icon
+              name="calendar-outline"
+            ></ion-icon>
+          </div>
+
+
+          <div>
+
+            <strong>
+              Período
+            </strong>
+
+            <span>
+              Mes que querés administrar
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="period-selector"
+          (click)="openMonthSelector()"
+        >
+
+          <div>
+
+            <small>
+              Período seleccionado
+            </small>
+
+            <strong>
+              {{ currentPeriod }}
+            </strong>
+
+          </div>
+
+
+          <ion-icon
+            name="chevron-down-outline"
+          ></ion-icon>
+
+        </button>
+
+      </section>
+
+
+      <!-- ======================= -->
+      <!-- ARANCELES               -->
+      <!-- ======================= -->
+
+      <section
+        class="management-card"
+      >
+
+        <div
+          class="section-title-row"
+        >
+
+          <div
+            class="section-header"
+          >
+
+            <div
+              class="section-icon"
+            >
+
+              <ion-icon
+                name="pricetag-outline"
+              ></ion-icon>
+
+            </div>
+
+
+            <div>
+
+              <strong>
+                Aranceles
+              </strong>
+
+              <span>
+                Valor mensual por categoría
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="category-list"
+        >
+
+          <div
+            class="category-row"
+            *ngFor="
+              let category
+              of categories
+            "
+          >
+
+            <div
+              class="category-information"
+            >
+
+              <strong>
+                {{ category.name }}
+              </strong>
+
+              <span>
+                Cuota mensual
+              </span>
+
+            </div>
+
+
+            <div
+              class="price-editor"
+            >
+
+              <span
+                class="currency"
+              >
+                $
+              </span>
+
+
+              <ion-input
+
+                type="number"
+
+                inputmode="decimal"
+
+                min="1"
+
+                [(ngModel)]="
+                  category.monthly_fee
+                "
+
+              ></ion-input>
+
+
+              <button
+
+                type="button"
+
+                class="save-price-button"
+
+                [disabled]="
+                  savingCategoryId !== null
+                "
+
+                (click)="
+                  saveCategoryPrice(
+                    category
+                  )
+                "
+
+              >
+
+                <ion-spinner
+
+                  *ngIf="
+                    savingCategoryId ===
+                    category.id
+                  "
+
+                  name="crescent"
+
+                ></ion-spinner>
+
+
+                <ion-icon
+
+                  *ngIf="
+                    savingCategoryId !==
+                    category.id
+                  "
+
+                  name="checkmark-outline"
+
+                ></ion-icon>
+
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="empty-state"
+            *ngIf="
+              categories.length === 0
+            "
+          >
+
+            No hay categorías activas.
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ======================= -->
+      <!-- VENCIMIENTO             -->
+      <!-- ======================= -->
+
+      <section
+        class="management-card"
+      >
+
+        <div
+          class="section-header"
+        >
+
+          <div
+            class="section-icon"
+          >
+
+            <ion-icon
+              name="time-outline"
+            ></ion-icon>
+
+          </div>
+
+
+          <div>
+
+            <strong>
+              Vencimiento
+            </strong>
+
+            <span>
+              Fecha límite de pago
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="due-date-box"
+        >
+
+          <div
+            class="due-date-information"
+          >
+
+            <small>
+              Fecha de vencimiento
+            </small>
+
+            <span>
+              Hasta este día podrán pagar
+              la cuota de {{ currentPeriod }}.
+            </span>
+
+          </div>
+
+
+          <ion-input
+
+            class="due-date-input"
+
+            type="date"
+
+            [(ngModel)]="
+              dueDate
+            "
+
+          ></ion-input>
+
+        </div>
+
+      </section>
+
+
+      <!-- ======================= -->
+      <!-- FALTAN PRECIOS          -->
+      <!-- ======================= -->
+
+      <div
+        class="warning-card"
+        *ngIf="
+          missingPriceCategories.length >
+          0
+        "
+      >
+
+        <ion-icon
+          name="warning-outline"
+        ></ion-icon>
+
+
+        <div>
+
+          <strong>
+            Hay categorías sin precio
+          </strong>
+
+          <span>
+            Configurá el valor mensual antes
+            de generar las cuotas.
+          </span>
+
+
+          <div
+            class="warning-categories"
+          >
+
+            <span
+              *ngFor="
+                let category
+                of missingPriceCategories
+              "
+            >
+
+              {{ category.name }}
+
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ======================= -->
+      <!-- YA GENERADAS            -->
+      <!-- ======================= -->
+
+      <div
+        class="generated-card"
+        *ngIf="
+          allFeesGenerated
+        "
+      >
+
+        <div
+          class="generated-icon"
+        >
+
+          <ion-icon
+            name="checkmark-circle-outline"
+          ></ion-icon>
+
+        </div>
+
+
+        <div>
+
+          <strong>
+            Cuotas ya generadas
+          </strong>
+
+          <span>
+            Todos los alumnos activos ya
+            tienen su cuota de
+            {{ currentPeriod }}.
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- ======================= -->
+      <!-- RESUMEN                 -->
+      <!-- ======================= -->
+
+      <section
+        class="
+          management-card
+          summary-card
+        "
+      >
+
+        <div
+          class="section-header"
+        >
+
+          <div
+            class="section-icon"
+          >
+
+            <ion-icon
+              name="receipt-outline"
+            ></ion-icon>
+
+          </div>
+
+
+          <div>
+
+            <strong>
+              Resumen
+            </strong>
+
+            <span>
+              {{ currentPeriod }}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="summary-grid"
+        >
+
+          <div
+            class="summary-item"
+          >
+
+            <span>
+              Alumnos activos
+            </span>
+
+            <strong>
+              {{ totalStudents }}
+            </strong>
+
+          </div>
+
+
+          <div
+            class="summary-item"
+          >
+
+            <span>
+              Ya generadas
+            </span>
+
+            <strong>
+              {{ generatedStudentsCount }}
+            </strong>
+
+          </div>
+
+
+          <div
+            class="
+              summary-item
+              highlighted
+            "
+          >
+
+            <span>
+              A generar
+            </span>
+
+            <strong>
+              {{ pendingStudentsCount }}
+            </strong>
+
+          </div>
+
+
+          <div
+            class="
+              summary-item
+              total
+            "
+          >
+
+            <span>
+              Total estimado
+            </span>
+
+            <strong>
+
+              $
+              {{
+                formatMoney(
+                  projectedTotal
+                )
+              }}
+
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="summary-due-date"
+        >
+
+          <ion-icon
+            name="calendar-clear-outline"
+          ></ion-icon>
+
+          <span>
+            Vencimiento:
+            <strong>
+              {{ formatDate(dueDate) }}
+            </strong>
+          </span>
+
+        </div>
+
+      </section>
+
+
+      <!-- ======================= -->
+      <!-- GENERAR                 -->
+      <!-- ======================= -->
+
+      <button
+
+        type="button"
+
+        class="generate-button"
+
+        [disabled]="
+          !canGenerate
+        "
+
+        (click)="
+          confirmGenerateFees()
+        "
+
+      >
+
+        <ion-spinner
+
+          *ngIf="
+            generatingFees
+          "
+
+          name="crescent"
+
+        ></ion-spinner>
+
+
+        <ion-icon
+
+          *ngIf="
+            !generatingFees
+          "
+
+          [name]="
+            allFeesGenerated
+              ? 'checkmark-circle-outline'
+              : 'add-circle-outline'
+          "
+
+        ></ion-icon>
+
+
+        <span>
+
+          {{
+            generatingFees
+              ? 'Generando cuotas...'
+              : allFeesGenerated
+                ? 'Cuotas ya generadas'
+                : 'Generar cuotas de ' +
+                  currentPeriod
+          }}
+
+        </span>
+
+      </button>
+
+
+      <p
+        class="generation-help"
+        *ngIf="
+          !allFeesGenerated
+        "
+      >
+
+        Solo se crearán cuotas para
+        alumnos que todavía no tengan una
+        cuota en este período.
+
+      </p>
+
+
+    </ng-container>
+
+  </div>
+
+</ion-content>

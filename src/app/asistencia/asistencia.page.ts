@@ -27,6 +27,7 @@ interface CategoryApi {
 
 
 interface StudentApi {
+
   id: string;
 
   name: string;
@@ -41,10 +42,12 @@ interface StudentApi {
   active: boolean;
 
   category?: CategoryApi | null;
+
 }
 
 
-interface AttendanceApi {
+interface AsistenciaApi {
+
   id: string;
 
   date: string;
@@ -59,15 +62,17 @@ interface AttendanceApi {
 
   created_at?: string;
   updated_at?: string;
+
 }
 
 
-type AttendanceStatus =
+type AsistenciaStatus =
   | 'pending'
   | 'present';
 
 
-interface AttendanceStudent {
+interface AsistenciaStudent {
+
   id: string;
 
   name: string;
@@ -77,15 +82,24 @@ interface AttendanceStudent {
 
   avatar: string;
 
-  status: AttendanceStatus;
+  status: AsistenciaStatus;
+
 }
 
 
 @Component({
-  selector: 'app-asistencia',
-  templateUrl: './asistencia.page.html',
-  styleUrls: ['./asistencia.page.scss'],
-  standalone: false,
+  selector:
+    'app-asistencia',
+
+  templateUrl:
+    './asistencia.page.html',
+
+  styleUrls: [
+    './asistencia.page.scss',
+  ],
+
+  standalone:
+    false,
 })
 export class AsistenciaPage
   implements OnInit {
@@ -99,16 +113,16 @@ export class AsistenciaPage
     false;
 
 
-  attendanceLoading =
+  asistenciaLoading =
     false;
 
 
-  savingAttendance =
+  savingAsistencia =
     false;
 
 
   students:
-    AttendanceStudent[] =
+    AsistenciaStudent[] =
     [];
 
 
@@ -135,14 +149,8 @@ export class AsistenciaPage
   /* INIT                          */
   /* ============================= */
 
-  ngOnInit(): void {
-
-    this.loadStudents();
-
-  }
-
-
-  ionViewWillEnter(): void {
+  ngOnInit():
+    void {
 
     this.loadStudents();
 
@@ -188,20 +196,22 @@ export class AsistenciaPage
         this.selectedDate
           .getMonth() +
         1,
-      ).padStart(
-        2,
-        '0',
-      );
+      )
+        .padStart(
+          2,
+          '0',
+        );
 
 
     const day =
       String(
         this.selectedDate
           .getDate(),
-      ).padStart(
-        2,
-        '0',
-      );
+      )
+        .padStart(
+          2,
+          '0',
+        );
 
 
     return (
@@ -215,7 +225,8 @@ export class AsistenciaPage
   /* CARGAR ALUMNOS                */
   /* ============================= */
 
-  loadStudents(): void {
+  loadStudents():
+    void {
 
     this.loading =
       true;
@@ -278,7 +289,7 @@ export class AsistenciaPage
 
             if (
               availableCategories.length >
-              0 &&
+                0 &&
               (
                 !this.selectedCategory ||
                 !availableCategories.includes(
@@ -299,10 +310,10 @@ export class AsistenciaPage
 
             /*
              * Después de cargar alumnos,
-             * recuperamos la asistencia
+             * cargamos la asistencia
              * de la fecha seleccionada.
              */
-            this.loadAttendance();
+            this.loadAsistencia();
 
           },
 
@@ -311,7 +322,7 @@ export class AsistenciaPage
           error => {
 
             console.error(
-              'Error cargando alumnos:',
+              'ERROR CARGANDO ALUMNOS:',
               error,
             );
 
@@ -337,18 +348,19 @@ export class AsistenciaPage
 
 
   /* ============================= */
-  /* CARGAR ASISTENCIA DEL DÍA     */
+  /* CARGAR ASISTENCIA             */
   /* ============================= */
 
-  loadAttendance(): void {
+  loadAsistencia():
+    void {
 
-    this.attendanceLoading =
+    this.asistenciaLoading =
       true;
 
 
     /*
-     * Primero dejamos a todos
-     * sin marcar.
+     * Antes de aplicar lo guardado,
+     * dejamos a todos sin marcar.
      */
     this.students.forEach(
       student => {
@@ -362,7 +374,7 @@ export class AsistenciaPage
 
     this.http
       .get<
-        ApiResponse<AttendanceApi[]>
+        ApiResponse<AsistenciaApi[]>
       >(
         `${this.apiUrl}/asistencia?date=${this.selectedDateValue}`,
       )
@@ -371,37 +383,35 @@ export class AsistenciaPage
         next:
           response => {
 
-            const attendances =
+            const asistencias =
               response.result ??
               [];
 
 
             console.log(
               'ASISTENCIA DEL DÍA:',
-              attendances,
+              asistencias,
             );
 
 
-            attendances.forEach(
-              attendance => {
+            asistencias.forEach(
+              asistencia => {
 
                 const student =
                   this.students.find(
                     item =>
                       item.id ===
-                      attendance.student.id,
+                      asistencia.student.id,
                   );
 
 
                 if (!student) {
-
                   return;
-
                 }
 
 
                 student.status =
-                  attendance.present
+                  asistencia.present
                     ? 'present'
                     : 'pending';
 
@@ -409,7 +419,7 @@ export class AsistenciaPage
             );
 
 
-            this.attendanceLoading =
+            this.asistenciaLoading =
               false;
 
           },
@@ -419,12 +429,12 @@ export class AsistenciaPage
           error => {
 
             console.error(
-              'Error cargando asistencia:',
+              'ERROR CARGANDO ASISTENCIA:',
               error,
             );
 
 
-            this.attendanceLoading =
+            this.asistenciaLoading =
               false;
 
           },
@@ -465,7 +475,8 @@ export class AsistenciaPage
 
   changeCategory(
     category: string,
-  ): void {
+  ):
+    void {
 
     this.selectedCategory =
       category;
@@ -478,7 +489,7 @@ export class AsistenciaPage
   /* ============================= */
 
   get filteredStudents():
-    AttendanceStudent[] {
+    AsistenciaStudent[] {
 
     if (
       !this.selectedCategory
@@ -536,9 +547,10 @@ export class AsistenciaPage
     _index: number,
 
     student:
-      AttendanceStudent,
+      AsistenciaStudent,
 
-  ): string {
+  ):
+    string {
 
     return student.id;
 
@@ -551,8 +563,9 @@ export class AsistenciaPage
 
   changeStatus(
     student:
-      AttendanceStudent,
-  ): void {
+      AsistenciaStudent,
+  ):
+    void {
 
     student.status =
       student.status ===
@@ -565,8 +578,9 @@ export class AsistenciaPage
 
   getStatusIcon(
     status:
-      AttendanceStatus,
-  ): string {
+      AsistenciaStatus,
+  ):
+    string {
 
     return status ===
       'present'
@@ -580,7 +594,7 @@ export class AsistenciaPage
   /* GUARDAR ASISTENCIA            */
   /* ============================= */
 
-  async saveAttendance():
+  async saveAsistencia():
     Promise<void> {
 
     if (
@@ -598,7 +612,7 @@ export class AsistenciaPage
     }
 
 
-    this.savingAttendance =
+    this.savingAsistencia =
       true;
 
 
@@ -628,9 +642,9 @@ export class AsistenciaPage
 
     this.http
       .post<
-        ApiResponse<AttendanceApi[]>
+        ApiResponse<AsistenciaApi[]>
       >(
-        `${this.apiUrl}/attendances`,
+        `${this.apiUrl}/asistencia`,
         payload,
       )
       .subscribe({
@@ -644,7 +658,7 @@ export class AsistenciaPage
             );
 
 
-            this.savingAttendance =
+            this.savingAsistencia =
               false;
 
 
@@ -670,7 +684,7 @@ export class AsistenciaPage
             );
 
 
-            this.savingAttendance =
+            this.savingAsistencia =
               false;
 
 
@@ -687,10 +701,11 @@ export class AsistenciaPage
 
 
   /* ============================= */
-  /* NAVEGACIÓN DE FECHA           */
+  /* CAMBIAR FECHA                 */
   /* ============================= */
 
-  previousClass(): void {
+  previousClass():
+    void {
 
     const previousDate =
       new Date(
@@ -708,12 +723,13 @@ export class AsistenciaPage
       previousDate;
 
 
-    this.loadAttendance();
+    this.loadAsistencia();
 
   }
 
 
-  nextClass(): void {
+  nextClass():
+    void {
 
     const nextDate =
       new Date(
@@ -731,7 +747,7 @@ export class AsistenciaPage
       nextDate;
 
 
-    this.loadAttendance();
+    this.loadAsistencia();
 
   }
 
@@ -745,10 +761,11 @@ export class AsistenciaPage
     message: string,
 
     color:
-      'success' |
-      'danger',
+      | 'success'
+      | 'danger',
 
-  ): Promise<void> {
+  ):
+    Promise<void> {
 
     const toast =
       await this.toastController

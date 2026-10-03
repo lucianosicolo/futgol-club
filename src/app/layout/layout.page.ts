@@ -23,7 +23,10 @@ interface LoggedUser {
 
   phone: string;
 
-  role: string;
+  role:
+    | 'admin'
+    | 'teacher'
+    | 'responsible';
 
   active: boolean;
 
@@ -31,10 +34,18 @@ interface LoggedUser {
 
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.page.html',
-  styleUrls: ['./layout.page.scss'],
-  standalone: false,
+  selector:
+    'app-layout',
+
+  templateUrl:
+    './layout.page.html',
+
+  styleUrls: [
+    './layout.page.scss',
+  ],
+
+  standalone:
+    false,
 })
 export class LayoutPage {
 
@@ -51,7 +62,7 @@ export class LayoutPage {
 
 
   /* ============================= */
-  /* USUARIO                      */
+  /* USUARIO                       */
   /* ============================= */
 
   get user():
@@ -86,6 +97,28 @@ export class LayoutPage {
   }
 
 
+  get isAdmin():
+    boolean {
+
+    return (
+      this.user?.role ===
+      'admin'
+    );
+
+  }
+
+
+  get isTeacher():
+    boolean {
+
+    return (
+      this.user?.role ===
+      'teacher'
+    );
+
+  }
+
+
   get isResponsible():
     boolean {
 
@@ -97,38 +130,14 @@ export class LayoutPage {
   }
 
 
-  get isAdminOrTeacher():
-    boolean {
-
-    return (
-      this.user?.role === 'admin' ||
-      this.user?.role === 'teacher'
-    );
-
-  }
+ 
 
 
   /* ============================= */
-  /* VOLVER                       */
+  /* VOLVER                        */
   /* ============================= */
 
   goBack(): void {
-
-
-    if (
-      this.router.url.startsWith(
-        '/app/nuevo-pago',
-      )
-    ) {
-
-      void this.router.navigateByUrl(
-        '/app/pagos',
-      );
-
-      return;
-
-    }
-
 
     this.location.back();
 
@@ -136,7 +145,7 @@ export class LayoutPage {
 
 
   /* ============================= */
-  /* PÁGINAS                      */
+  /* HOME                          */
   /* ============================= */
 
   get isHomePage():
@@ -147,12 +156,8 @@ export class LayoutPage {
       this.isResponsible
     ) {
 
-      return (
-        this.router.url ===
-          '/app/familia' ||
-        this.router.url.startsWith(
-          '/app/familia',
-        )
+      return this.router.url.startsWith(
+        '/app/familia',
       );
 
     }
@@ -169,28 +174,43 @@ export class LayoutPage {
   }
 
 
-  get isPaymentsPage():
+  /* ============================= */
+  /* ADMINISTRATIVO                */
+  /* ============================= */
+
+  get isAdministrativePage():
     boolean {
 
     return (
+
+      this.router.url.startsWith(
+        '/app/administrativo',
+      ) ||
+
+      this.router.url.startsWith(
+        '/app/gestion-cuotas',
+      ) ||
+
       this.router.url.startsWith(
         '/app/pagos',
-      ) ||
-      this.router.url.startsWith(
-        '/app/nuevo-pago',
       )
+
     );
 
   }
 
 
-  get isResponsibleFeesPage():
-    boolean {
+  /* ============================= */
+  /* RESPONSABLE - CUOTAS          */
+  /* ============================= */
 
-    return this.router.url.startsWith(
-      '/app/responsable-cuotas',
-    );
+get isResponsibleFeesPage():
+  boolean {
 
-  }
+  return this.router.url.startsWith(
+    '/app/responsable-cuotas',
+  );
+
+}
 
 }

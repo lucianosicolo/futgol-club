@@ -11,76 +11,315 @@
   --its-border: #e3e8e1;
 }
 
-/* Contenedor */
 
-.attendance-container {
+/* ============================= */
+/* CONTENEDOR                    */
+/* ============================= */
+
+.asistencia-container {
   width: 100%;
   max-width: 540px;
+
   margin: 0 auto;
-  padding: 24px 14px 38px;
+
+  padding:
+    24px
+    14px
+    38px;
 }
 
-/* Introducción */
 
-.attendance-intro {
+/* ============================= */
+/* INTRO                         */
+/* ============================= */
+
+.asistencia-intro {
   margin-bottom: 19px;
+
   text-align: center;
+
 
   .section-label {
     display: block;
+
     margin-bottom: 5px;
 
-    color: var(--its-green);
+    color:
+      var(--its-green);
+
     font-size: 9px;
+
     font-weight: 850;
+
     letter-spacing: 0.9px;
   }
 
-  h1 {
-    margin: 0 0 7px;
 
-    color: var(--its-text);
+  h1 {
+    margin:
+      0
+      0
+      7px;
+
+    color:
+      var(--its-text);
+
     font-size: 21px;
+
     font-weight: 850;
+
     line-height: 1.15;
+
     letter-spacing: -0.5px;
   }
 
+
   p {
     max-width: 290px;
+
     margin: 0 auto;
 
-    color: var(--its-muted);
+    color:
+      var(--its-muted);
+
     font-size: 12px;
+
     line-height: 1.45;
   }
 }
 
-/* Tarjeta principal */
 
-.attendance-card {
-  --background: #ffffff;
-  --color: var(--its-text);
+/* ============================= */
+/* LOADING                       */
+/* ============================= */
 
-  margin: 0;
-  overflow: hidden;
+.students-loading,
+.asistencia-loading {
 
-  background: #ffffff;
-  border: 1px solid var(--its-border);
-  border-radius: 16px;
+  display: flex;
 
-  box-shadow:
-    0 5px 18px rgba(30, 45, 30, 0.075);
-}
-
-/* Selector de fecha */
-
-.attendance-navigation {
-  display: grid;
-  grid-template-columns: 48px minmax(0, 1fr) 48px;
   align-items: center;
 
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+
+  min-height: 120px;
+
+
+  color:
+    var(--its-muted);
+
+
+  font-size: 11px;
+
+
+  ion-spinner {
+    width: 25px;
+    height: 25px;
+
+    color:
+      var(--its-green);
+  }
+}
+
+
+.asistencia-loading {
+  min-height: 100px;
+}
+
+
+/* ============================= */
+/* SELECTOR CATEGORÍA            */
+/* ============================= */
+
+.category-selector {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+
+  margin-bottom: 14px;
+
+  padding:
+    8px
+    10px;
+
+
+  background: #ffffff;
+
+
+  border:
+    1px
+    solid
+    var(--its-border);
+
+  border-radius: 10px;
+
+}
+
+
+.category-selector-icon {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+
+  flex-shrink: 0;
+
+
+  width: 29px;
+
+  height: 29px;
+
+
+  background:
+    var(--its-green-soft);
+
+
+  border-radius: 7px;
+
+
+  ion-icon {
+
+    color:
+      var(--its-green);
+
+    font-size: 16px;
+
+  }
+
+}
+
+
+.category-selector-content {
+
+  display: flex;
+
+  align-items: center;
+
+
+  flex: 1;
+
+
+  gap: 6px;
+
+
+  min-width: 0;
+
+
+  span {
+
+    flex-shrink: 0;
+
+
+    color:
+      var(--its-muted);
+
+
+    font-size: 9px;
+
+  }
+
+
+  ion-select {
+
+    flex: 1;
+
+
+    min-height: 28px;
+
+
+    --padding-start: 0;
+
+    --padding-end: 0;
+
+
+    color:
+      var(--its-text);
+
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+  }
+
+}
+
+
+/* ============================= */
+/* TARJETA                       */
+/* ============================= */
+
+.asistencia-card {
+
+  --background: #ffffff;
+
+  --color:
+    var(--its-text);
+
+
+  margin: 0;
+
+
+  overflow: hidden;
+
+
+  background: #ffffff;
+
+
+  border:
+    1px
+    solid
+    var(--its-border);
+
+
+  border-radius: 16px;
+
+
+  box-shadow:
+    0
+    5px
+    18px
+    rgba(
+      30,
+      45,
+      30,
+      0.075
+    );
+
+}
+
+
+/* ============================= */
+/* NAVEGACIÓN FECHA              */
+/* ============================= */
+
+.asistencia-navigation {
+
+  display: grid;
+
+  grid-template-columns:
+    48px
+    minmax(0, 1fr)
+    48px;
+
+
+  align-items: center;
+
+
   min-height: 63px;
+
 
   background:
     linear-gradient(
@@ -89,364 +328,692 @@
       var(--its-dark-green)
     );
 
+
   color: #ffffff;
 
+
   ion-button {
+
     width: 48px;
+
     height: 48px;
+
     margin: 0;
 
+
     --color: #ffffff;
+
     --padding-start: 0;
+
     --padding-end: 0;
+
     --border-radius: 10px;
 
+
     ion-icon {
+
       font-size: 20px;
+
     }
+
   }
+
 }
 
-.attendance-date {
+
+.asistencia-date {
+
   display: flex;
+
   align-items: center;
+
   flex-direction: column;
+
   gap: 3px;
 
+
   min-width: 0;
+
+
   text-align: center;
 
+
   small {
-    color: rgba(255, 255, 255, 0.78);
+
+    color:
+      rgba(
+        255,
+        255,
+        255,
+        0.78
+      );
+
     font-size: 9px;
+
     font-weight: 600;
+
   }
 
+
   strong {
+
     overflow: hidden;
+
+
     width: 100%;
 
+
     color: #ffffff;
+
+
     font-size: 13px;
+
     font-weight: 800;
+
 
     text-overflow: ellipsis;
+
     white-space: nowrap;
-  }
-}
-.category-selector {
-  display: flex;
-  align-items: center;
 
-  gap: 9px;
-
-  margin-bottom: 14px;
-  padding: 8px 10px;
-
-  background: #ffffff;
-
-  border: 1px solid var(--its-border);
-  border-radius: 10px;
-}
-
-.category-selector-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
-
-  width: 29px;
-  height: 29px;
-
-  background: var(--its-green-soft);
-  border-radius: 7px;
-
-  ion-icon {
-    color: var(--its-green);
-    font-size: 16px;
-  }
-}
-
-.category-selector-content {
-  display: flex;
-  align-items: center;
-
-  flex: 1;
-
-  gap: 6px;
-
-  min-width: 0;
-
-  span {
-    flex-shrink: 0;
-
-    color: var(--its-muted);
-    font-size: 9px;
   }
 
-  ion-select {
-    flex: 1;
-
-    min-height: 28px;
-
-    --padding-start: 0;
-    --padding-end: 0;
-
-    color: var(--its-text);
-
-    font-size: 10px;
-    font-weight: 800;
-  }
 }
-/* Resumen */
 
-.attendance-summary {
+
+/* ============================= */
+/* RESUMEN                       */
+/* ============================= */
+
+.asistencia-summary {
+
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
 
-  padding: 13px 10px;
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
+
+
+  padding:
+    13px
+    10px;
+
 
   background: #ffffff;
-  border-bottom: 1px solid var(--its-border);
+
+
+  border-bottom:
+    1px
+    solid
+    var(--its-border);
+
 
   > div {
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
     flex-direction: column;
+
     gap: 4px;
 
+
     min-width: 0;
+
 
     &:not(:last-child) {
-      border-right: 1px solid var(--its-border);
+
+      border-right:
+        1px
+        solid
+        var(--its-border);
+
     }
+
   }
+
 
   span {
-    color: var(--its-muted);
+
+    color:
+      var(--its-muted);
+
     font-size: 9px;
+
   }
+
 
   strong {
-    color: var(--its-green);
+
+    color:
+      var(--its-green);
+
     font-size: 17px;
+
     font-weight: 850;
+
   }
 
-  .category-summary strong {
-    overflow: hidden;
-    max-width: 100%;
-    padding: 0 5px;
 
-    color: var(--its-text);
-    font-size: 11px;
+  .pending-count {
 
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    color: #d58c23;
+
   }
+
+
+  .total-count {
+
+    color:
+      var(--its-text);
+
+  }
+
 }
 
-/* Lista */
+
+/* ============================= */
+/* LISTA                         */
+/* ============================= */
 
 .student-list {
+
   margin: 0;
+
   padding: 0;
+
   background: #ffffff;
+
 }
+
 
 .student-item {
+
   --background: #ffffff;
+
   --background-activated: #f5f8f4;
+
   --background-hover: #f8faf7;
 
-  --color: var(--its-text);
-  --border-color: var(--its-border);
+
+  --color:
+    var(--its-text);
+
+
+  --border-color:
+    var(--its-border);
+
 
   --padding-start: 14px;
+
   --inner-padding-end: 12px;
+
   --min-height: 67px;
 
+
   transition:
-    background 150ms ease,
-    border-color 150ms ease;
+    background
+    150ms
+    ease,
+    border-color
+    150ms
+    ease;
+
 
   ion-avatar {
+
     width: 40px;
+
     height: 40px;
 
+
     background: #f0f3ef;
-    border: 2px solid #ffffff;
+
+
+    border:
+      2px
+      solid
+      #ffffff;
+
 
     box-shadow:
-      0 0 0 1px var(--its-border);
+      0
+      0
+      0
+      1px
+      var(--its-border);
+
 
     img {
+
       object-fit: cover;
+
     }
+
   }
+
 
   ion-label {
+
     min-width: 0;
+
     margin-left: 2px;
 
+
     h2 {
+
       overflow: hidden;
+
       margin: 0;
 
-      color: var(--its-text);
+
+      color:
+        var(--its-text);
+
+
       font-size: 13px;
+
       font-weight: 700;
 
+
       text-overflow: ellipsis;
+
       white-space: nowrap;
+
     }
+
 
     p {
-      overflow: hidden;
-      margin: 4px 0 0;
 
-      color: var(--its-muted);
+      overflow: hidden;
+
+
+      margin:
+        4px
+        0
+        0;
+
+
+      color:
+        var(--its-muted);
+
+
       font-size: 10px;
 
+
       text-overflow: ellipsis;
+
       white-space: nowrap;
+
     }
+
   }
+
 }
+
 
 .student-present {
+
   --background: #fbfef9;
 
+
   ion-avatar {
+
     box-shadow:
-      0 0 0 2px rgba(77, 169, 52, 0.25);
+      0
+      0
+      0
+      2px
+      rgba(
+        77,
+        169,
+        52,
+        0.25
+      );
+
   }
+
 }
 
-/* Estado */
+
+/* ============================= */
+/* ESTADO                        */
+/* ============================= */
 
 .student-status {
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
   flex-direction: column;
 
+
   gap: 3px;
+
+
   min-width: 55px;
+
 
   color: #a3a9a2;
 
+
   ion-icon {
+
     font-size: 24px;
+
   }
+
 
   span {
+
     font-size: 8px;
+
     font-weight: 700;
+
     white-space: nowrap;
+
   }
+
 
   &.present {
-    color: var(--its-green);
+
+    color:
+      var(--its-green);
+
   }
+
 }
 
-/* Guardar */
+
+/* ============================= */
+/* GUARDAR                       */
+/* ============================= */
 
 .save-container {
+
   padding: 14px;
+
   background: #ffffff;
+
 }
 
+
 .save-information {
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
   gap: 6px;
+
 
   margin-bottom: 11px;
 
-  color: var(--its-muted);
+
+  color:
+    var(--its-muted);
+
+
   font-size: 10px;
+
   text-align: center;
 
+
   ion-icon {
+
     flex-shrink: 0;
-    color: var(--its-green);
+
+
+    color:
+      var(--its-green);
+
+
     font-size: 15px;
+
   }
+
 }
+
 
 .save-button {
+
   height: 47px;
+
   margin: 0;
 
-  --background: var(--its-green);
-  --background-hover: var(--its-dark-green);
-  --background-activated: var(--its-dark-green);
-  --background-focused: var(--its-dark-green);
+
+  --background:
+    var(--its-green);
+
+
+  --background-hover:
+    var(--its-dark-green);
+
+
+  --background-activated:
+    var(--its-dark-green);
+
+
+  --background-focused:
+    var(--its-dark-green);
+
 
   --color: #ffffff;
+
+
   --border-radius: 10px;
 
+
   --padding-start: 16px;
+
   --padding-end: 16px;
 
+
   --box-shadow:
-    0 5px 13px rgba(77, 169, 52, 0.2);
+    0
+    5px
+    13px
+    rgba(
+      77,
+      169,
+      52,
+      0.2
+    );
+
 
   font-size: 13px;
+
   font-weight: 750;
+
   text-transform: none;
 
+
   ion-icon {
+
     color: #ffffff;
+
     font-size: 20px;
+
   }
+
+
+  ion-spinner {
+
+    width: 18px;
+
+    height: 18px;
+
+    margin-right: 8px;
+
+    color: #ffffff;
+
+  }
+
 }
 
-/* Celulares pequeños */
 
-@media (max-width: 360px) {
-  .attendance-container {
+/* ============================= */
+/* ESTADO VACÍO                  */
+/* ============================= */
+
+.empty-state {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-direction: column;
+
+
+  gap: 6px;
+
+
+  min-height: 130px;
+
+
+  padding: 22px;
+
+
+  color:
+    var(--its-muted);
+
+
+  text-align: center;
+
+
+  ion-icon {
+
+    margin-bottom: 4px;
+
+
+    color:
+      var(--its-green);
+
+
+    font-size: 35px;
+
+  }
+
+
+  strong {
+
+    color:
+      var(--its-text);
+
+
+    font-size: 13px;
+
+  }
+
+
+  span {
+
+    max-width: 260px;
+
+
+    font-size: 10px;
+
+    line-height: 1.4;
+
+  }
+
+}
+
+
+/* ============================= */
+/* CELULARES PEQUEÑOS            */
+/* ============================= */
+
+@media (
+  max-width: 360px
+) {
+
+  .asistencia-container {
+
     padding-right: 11px;
+
     padding-left: 11px;
+
   }
 
-  .attendance-summary {
-    grid-template-columns: 0.8fr 0.8fr 1.4fr;
+
+  .asistencia-summary {
+
+    grid-template-columns:
+      repeat(
+        3,
+        1fr
+      );
+
   }
+
 
   .student-item {
+
     --padding-start: 11px;
+
     --inner-padding-end: 9px;
+
   }
+
 
   .student-status {
+
     min-width: 48px;
 
+
     span {
+
       font-size: 7px;
+
     }
+
   }
+
 }
 
-/* Tablets y escritorio */
 
-@media (min-width: 768px) {
-  .attendance-container {
+/* ============================= */
+/* TABLETS / ESCRITORIO          */
+/* ============================= */
+
+@media (
+  min-width: 768px
+) {
+
+  .asistencia-container {
+
     max-width: 600px;
+
     padding-top: 34px;
+
   }
+
 
   .student-item {
+
     --min-height: 72px;
+
   }
 
+
   .student-item ion-avatar {
+
     width: 43px;
+
     height: 43px;
+
   }
+
 }

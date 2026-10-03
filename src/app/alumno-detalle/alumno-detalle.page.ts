@@ -157,7 +157,7 @@ export class AlumnoDetallePage
     false;
 
 
-  attendances:
+  asistencias:
     AttendanceApi[] =
     [];
 paymentsLoading =
@@ -808,7 +808,7 @@ formatFeeDate(
         next:
           response => {
 
-            this.attendances =
+            this.asistencias =
               response.result ??
               [];
 
@@ -819,7 +819,7 @@ formatFeeDate(
 
             console.log(
               'ASISTENCIA DEL ALUMNO:',
-              this.attendances,
+              this.asistencias,
             );
 
           },
@@ -834,7 +834,7 @@ formatFeeDate(
             );
 
 
-            this.attendances =
+            this.asistencias =
               [];
 
 
@@ -852,18 +852,18 @@ formatFeeDate(
   /* MÉTRICAS DE ASISTENCIA        */
   /* ============================= */
 
-  get totalAttendances():
+  get totalasistencias():
     number {
 
-    return this.attendances.length;
+    return this.asistencias.length;
 
   }
 
 
-  get presentAttendances():
+  get presentasistencias():
     number {
 
-    return this.attendances
+    return this.asistencias
       .filter(
         attendance =>
           attendance.present,
@@ -873,12 +873,12 @@ formatFeeDate(
   }
 
 
-  get absentAttendances():
+  get absentasistencias():
     number {
 
     return (
-      this.totalAttendances -
-      this.presentAttendances
+      this.totalasistencias -
+      this.presentasistencias
     );
 
   }
@@ -888,7 +888,7 @@ formatFeeDate(
     number {
 
     if (
-      this.totalAttendances ===
+      this.totalasistencias ===
       0
     ) {
 
@@ -899,8 +899,8 @@ formatFeeDate(
 
     return Math.round(
       (
-        this.presentAttendances /
-        this.totalAttendances
+        this.presentasistencias /
+        this.totalasistencias
       ) *
       100,
     );

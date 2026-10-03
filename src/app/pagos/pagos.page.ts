@@ -18,16 +18,30 @@ import {
 } from '@ionic/angular';
 
 
-interface MercadoPagoResponse {
 
-  preferenceId: string;
+interface GenerateFeesResponse {
 
-  checkoutUrl: string;
+  ok: boolean;
 
-  externalReference: string;
+  result: {
+
+    period: string;
+
+    dueDate: string;
+
+    totalStudents: number;
+
+    created: number;
+
+    skipped: number;
+
+    fees: FeeApi[];
+
+  };
+
+  msg: string;
 
 }
-
 
 interface CategoryApi {
 
@@ -181,7 +195,8 @@ export class PagosPage implements OnInit {
 
   loading =
     false;
-
+generatingFees =
+  false;
 
   constructor(
 
@@ -246,6 +261,336 @@ export class PagosPage implements OnInit {
 /* ============================= */
 /* CARGAR CUOTAS REALES         */
 /* ============================= */
+/* ============================= */
+/* GENERAR CUOTAS DEL MES        */
+/* ============================= */
+
+async openGenerateFees():
+  Promise<void> {
+
+  if (
+    this.generatingFees
+  ) {
+    return;
+  }
+
+
+  const defaultDueDate =
+    this.getDefaultDueDate();
+
+
+  const alert =
+    await this.alertController
+      .create({
+
+        header:
+          'Generar cuotas',
+
+        subHeader:
+          this.currentPeriod,
+
+        cssClass:
+          'generate-fees-alert',
+
+        message:
+          `Se creará una cuota para cada alumno activo usando automáticamente el valor de su categoría.
+
+FECHA DE VENCIMIENTO
+
+Elegí hasta qué día tendrán tiempo para pagar la cuota de ${this.currentPeriod}.
+
+Ejemplo: si elegís 10/09/2026, podrán pagarla hasta ese día.`,
+
+        inputs: [
+
+          {
+            name:
+              'dueDate',
+
+            type:
+              'date',
+
+            value:
+              defaultDueDate,
+
+          },
+
+        ],
+
+        buttons: [
+
+          {
+            text:
+              'Cancelar',
+
+            role:
+              'cancel',
+          },
+
+          {
+            text:
+              'Generar cuotas',
+
+            handler:
+              (
+                data: {
+                  dueDate?: string;
+                },
+              ) => {
+
+                if (
+                  !data?.dueDate
+                ) {
+
+                  void this.showToast(
+                    'Elegí la fecha límite de pago.',
+                    'warning',
+                  );
+
+                  return false;
+
+                }
+
+
+                this.generatePeriodFees(
+                  data.dueDate,
+                );
+
+
+                return true;
+
+              },
+          },
+
+        ],
+
+      });
+
+
+  await alert.present();
+
+}
+
+/* ============================= */
+/* CREAR CUOTAS                  */
+/* ============================= */
+
+private generatePeriodFees(
+  dueDate: string,
+): void {
+
+  if (this.generatingFees) {
+    return;
+  }
+
+
+  this.generatingFees =
+    true;
+
+
+  const body = {
+
+    period:
+      this.currentPeriod,
+
+    dueDate,
+
+  };
+
+
+  this.http
+    .post<GenerateFeesResponse>(
+
+      `${this.apiUrl}/fees/generate-period`,
+
+      body,
+
+    )
+    .subscribe({
+
+      next:
+        response => {
+
+          this.generatingFees =
+            false;
+
+
+          const created =
+            response.result?.created ??
+            0;
+
+          const skipped =
+            response.result?.skipped ??
+            0;
+
+
+          /*
+           * Volvemos a traer
+           * las cuotas reales.
+           */
+          this.loadFees();
+
+
+          if (
+            created === 0 &&
+            skipped > 0
+          ) {
+
+            void this.showToast(
+              `Las cuotas de ${this.currentPeriod} ya estaban generadas.`,
+              'warning',
+            );
+
+            return;
+
+          }
+
+
+          void this.showToast(
+            `${created} cuotas generadas correctamente.`,
+            'success',
+          );
+
+        },
+
+
+      error:
+        error => {
+
+          this.generatingFees =
+            false;
+
+
+          console.error(
+            'ERROR GENERANDO CUOTAS:',
+            error,
+          );
+
+
+          /*
+           * El backend puede avisarnos
+           * qué categorías todavía
+           * no tienen precio.
+           */
+          const categories =
+            error?.error?.categories;
+
+
+          if (
+            Array.isArray(
+              categories,
+            ) &&
+            categories.length > 0
+          ) {
+
+            void this.showToast(
+
+              `Falta configurar la cuota de: ${categories.join(', ')}`,
+
+              'danger',
+
+            );
+
+            return;
+
+          }
+
+
+          void this.showToast(
+            'No se pudieron generar las cuotas.',
+            'danger',
+          );
+
+        },
+
+    });
+
+}
+
+
+/* ============================= */
+/* VENCIMIENTO POR DEFECTO       */
+/* ============================= */
+
+private getDefaultDueDate():
+  string {
+
+  const months = [
+
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre',
+
+  ];
+
+
+  const [
+    monthName,
+    yearText,
+  ] =
+    this.currentPeriod
+      .split(' ');
+
+
+  const monthIndex =
+    months.indexOf(
+      monthName,
+    );
+
+
+  const year =
+    Number(
+      yearText,
+    );
+
+
+  if (
+    monthIndex === -1 ||
+    !year
+  ) {
+
+    const today =
+      new Date();
+
+    return [
+      today.getFullYear(),
+      String(
+        today.getMonth() + 1,
+      ).padStart(
+        2,
+        '0',
+      ),
+      '10',
+    ].join('-');
+
+  }
+
+
+  return [
+
+    year,
+
+    String(
+      monthIndex + 1,
+    ).padStart(
+      2,
+      '0',
+    ),
+
+    '10',
+
+  ].join('-');
+
+}
 
 loadFees(): void {
 
@@ -567,90 +912,90 @@ private markFeeAsPaid(
 
     });
 
-}
-payWithMercadoPago(
-    student: PaymentStudent,
-  ): void {
+// }
+// payWithMercadoPago(
+//     student: PaymentStudent,
+//   ): void {
 
-    if (
-      this.processingFeeId ===
-      student.feeId
-    ) {
-      return;
-    }
-
-
-    this.processingFeeId =
-      student.feeId;
+//     if (
+//       this.processingFeeId ===
+//       student.feeId
+//     ) {
+//       return;
+//     }
 
 
-    const body = {
-
-      feeId:
-        student.feeId,
-
-    };
+//     this.processingFeeId =
+//       student.feeId;
 
 
-    this.http
-      .post<MercadoPagoResponse>(
-        `${this.apiUrl}/mercadopago/preference`,
-        body,
-      )
-      .subscribe({
+//     const body = {
 
-        next: (
-          response,
-        ) => {
+//       feeId:
+//         student.feeId,
 
-          if (
-            !response.checkoutUrl
-          ) {
-
-            this.processingFeeId =
-              null;
+//     };
 
 
-            void this.showToast(
-              'Mercado Pago no devolvió una URL de pago.',
-            );
+//     this.http
+//       .post<MercadoPagoResponse>(
+//         `${this.apiUrl}/mercadopago/preference`,
+//         body,
+//       )
+//       .subscribe({
 
-            return;
+//         next: (
+//           response,
+//         ) => {
 
-          }
+//           if (
+//             !response.checkoutUrl
+//           ) {
 
-
-          window.location.assign(
-            response.checkoutUrl,
-          );
-
-        },
-
-
-        error: (
-          error,
-        ) => {
-
-          console.error(
-            'Error iniciando Mercado Pago:',
-            error,
-          );
+//             this.processingFeeId =
+//               null;
 
 
-          this.processingFeeId =
-            null;
+//             void this.showToast(
+//               'Mercado Pago no devolvió una URL de pago.',
+//             );
+
+//             return;
+
+//           }
 
 
-          void this.showToast(
-            'No se pudo iniciar Mercado Pago.',
-          );
+//           window.location.assign(
+//             response.checkoutUrl,
+//           );
 
-        },
+//         },
 
-      });
+
+//         error: (
+//           error,
+//         ) => {
+
+//           console.error(
+//             'Error iniciando Mercado Pago:',
+//             error,
+//           );
+
+
+//           this.processingFeeId =
+//             null;
+
+
+//           void this.showToast(
+//             'No se pudo iniciar Mercado Pago.',
+//           );
+
+//         },
+
+//       });
 
   }
-  processingFeeId: string | null = null;
+  // processingFeeId: string | null = null;
   /* ============================= */
   /* FILTROS                       */
   /* ============================= */
@@ -1105,9 +1450,15 @@ async openMonthSelector():
   /* TOAST                         */
   /* ============================= */
 
-  private async showToast(
-    message: string,
-  ): Promise<void> {
+ private async showToast(
+
+  message: string,
+
+  color:
+    string =
+    'success',
+
+): Promise<void> {
 
 
     const toast =
@@ -1122,8 +1473,8 @@ async openMonthSelector():
           position:
             'bottom',
 
-          color:
-            'success',
+          color
+            ,
 
         });
 
