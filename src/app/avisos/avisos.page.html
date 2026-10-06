@@ -1,7 +1,9 @@
 <main class="notices-container">
 
 
-  <!-- INTRO -->
+  <!-- ======================= -->
+  <!-- INTRO                   -->
+  <!-- ======================= -->
 
   <section class="notices-intro">
 
@@ -13,17 +15,29 @@
       Avisos
     </h1>
 
-    <p>
+
+    <p *ngIf="canCreateNotices">
       Enviá mensajes y recordatorios
       a los responsables.
+    </p>
+
+
+    <p *ngIf="isResponsible">
+      Consultá las comunicaciones
+      de FUTGOL CLUB.
     </p>
 
   </section>
 
 
-  <!-- CARD -->
+  <!-- ======================= -->
+  <!-- ADMIN + PROFESOR        -->
+  <!-- ======================= -->
 
-  <section class="notice-card">
+  <section
+    class="notice-card"
+    *ngIf="canCreateNotices"
+  >
 
 
     <!-- HEADER -->
@@ -31,16 +45,24 @@
     <div class="notice-header">
 
       <div class="notice-header-icon">
-        <ion-icon name="chatbubble-outline"></ion-icon>
+
+        <ion-icon
+          name="chatbubble-outline"
+        ></ion-icon>
+
       </div>
 
 
       <div>
-        <span>NUEVO MENSAJE</span>
+
+        <span>
+          NUEVO MENSAJE
+        </span>
 
         <strong>
           Crear aviso
         </strong>
+
       </div>
 
     </div>
@@ -48,48 +70,68 @@
 
     <!-- DESTINATARIOS -->
 
-<div class="form-field">
+    <div class="form-field">
 
-  <label>
-    Enviar a
-  </label>
+      <label>
+        Enviar a
+      </label>
 
-  <div class="select-wrapper">
 
-    <ion-icon name="person-outline"></ion-icon>
+      <div class="select-wrapper">
 
-    <ion-select
-      [(ngModel)]="selectedRecipient"
-      interface="popover"
-    >
+        <ion-icon
+          name="person-outline"
+        ></ion-icon>
 
-      <ion-select-option value="all">
-        Toda la categoría
-      </ion-select-option>
 
-      <ion-select-option
-        *ngFor="let student of selectedStudents"
-        [value]="student.id"
-      >
-        {{ student.name }} {{ student.lastname }}
-      </ion-select-option>
+        <ion-select
+          [(ngModel)]="selectedRecipient"
+          interface="popover"
+        >
 
-    </ion-select>
+          <ion-select-option
+            value="all"
+          >
+            Toda la categoría
+          </ion-select-option>
 
-  </div>
 
-</div>
+          <ion-select-option
+            *ngFor="
+              let student
+              of selectedStudents
+            "
+            [value]="student.id"
+          >
+
+            {{ student.name }}
+            {{ student.lastname }}
+
+          </ion-select-option>
+
+        </ion-select>
+
+      </div>
+
+    </div>
 
 
     <!-- CANTIDAD -->
 
     <div class="recipient-info">
 
-      <ion-icon name="information-circle-outline"></ion-icon>
+      <ion-icon
+        name="information-circle-outline"
+      ></ion-icon>
+
 
       <span>
+
         {{ selectedStudents.length }}
-        responsables recibirán este aviso.
+
+        responsables recibirán
+        este aviso.
+
       </span>
 
     </div>
@@ -106,7 +148,9 @@
 
       <div class="select-wrapper">
 
-        <ion-icon name="notifications-outline"></ion-icon>
+        <ion-icon
+          name="notifications-outline"
+        ></ion-icon>
 
 
         <ion-select
@@ -115,15 +159,23 @@
           (ionChange)="changeType()"
         >
 
-          <ion-select-option value="payment">
+          <ion-select-option
+            value="payment"
+          >
             Recordatorio de pago
           </ion-select-option>
 
-          <ion-select-option value="training">
+
+          <ion-select-option
+            value="training"
+          >
             Recordatorio de entrenamiento
           </ion-select-option>
 
-          <ion-select-option value="general">
+
+          <ion-select-option
+            value="general"
+          >
             Aviso general
           </ion-select-option>
 
@@ -144,8 +196,10 @@
           Mensaje
         </label>
 
+
         <span>
-          {{ message.length }} caracteres
+          {{ message.length }}
+          caracteres
         </span>
 
       </div>
@@ -173,7 +227,11 @@
       <div class="preview-bubble">
 
         <div class="preview-logo">
-          <ion-icon name="football-outline"></ion-icon>
+
+          <ion-icon
+            name="football-outline"
+          ></ion-icon>
+
         </div>
 
 
@@ -182,6 +240,7 @@
           <strong>
             FUTGOL CLUB
           </strong>
+
 
           <p>
             {{ message }}
@@ -202,7 +261,10 @@
       (click)="sendWhatsApp()"
     >
 
-      <ion-icon name="logo-whatsapp"></ion-icon>
+      <ion-icon
+        name="logo-whatsapp"
+      ></ion-icon>
+
 
       <span>
         Enviar por WhatsApp
@@ -210,6 +272,58 @@
 
     </button>
 
+
+  </section>
+
+
+  <!-- ======================= -->
+  <!-- RESPONSABLE             -->
+  <!-- ======================= -->
+
+  <section
+    class="notice-card"
+    *ngIf="isResponsible"
+  >
+
+    <div class="notice-header">
+
+      <div class="notice-header-icon">
+
+        <ion-icon
+          name="notifications-outline"
+        ></ion-icon>
+
+      </div>
+
+
+      <div>
+
+        <span>
+          MIS AVISOS
+        </span>
+
+        <strong>
+          Comunicaciones del club
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div class="recipient-info">
+
+      <ion-icon
+        name="information-circle-outline"
+      ></ion-icon>
+
+
+      <span>
+        Todavía no hay avisos
+        para mostrar.
+      </span>
+
+    </div>
 
   </section>
 

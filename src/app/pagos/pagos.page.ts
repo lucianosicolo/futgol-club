@@ -16,6 +16,7 @@ import {
   AlertController,
   ToastController,
 } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -178,7 +179,7 @@ export class PagosPage implements OnInit {
 
 
   private readonly apiUrl =
-    'http://localhost:3000';
+ environment.apiUrl;
 
 
   selectedFilter:
@@ -186,8 +187,7 @@ export class PagosPage implements OnInit {
 
 
   currentPeriod =
-    'Septiembre 2026';
-
+    this.getCurrentPeriod();
 
   students:
     PaymentStudent[] = [];
@@ -214,6 +214,38 @@ generatingFees =
 
   ) { }
 
+  private getCurrentPeriod():
+    string {
+
+    const months = [
+
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre',
+
+    ];
+
+
+    const today =
+      new Date();
+
+
+    return (
+      `${months[
+        today.getMonth()
+      ]} ${today.getFullYear()}`
+    );
+
+  }
 
   /* ============================= */
   /* INIT                          */
@@ -253,11 +285,6 @@ generatingFees =
   /* CUANDO ENTRA A LA PÁGINA     */
   /* ============================= */
 
-  ionViewWillEnter(): void {
-
-    this.loadFees();
-
-  }
 /* ============================= */
 /* CARGAR CUOTAS REALES         */
 /* ============================= */

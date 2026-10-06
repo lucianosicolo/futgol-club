@@ -10,6 +10,7 @@ import {
 import {
   forkJoin,
 } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 interface Category {
@@ -118,7 +119,7 @@ export class ResponsableHomePage implements OnInit {
 
 
   private readonly apiUrl =
-    'http://localhost:3000';
+  environment.apiUrl;
 
 
   user:

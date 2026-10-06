@@ -18,6 +18,7 @@ import {
 import {
   forkJoin,
 } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 interface ApiResponse<T> {
@@ -66,7 +67,7 @@ export class NuevoUsuarioPage
 
 
   private readonly apiUrl =
-    'http://localhost:3000';
+  environment.apiUrl;
 
 
   loading =

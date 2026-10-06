@@ -12,6 +12,7 @@ import {
 import {
   Observable,
 } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable()
@@ -41,7 +42,7 @@ export class AuthInterceptor
 
     const isBackendRequest =
       req.url.startsWith(
-        'http://localhost:3000',
+       environment.apiUrl
       );
 
 

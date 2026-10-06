@@ -10,6 +10,7 @@ import {
 import {
   ToastController,
 } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 
 
 interface ApiResponse<T> {
@@ -106,7 +107,7 @@ export class AsistenciaPage
 
 
   private readonly apiUrl =
-    'http://localhost:3000';
+environment.apiUrl;
 
 
   loading =

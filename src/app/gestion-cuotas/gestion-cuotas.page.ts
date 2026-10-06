@@ -15,6 +15,7 @@ import {
 import {
   forkJoin,
 } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 interface CategoryApi {
@@ -123,7 +124,7 @@ export class GestionCuotasPage {
 
 
   private readonly apiUrl =
-    'http://localhost:3000';
+   environment.apiUrl;
 
 
   private readonly months = [

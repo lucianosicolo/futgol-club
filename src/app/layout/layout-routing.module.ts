@@ -355,30 +355,6 @@ const routes:
         },
 
 
-        {
-          path:
-            'responsable-cuotas/:id',
-
-          canActivate: [
-            RoleGuard,
-          ],
-
-          data: {
-            roles: [
-              'responsible',
-            ],
-          },
-
-          loadChildren: () =>
-            import(
-              '../responsable-home/responsable-home.module'
-            )
-              .then(
-                m =>
-                  m.ResponsableHomePageModule,
-              ),
-        },
-
 
         /* ============================= */
         /* TODOS LOS USUARIOS            */

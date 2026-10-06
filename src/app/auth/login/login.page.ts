@@ -19,6 +19,7 @@ import {
 import {
   firstValueFrom,
 } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 interface AuthUser {
@@ -70,7 +71,7 @@ export class LoginPage implements OnInit {
 
 
   private readonly apiUrl =
-    'http://localhost:3000';
+    environment.apiUrl;
 
 
   email =

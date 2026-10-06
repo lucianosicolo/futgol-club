@@ -15,6 +15,7 @@ import {
   AlertController,
   ToastController,
 } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 
 
 type StudentStatus =
@@ -68,7 +69,7 @@ export class AlumnosPage
 
 
   private readonly apiUrl =
-    'http://localhost:3000';
+   environment.apiUrl;
 
 
   loading =

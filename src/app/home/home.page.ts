@@ -7,6 +7,7 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 
 interface LoggedUser {
@@ -65,7 +66,7 @@ interface FeeApi {
 }
 
 
-interface AttendanceApi {
+interface AsistenciaApi {
 
   id?: string;
 
@@ -106,7 +107,7 @@ export class HomePage
 
 
   private readonly apiUrl =
-    'http://localhost:3000';
+  environment.apiUrl;
 
 
   /* ============================= */
@@ -122,7 +123,7 @@ export class HomePage
   loadingRevenue =
     false;
 
-  loadingAttendance =
+  loadingAsistencia =
     false;
 
 
@@ -133,7 +134,7 @@ export class HomePage
       this.loadingStudents ||
       this.loadingFees ||
       this.loadingRevenue ||
-      this.loadingAttendance
+      this.loadingAsistencia
     );
 
   }
@@ -269,7 +270,7 @@ ngOnInit():
       this.isTeacher
     ) {
 
-      this.loadTodayAttendance();
+      this.loadTodayAsistencia();
 
     }
 
@@ -584,10 +585,10 @@ ngOnInit():
   /* ASISTENCIA DE HOY             */
   /* ============================= */
 
-  private loadTodayAttendance():
+  private loadTodayAsistencia():
     void {
 
-    this.loadingAttendance =
+    this.loadingAsistencia =
       true;
 
 
@@ -602,7 +603,7 @@ ngOnInit():
 
     this.http
       .get<
-        ApiResponse<AttendanceApi[]>
+        ApiResponse<AsistenciaApi[]>
       >(
         `${this.apiUrl}/asistencia`,
         {
@@ -614,19 +615,19 @@ ngOnInit():
         next:
           response => {
 
-            const attendance =
+            const asistencias =
               response.result ??
               [];
 
 
             console.log(
               'ASISTENCIA HOME:',
-              attendance,
+              asistencias,
             );
 
 
             this.presentStudents =
-              attendance.filter(
+              asistencias.filter(
                 record =>
                   record.present ===
                   true,
@@ -634,14 +635,14 @@ ngOnInit():
 
 
             this.absentStudents =
-              attendance.filter(
+              asistencias.filter(
                 record =>
                   record.present ===
                   false,
               ).length;
 
 
-            this.loadingAttendance =
+            this.loadingAsistencia =
               false;
 
           },
@@ -663,7 +664,7 @@ ngOnInit():
               0;
 
 
-            this.loadingAttendance =
+            this.loadingAsistencia =
               false;
 
           },

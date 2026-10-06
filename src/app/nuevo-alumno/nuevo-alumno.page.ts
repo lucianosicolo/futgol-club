@@ -19,6 +19,7 @@ import {
   firstValueFrom,
   forkJoin,
 } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 type AccessMode =
@@ -79,7 +80,7 @@ export class NuevoAlumnoPage
 
 
   private readonly apiUrl =
-    'http://localhost:3000';
+  environment.apiUrl;
 
 
   loading =

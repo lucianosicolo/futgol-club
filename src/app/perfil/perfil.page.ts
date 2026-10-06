@@ -14,6 +14,7 @@ import {
 import {
   AlertController,
 } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 
 
 interface Category {
@@ -83,7 +84,7 @@ export class PerfilPage
 
 
   private readonly apiUrl =
-    'http://localhost:3000';
+   environment.apiUrl;
 
 
   user:

@@ -13,6 +13,7 @@ import {
 import {
   forkJoin,
 } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 interface Category {
@@ -95,7 +96,7 @@ export class MisCuotasPage {
 
 
   private readonly apiUrl =
-    'http://localhost:3000';
+  environment.apiUrl;
 
 
   self:
@@ -140,11 +141,7 @@ export class MisCuotasPage {
   }
 
 
-  ionViewWillEnter(): void {
 
-    this.loadData();
-
-  }
 
 
   /* ============================= */

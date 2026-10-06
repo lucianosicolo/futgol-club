@@ -15,6 +15,7 @@ import {
 import {
   ToastController,
 } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 
 
 type StudentTab =
@@ -29,18 +30,18 @@ interface FeeApi {
   period: string;
 
   amount:
-    number |
-    string;
+  number |
+  string;
 
   status:
-    'due' |
-    'paid';
+  'due' |
+  'paid';
 
   due_date: string;
 
   paid_at:
-    string |
-    null;
+  string |
+  null;
 
   active: boolean;
 
@@ -123,7 +124,7 @@ export class AlumnoDetallePage
 
 
   private readonly apiUrl =
-    'http://localhost:3000';
+    environment.apiUrl;
 
 
   selectedTab:
@@ -160,13 +161,13 @@ export class AlumnoDetallePage
   asistencias:
     AttendanceApi[] =
     [];
-paymentsLoading =
-  false;
+  paymentsLoading =
+    false;
 
 
-fees:
-  FeeApi[] =
-  [];
+  fees:
+    FeeApi[] =
+    [];
 
   editStudent = {
 
@@ -205,232 +206,232 @@ fees:
     private readonly toastController:
       ToastController,
 
-  ) {}
+  ) { }
 
-/* ============================= */
-/* CARGAR PAGOS                  */
-/* ============================= */
+  /* ============================= */
+  /* CARGAR PAGOS                  */
+  /* ============================= */
 
-private loadFees(
-  studentId: string,
-): void {
+  private loadFees(
+    studentId: string,
+  ): void {
 
-  this.paymentsLoading =
-    true;
-
-
-  this.http
-    .get<
-      ApiResponse<FeeApi[]>
-    >(
-      `${this.apiUrl}/fees?student=${studentId}&active=true`,
-    )
-    .subscribe({
-
-      next:
-        response => {
-
-          this.fees =
-            response.result ??
-            [];
+    this.paymentsLoading =
+      true;
 
 
-          this.paymentsLoading =
-            false;
+    this.http
+      .get<
+        ApiResponse<FeeApi[]>
+      >(
+        `${this.apiUrl}/fees?student=${studentId}&active=true`,
+      )
+      .subscribe({
+
+        next:
+          response => {
+
+            this.fees =
+              response.result ??
+              [];
 
 
-          console.log(
-            'CUOTAS DEL ALUMNO:',
-            this.fees,
-          );
-
-        },
+            this.paymentsLoading =
+              false;
 
 
-      error:
-        error => {
+            console.log(
+              'CUOTAS DEL ALUMNO:',
+              this.fees,
+            );
 
-          console.error(
-            'Error cargando cuotas del alumno:',
-            error,
-          );
-
-
-          this.fees =
-            [];
+          },
 
 
-          this.paymentsLoading =
-            false;
+        error:
+          error => {
 
-        },
-
-    });
-
-}
-/* ============================= */
-/* MÉTRICAS DE PAGOS             */
-/* ============================= */
-
-get totalFees():
-  number {
-
-  return this.fees.length;
-
-}
+            console.error(
+              'Error cargando cuotas del alumno:',
+              error,
+            );
 
 
-get paidFeesCount():
-  number {
-
-  return this.fees.filter(
-    fee =>
-      fee.status ===
-      'paid',
-  ).length;
-
-}
+            this.fees =
+              [];
 
 
-get dueFeesCount():
-  number {
+            this.paymentsLoading =
+              false;
 
-  return this.fees.filter(
-    fee =>
-      fee.status ===
-      'due',
-  ).length;
+          },
 
-}
+      });
 
+  }
+  /* ============================= */
+  /* MÉTRICAS DE PAGOS             */
+  /* ============================= */
 
-get paymentPercentage():
-  number {
+  get totalFees():
+    number {
 
-  if (
-    this.totalFees ===
-    0
-  ) {
-
-    return 0;
+    return this.fees.length;
 
   }
 
 
-  return Math.round(
-    (
-      this.paidFeesCount /
-      this.totalFees
-    ) *
-    100,
-  );
+  get paidFeesCount():
+    number {
 
-}
+    return this.fees.filter(
+      fee =>
+        fee.status ===
+        'paid',
+    ).length;
 
-
-getFeeStatusLabel(
-  status:
-    'due' |
-    'paid',
-): string {
-
-  return status ===
-    'paid'
-    ? 'Al día'
-    : 'Debe';
-
-}
+  }
 
 
-formatFeeAmount(
-  amount:
-    number |
-    string,
-): string {
+  get dueFeesCount():
+    number {
 
-  const value =
-    Number(
-      amount,
+    return this.fees.filter(
+      fee =>
+        fee.status ===
+        'due',
+    ).length;
+
+  }
+
+
+  get paymentPercentage():
+    number {
+
+    if (
+      this.totalFees ===
+      0
+    ) {
+
+      return 0;
+
+    }
+
+
+    return Math.round(
+      (
+        this.paidFeesCount /
+        this.totalFees
+      ) *
+      100,
     );
 
+  }
 
-  if (
-    Number.isNaN(
-      value,
-    )
-  ) {
 
-    return '$0';
+  getFeeStatusLabel(
+    status:
+      'due' |
+      'paid',
+  ): string {
+
+    return status ===
+      'paid'
+      ? 'Al día'
+      : 'Debe';
 
   }
 
 
-  return new Intl.NumberFormat(
-    'es-AR',
-    {
-      style:
-        'currency',
+  formatFeeAmount(
+    amount:
+      number |
+      string,
+  ): string {
 
-      currency:
-        'ARS',
-
-      maximumFractionDigits:
-        0,
-    },
-  ).format(
-    value,
-  );
-
-}
-
-
-formatFeeDate(
-  date:
-    string |
-    null,
-): string {
-
-  if (!date) {
-
-    return '';
-
-  }
-
-
-  const parts =
-    date
-      .slice(
-        0,
-        10,
-      )
-      .split(
-        '-',
+    const value =
+      Number(
+        amount,
       );
 
 
-  if (
-    parts.length !==
-    3
-  ) {
+    if (
+      Number.isNaN(
+        value,
+      )
+    ) {
 
-    return date;
+      return '$0';
+
+    }
+
+
+    return new Intl.NumberFormat(
+      'es-AR',
+      {
+        style:
+          'currency',
+
+        currency:
+          'ARS',
+
+        maximumFractionDigits:
+          0,
+      },
+    ).format(
+      value,
+    );
 
   }
 
 
-  const [
-    year,
-    month,
-    day,
-  ] =
-    parts;
+  formatFeeDate(
+    date:
+      string |
+      null,
+  ): string {
+
+    if (!date) {
+
+      return '';
+
+    }
 
 
-  return (
-    `${day}/${month}/${year}`
-  );
+    const parts =
+      date
+        .slice(
+          0,
+          10,
+        )
+        .split(
+          '-',
+        );
 
-}
+
+    if (
+      parts.length !==
+      3
+    ) {
+
+      return date;
+
+    }
+
+
+    const [
+      year,
+      month,
+      day,
+    ] =
+      parts;
+
+
+    return (
+      `${day}/${month}/${year}`
+    );
+
+  }
   /* ============================= */
   /* INIT                          */
   /* ============================= */
@@ -970,38 +971,38 @@ formatFeeDate(
   /* ============================= */
   /* TABS                          */
   /* ============================= */
-selectTab(
-  tab: StudentTab,
-): void {
+  selectTab(
+    tab: StudentTab,
+  ): void {
 
-  this.selectedTab =
-    tab;
+    this.selectedTab =
+      tab;
 
 
-  if (
-    tab === 'asistencia' &&
-    this.student
-  ) {
+    if (
+      tab === 'asistencia' &&
+      this.student
+    ) {
 
-    this.loadAttendance(
-      this.student.id,
-    );
+      this.loadAttendance(
+        this.student.id,
+      );
+
+    }
+
+
+    if (
+      tab === 'payments' &&
+      this.student
+    ) {
+
+      this.loadFees(
+        this.student.id,
+      );
+
+    }
 
   }
-
-
-  if (
-    tab === 'payments' &&
-    this.student
-  ) {
-
-    this.loadFees(
-      this.student.id,
-    );
-
-  }
-
-}
 
 
   /* ============================= */
@@ -1134,9 +1135,9 @@ selectTab(
       ) ||
       (
         today.getMonth() + 1 ===
-          month &&
+        month &&
         today.getDate() >=
-          day
+        day
       );
 
 
