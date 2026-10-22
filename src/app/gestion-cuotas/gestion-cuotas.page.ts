@@ -5,6 +5,7 @@ import {
 
 import {
   Component,
+  OnInit,
 } from '@angular/core';
 
 import {
@@ -120,7 +121,8 @@ interface GenerateFeesResponse {
   standalone:
     false,
 })
-export class GestionCuotasPage {
+export class GestionCuotasPage
+  implements OnInit {
 
 
   private readonly apiUrl =
@@ -198,7 +200,7 @@ export class GestionCuotasPage {
   /* ENTRAR A LA PÁGINA            */
   /* ============================= */
 
-  ionViewWillEnter():
+  ngOnInit():
     void {
 
     this.loadData();
