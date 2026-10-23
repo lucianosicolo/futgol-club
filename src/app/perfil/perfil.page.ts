@@ -127,13 +127,6 @@ export class PerfilPage
   }
 
 
-  ionViewWillEnter(): void {
-
-    this.loadProfile();
-
-  }
-
-
   /* ============================= */
   /* PERFIL                       */
   /* ============================= */

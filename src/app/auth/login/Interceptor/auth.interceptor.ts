@@ -3,6 +3,7 @@ import {
 } from '@angular/core';
 
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
@@ -10,9 +11,18 @@ import {
 } from '@angular/common/http';
 
 import {
+  Router,
+} from '@angular/router';
+
+import {
   Observable,
+  catchError,
+  throwError,
 } from 'rxjs';
-import { environment } from 'src/environments/environment';
+
+import {
+  environment,
+} from 'src/environments/environment';
 
 
 @Injectable()
@@ -20,11 +30,19 @@ export class AuthInterceptor
   implements HttpInterceptor {
 
 
+  constructor(
+    private readonly router:
+      Router,
+  ) {}
+
+
   intercept(
 
-    req: HttpRequest<any>,
+    req:
+      HttpRequest<any>,
 
-    next: HttpHandler,
+    next:
+      HttpHandler,
 
   ): Observable<HttpEvent<any>> {
 
@@ -35,46 +53,89 @@ export class AuthInterceptor
       );
 
 
-    /*
-     * Solo agregamos el token
-     * a nuestro backend.
-     */
-
     const isBackendRequest =
       req.url.startsWith(
-       environment.apiUrl
+        environment.apiUrl,
       );
 
 
-    if (
+    const request =
       token &&
       isBackendRequest
-    ) {
+
+        ? req.clone({
+
+            setHeaders: {
+
+              Authorization:
+                `Bearer ${token}`,
+
+            },
+
+          })
+
+        : req;
 
 
-      const authenticatedRequest =
-        req.clone({
+    return next
+      .handle(
+        request,
+      )
+      .pipe(
 
-          setHeaders: {
+        catchError(
+          (
+            error:
+              HttpErrorResponse,
+          ) => {
 
-            Authorization:
-              `Bearer ${token}`,
+            /*
+             * Si el backend rechaza la sesión,
+             * limpiamos el estado local para
+             * evitar una app "medio logueada".
+             */
+            if (
+              isBackendRequest &&
+              error.status === 401
+            ) {
+
+              localStorage
+                .removeItem(
+                  'futgol-token',
+                );
+
+              localStorage
+                .removeItem(
+                  'futgol-user',
+                );
+
+              localStorage
+                .removeItem(
+                  'futgol-session',
+                );
+
+
+              void this.router
+                .navigateByUrl(
+                  '/login',
+                  {
+                    replaceUrl:
+                      true,
+                  },
+                );
+
+            }
+
+
+            return throwError(
+              () =>
+                error,
+            );
 
           },
+        ),
 
-        });
-
-
-      return next.handle(
-        authenticatedRequest,
       );
-
-    }
-
-
-    return next.handle(
-      req,
-    );
 
   }
 
