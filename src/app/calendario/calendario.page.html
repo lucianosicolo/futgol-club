@@ -75,6 +75,7 @@
       class="activity-form"
       *ngIf="showForm"
     >
+      <h3>{{ editingId ? "Editar actividad" : "Nueva actividad" }}</h3>
 
       <div class="form-row">
 
@@ -251,7 +252,7 @@
           {{
             saving
               ? 'Guardando...'
-              : 'Guardar actividad'
+              : editingId ? 'Guardar cambios' : 'Guardar actividad'
           }}
         </span>
 
@@ -331,6 +332,14 @@
         </div>
 
 
+        <button
+          type="button"
+          class="edit-activity-button"
+          (click)="editActivity(activity)"
+          [attr.aria-label]="'Editar ' + activity.title"
+        >
+          <ion-icon name="create-outline"></ion-icon>
+        </button>
         <button
           type="button"
           class="delete-activity-button"

@@ -143,6 +143,8 @@ export class CalendarioPage
   showForm =
     false;
 
+  editingId: string | null = null;
+
 
   newTitle =
     'Entrenamiento';
@@ -263,19 +265,32 @@ export class CalendarioPage
 
     this.showForm =
       false;
-
+    this.editingId = null;
+    this.resetForm();
 
     this.loadActivities();
 
   }
 
 
-  addActivity():
-    void {
+  addActivity(): void {
+    if (this.saving) return;
+    this.showForm = !this.showForm;
+    this.editingId = null;
+    this.resetForm();
+  }
 
-    this.showForm =
-      !this.showForm;
-
+  editActivity(activity: Activity): void {
+    if (this.saving) return;
+    this.editingId = activity.id;
+    this.showForm = true;
+    this.newTitle = activity.title;
+    this.newType = activity.type;
+    this.newTime = activity.time;
+    this.newDurationMinutes = activity.duration_minutes;
+    this.newCategoryId = activity.category?.id || '';
+    this.newLocation = activity.location || '';
+    this.newOpponent = activity.opponent || '';
   }
 
 
@@ -374,7 +389,8 @@ export class CalendarioPage
       !Number.isInteger(
         duration,
       ) ||
-      duration <= 0
+      duration <= 0 ||
+      duration > 600
     ) {
 
       void this.showToast(
@@ -442,13 +458,15 @@ export class CalendarioPage
       true;
 
 
-    this.http
-      .post<
-        ApiResponse<Activity>
-      >(
-        `${this.apiUrl}/calendar-events`,
-        payload,
-      )
+    const editingId = this.editingId;
+    const request = editingId
+      ? this.http.patch<ApiResponse<Activity>>(
+          `${this.apiUrl}/calendar-events/${editingId}`, payload,
+        )
+      : this.http.post<ApiResponse<Activity>>(
+          `${this.apiUrl}/calendar-events`, payload,
+        );
+    request
       .subscribe({
 
         next:
@@ -462,6 +480,7 @@ export class CalendarioPage
               false;
 
 
+            this.editingId = null;
             this.resetForm();
 
 
@@ -469,7 +488,7 @@ export class CalendarioPage
 
 
             void this.showToast(
-              'Actividad guardada.',
+              editingId ? 'Actividad actualizada.' : 'Actividad guardada.',
               'success',
             );
 
