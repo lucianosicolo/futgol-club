@@ -387,3 +387,207 @@
   }
 
 }
+
+
+/* FORMULARIO REAL */
+
+.activity-form {
+  margin-bottom: 12px;
+
+  padding: 13px;
+
+  background: #ffffff;
+
+  border:
+    1px solid var(--futgol-border);
+  border-radius: 13px;
+
+  box-shadow:
+    0 4px 14px
+    rgba(30, 45, 30, 0.045);
+}
+
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+
+  margin-bottom: 10px;
+
+
+  label {
+    color: var(--futgol-muted);
+
+    font-size: 8px;
+    font-weight: 800;
+  }
+
+
+  input,
+  ion-select {
+    width: 100%;
+
+    min-height: 40px;
+
+    padding: 0 10px;
+
+    background: #f7f9f6;
+
+    border:
+      1px solid var(--futgol-border);
+    border-radius: 9px;
+
+    outline: none;
+
+    color: var(--futgol-text);
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 650;
+  }
+
+
+  ion-select {
+    --padding-start: 0;
+    --padding-end: 0;
+  }
+
+
+  input:focus {
+    border-color:
+      rgba(77, 169, 52, 0.55);
+
+    box-shadow:
+      0 0 0 2px
+      rgba(77, 169, 52, 0.08);
+  }
+}
+
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 9px;
+}
+
+
+.save-activity-button {
+  appearance: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  width: 100%;
+  min-height: 42px;
+
+  margin-top: 3px;
+
+  background:
+    var(--futgol-green);
+
+  border: 0;
+  border-radius: 9px;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 10px;
+  font-weight: 850;
+
+  cursor: pointer;
+
+
+  ion-icon {
+    font-size: 16px;
+  }
+
+
+  &:disabled {
+    cursor: default;
+
+    opacity: 0.6;
+  }
+}
+
+
+.add-activity-button.active {
+  background:
+    var(--futgol-dark-green);
+}
+
+
+.delete-activity-button {
+  appearance: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+
+  padding: 0;
+
+  background: #fff4f4;
+
+  border: 0;
+  border-radius: 8px;
+
+  color: #c75454;
+
+  cursor: pointer;
+
+
+  ion-icon {
+    font-size: 15px;
+  }
+}
+
+
+.activity-information {
+
+  small {
+    color: #8b918b;
+
+    font-size: 7px;
+    line-height: 1.35;
+  }
+}
+
+
+.loading-activities {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 95px;
+
+
+  ion-spinner {
+    color:
+      var(--futgol-green);
+  }
+}
+
+
+@media (
+  max-width: 380px
+) {
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
