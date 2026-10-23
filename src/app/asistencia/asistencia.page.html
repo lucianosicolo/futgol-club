@@ -82,6 +82,7 @@
 
         <ion-select
           [value]="selectedCategory"
+          [disabled]="savingAsistencia"
           interface="popover"
           (ionChange)="
             changeCategory(
@@ -130,6 +131,7 @@
         <ion-button
           type="button"
           fill="clear"
+          [disabled]="savingAsistencia || asistenciaLoading"
           (click)="previousClass()"
           aria-label="Día anterior"
         >
@@ -159,6 +161,7 @@
         <ion-button
           type="button"
           fill="clear"
+          [disabled]="savingAsistencia || asistenciaLoading"
           (click)="nextClass()"
           aria-label="Día siguiente"
         >
@@ -221,6 +224,21 @@
           <div>
 
             <span>
+              Ausentes
+            </span>
+
+            <strong
+              class="absent-count"
+            >
+              {{ absentStudentsCount }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
               Sin marcar
             </span>
 
@@ -273,6 +291,10 @@
               student.status ===
               'present'
             "
+            [class.student-absent]="
+              student.status ===
+              'absent'
+            "
             (click)="
               changeStatus(
                 student
@@ -317,6 +339,10 @@
                 student.status ===
                 'present'
               "
+              [class.absent]="
+                student.status ===
+                'absent'
+              "
             >
 
               <ion-icon
@@ -331,10 +357,9 @@
               <span>
 
                 {{
-                  student.status ===
-                    'present'
-                    ? 'Presente'
-                    : 'Sin marcar'
+                  getStatusLabel(
+                    student.status
+                  )
                 }}
 
               </span>
@@ -393,15 +418,9 @@
 
             <span>
 
-              Marcaste
+              {{ presentStudentsCount }} presentes.
 
-              {{ presentStudentsCount }}
-
-              de
-
-              {{ filteredStudents.length }}
-
-              alumnos.
+              Al guardar, los demás quedarán como ausentes.
 
             </span>
 
