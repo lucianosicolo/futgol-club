@@ -129,6 +129,11 @@ type PaymentStatus =
   | 'due';
 
 
+type ManualPaymentMethod =
+  | 'cash'
+  | 'transfer';
+
+
 type PaymentFilter =
   | 'all'
   | PaymentStatus;
@@ -822,7 +827,36 @@ async registerStudentPayment(
           `${student.name} ${student.lastname}`,
 
         message:
-          `¿Confirmar el pago de la cuota de ${student.period} por $${student.amount.toLocaleString('es-AR')}?`,
+          `Confirmá cómo se recibió la cuota de ${student.period} por $${student.amount.toLocaleString('es-AR')}.`,
+
+        inputs: [
+
+          {
+            type:
+              'radio',
+
+            label:
+              'Efectivo',
+
+            value:
+              'cash',
+
+            checked:
+              true,
+          },
+
+          {
+            type:
+              'radio',
+
+            label:
+              'Transferencia',
+
+            value:
+              'transfer',
+          },
+
+        ],
 
         buttons: [
 
@@ -836,14 +870,33 @@ async registerStudentPayment(
 
           {
             text:
-              'Confirmar pago',
+              'Registrar pago',
 
             handler:
-              () => {
+              (
+                paymentMethod:
+                  ManualPaymentMethod,
+              ) => {
 
-                this.markFeeAsPaid(
+                if (
+                  paymentMethod !==
+                    'cash' &&
+                  paymentMethod !==
+                    'transfer'
+                ) {
+
+                  return false;
+
+                }
+
+
+                this.registerManualPayment(
                   student,
+                  paymentMethod,
                 );
+
+
+                return true;
 
               },
           },
@@ -856,9 +909,16 @@ async registerStudentPayment(
   await alert.present();
 
 }
-private markFeeAsPaid(
+
+
+private registerManualPayment(
+
   student:
     PaymentStudent,
+
+  paymentMethod:
+    ManualPaymentMethod,
+
 ): void {
 
   if (
@@ -875,44 +935,39 @@ private markFeeAsPaid(
     student.feeId;
 
 
-  const body = {
-
-    status:
-      'paid',
-
-  };
-
-
   this.http
-    .put<FeeResponse>(
-      `${this.apiUrl}/fees/${student.feeId}`,
-      body,
+    .post(
+      `${this.apiUrl}/payments/manual`,
+      {
+
+        feeId:
+          student.feeId,
+
+        paymentMethod,
+
+      },
     )
     .subscribe({
 
       next:
-        response => {
-
-          console.log(
-            'PAGO REGISTRADO:',
-            response,
-          );
-
+        () => {
 
           this.updatingFeeId =
             null;
 
 
-          /*
-           * Volvemos a traer
-           * la información real
-           * del backend.
-           */
           this.loadFees();
 
 
+          const methodLabel =
+            paymentMethod ===
+              'cash'
+              ? 'efectivo'
+              : 'transferencia';
+
+
           void this.showToast(
-            'Pago registrado correctamente.',
+            `Pago por ${methodLabel} registrado correctamente.`,
           );
 
         },
@@ -922,7 +977,7 @@ private markFeeAsPaid(
         error => {
 
           console.error(
-            'ERROR REGISTRANDO PAGO:',
+            'ERROR REGISTRANDO PAGO MANUAL:',
             error,
           );
 
@@ -931,97 +986,23 @@ private markFeeAsPaid(
             null;
 
 
+          const message =
+            error?.status === 409
+              ? 'La cuota ya figura como pagada.'
+              : 'No se pudo registrar el pago.';
+
+
           void this.showToast(
-            'No se pudo registrar el pago.',
+            message,
+            'danger',
           );
 
         },
 
     });
 
-// }
-// payWithMercadoPago(
-//     student: PaymentStudent,
-//   ): void {
+}
 
-//     if (
-//       this.processingFeeId ===
-//       student.feeId
-//     ) {
-//       return;
-//     }
-
-
-//     this.processingFeeId =
-//       student.feeId;
-
-
-//     const body = {
-
-//       feeId:
-//         student.feeId,
-
-//     };
-
-
-//     this.http
-//       .post<MercadoPagoResponse>(
-//         `${this.apiUrl}/mercadopago/preference`,
-//         body,
-//       )
-//       .subscribe({
-
-//         next: (
-//           response,
-//         ) => {
-
-//           if (
-//             !response.checkoutUrl
-//           ) {
-
-//             this.processingFeeId =
-//               null;
-
-
-//             void this.showToast(
-//               'Mercado Pago no devolvió una URL de pago.',
-//             );
-
-//             return;
-
-//           }
-
-
-//           window.location.assign(
-//             response.checkoutUrl,
-//           );
-
-//         },
-
-
-//         error: (
-//           error,
-//         ) => {
-
-//           console.error(
-//             'Error iniciando Mercado Pago:',
-//             error,
-//           );
-
-
-//           this.processingFeeId =
-//             null;
-
-
-//           void this.showToast(
-//             'No se pudo iniciar Mercado Pago.',
-//           );
-
-//         },
-
-//       });
-
-  }
   // processingFeeId: string | null = null;
   /* ============================= */
   /* FILTROS                       */
