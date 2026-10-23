@@ -16,6 +16,7 @@ import {
 } from '@ionic/angular';
 
 import {
+  firstValueFrom,
   forkJoin,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -322,8 +323,92 @@ export class NuevoUsuarioPage
       true;
 
 
-    const userPayload:
-      any = {
+    try {
+
+
+      /*
+       * Si también entrena, usuario +
+       * alumno + personas a cargo se crean
+       * dentro de una única transacción.
+       */
+      if (
+        this.isStudent
+      ) {
+
+        const registrationPayload:
+          any = {
+
+          student: {
+
+            name:
+              this.name.trim(),
+
+            last_name:
+              this.lastName.trim(),
+
+            document:
+              this.document.trim(),
+
+            birth_date:
+              this.birthDate,
+
+            address:
+              this.address.trim(),
+
+            category_id:
+              this.categoryId,
+
+          },
+
+          access_mode:
+            'self',
+
+          self_account: {
+
+            email:
+              this.email
+                .trim()
+                .toLowerCase(),
+
+            phone:
+              this.phone.trim(),
+
+            password:
+              this.password,
+
+          },
+
+          dependent_student_ids:
+            this.hasDependents
+              ? this.dependentStudentIds
+              : [],
+
+        };
+
+
+        await firstValueFrom(
+
+          this.http.post(
+            `${this.apiUrl}/registrations/student`,
+            registrationPayload,
+          ),
+
+        );
+
+
+        await this.finishSuccess();
+
+        return;
+
+      }
+
+
+      /*
+       * Si no entrena, el alta es un único
+       * usuario y no necesita orquestación.
+       */
+      const userPayload:
+        any = {
 
         name:
           this.name.trim(),
@@ -348,177 +433,57 @@ export class NuevoUsuarioPage
       };
 
 
-    /*
-     * Personas a cargo.
-     */
+      if (
+        this.hasDependents
+      ) {
 
-    if (
-      this.hasDependents
-    ) {
+        userPayload.students =
+          this.dependentStudentIds
+            .map(
+              id => ({
+                id,
+              }),
+            );
 
-      userPayload.students =
-        this.dependentStudentIds
-          .map(
-            id => ({
-              id,
-            }),
-          );
+      }
+
+
+      await firstValueFrom(
+
+        this.http.post<
+          ApiResponse<CreatedUser>
+        >(
+          `${this.apiUrl}/users`,
+          userPayload,
+        ),
+
+      );
+
+
+      await this.finishSuccess();
+
+
+    } catch (error: any) {
+
+
+      console.error(
+        'Error creando usuario:',
+        error,
+      );
+
+
+      this.saving =
+        false;
+
+
+      await this.showToast(
+        this.getErrorMessage(
+          error,
+        ),
+        'danger',
+      );
 
     }
-
-
-    this.http
-      .post<
-        ApiResponse<CreatedUser>
-      >(
-        `${this.apiUrl}/users`,
-        userPayload,
-      )
-      .subscribe({
-
-        next:
-          response => {
-
-
-            const createdUser =
-              response.result;
-
-
-            /*
-             * Si NO entrena,
-             * terminamos acá.
-             */
-
-            if (!this.isStudent) {
-
-              void this.finishSuccess();
-
-              return;
-
-            }
-
-
-            /*
-             * Si también entrena,
-             * creamos Student
-             * relacionado al User.
-             */
-
-            this.createStudent(
-              createdUser.id,
-            );
-
-          },
-
-
-        error:
-          error => {
-
-
-            console.error(
-              'Error creando usuario:',
-              error,
-            );
-
-
-            this.saving =
-              false;
-
-
-            void this.showToast(
-              this.getErrorMessage(
-                error,
-              ),
-              'danger',
-            );
-
-          },
-
-      });
-
-  }
-
-
-  /* ============================= */
-  /* CREAR STUDENT                 */
-  /* ============================= */
-
-  private createStudent(
-    userId: string,
-  ): void {
-
-
-    const studentPayload =
-      {
-
-        name:
-          this.name.trim(),
-
-        last_name:
-          this.lastName.trim(),
-
-        document:
-          this.document.trim(),
-
-        birth_date:
-          this.birthDate,
-
-        address:
-          this.address.trim(),
-
-        avatar:
-          '',
-
-        category: {
-          id:
-            this.categoryId,
-        },
-
-        user_id:
-          userId,
-
-      };
-
-
-    this.http
-      .post<
-        ApiResponse<Student>
-      >(
-        `${this.apiUrl}/students`,
-        studentPayload,
-      )
-      .subscribe({
-
-        next:
-          () => {
-
-            void this.finishSuccess();
-
-          },
-
-
-        error:
-          error => {
-
-
-            console.error(
-              'Usuario creado pero error creando alumno:',
-              error,
-            );
-
-
-            this.saving =
-              false;
-
-
-            void this.showToast(
-              'La cuenta fue creada, pero no se pudo crear su ficha de alumno.',
-              'danger',
-            );
-
-          },
-
-      });
 
   }
 
