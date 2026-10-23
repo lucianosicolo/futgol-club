@@ -430,7 +430,7 @@
 
   grid-template-columns:
     repeat(
-      3,
+      4,
       1fr
     );
 
@@ -495,6 +495,13 @@
     font-size: 17px;
 
     font-weight: 850;
+
+  }
+
+
+  .absent-count {
+
+    color: #c75454;
 
   }
 
@@ -680,6 +687,13 @@
 }
 
 
+.student-absent {
+
+  --background: #fffafa;
+
+}
+
+
 /* ============================= */
 /* ESTADO                        */
 /* ============================= */
@@ -726,6 +740,13 @@
 
     color:
       var(--its-green);
+
+  }
+
+
+  &.absent {
+
+    color: #c75454;
 
   }
 
@@ -952,7 +973,7 @@
 
     grid-template-columns:
       repeat(
-        3,
+        4,
         1fr
       );
 
