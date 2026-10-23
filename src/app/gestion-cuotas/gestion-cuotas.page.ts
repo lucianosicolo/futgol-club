@@ -227,17 +227,19 @@ export class GestionCuotasPage
         );
 
 
+    /*
+     * Para saber si un alumno ya tuvo una
+     * cuota en el período contamos también
+     * las cuotas dadas de baja.
+     *
+     * El backend no recrea alumno+período:
+     * preservamos el historial.
+     */
     const feeParams =
       new HttpParams()
-
         .set(
           'period',
           this.currentPeriod,
-        )
-
-        .set(
-          'active',
-          'true',
         );
 
 
@@ -589,6 +591,20 @@ export class GestionCuotasPage
     ) {
 
       if (
+        !this.isDueDateInCurrentPeriod
+      ) {
+
+        await this.showToast(
+          'El vencimiento debe estar dentro del período seleccionado.',
+          'warning',
+        );
+
+        return;
+
+      }
+
+
+      if (
         this.missingPriceCategories
           .length > 0
       ) {
@@ -890,13 +906,82 @@ export class GestionCuotasPage
   get missingPriceCategories():
     CategoryApi[] {
 
+    const pendingCategoryIds =
+      new Set(
+
+        this.pendingStudents
+
+          .map(
+            student =>
+              student.category
+                ?.id,
+          )
+
+          .filter(
+            (
+              id,
+            ):
+              id is string =>
+              !!id,
+          ),
+
+      );
+
+
     return this.categories
       .filter(
         category =>
+          pendingCategoryIds.has(
+            category.id,
+          ) &&
           Number(
             category.monthly_fee,
           ) <= 0,
       );
+
+  }
+
+
+  get isDueDateInCurrentPeriod():
+    boolean {
+
+    if (
+      !this.dueDate
+    ) {
+
+      return false;
+
+    }
+
+
+    return (
+      this.dueDate >=
+        this.dueDateMin &&
+      this.dueDate <=
+        this.dueDateMax
+    );
+
+  }
+
+
+  get dueDateMin():
+    string {
+
+    return this.getPeriodBoundary(
+      this.currentPeriod,
+      false,
+    );
+
+  }
+
+
+  get dueDateMax():
+    string {
+
+    return this.getPeriodBoundary(
+      this.currentPeriod,
+      true,
+    );
 
   }
 
@@ -917,7 +1002,7 @@ export class GestionCuotasPage
       this.missingPriceCategories
         .length === 0 &&
 
-      !!this.dueDate
+      this.isDueDateInCurrentPeriod
 
     );
 
@@ -1001,6 +1086,81 @@ export class GestionCuotasPage
 
 
     return periods;
+
+  }
+
+
+  private getPeriodBoundary(
+
+    period:
+      string,
+
+    lastDay:
+      boolean,
+
+  ): string {
+
+    const [
+      monthName,
+      yearText,
+    ] =
+      period.split(
+        ' ',
+      );
+
+
+    const monthIndex =
+      this.months.indexOf(
+        monthName,
+      );
+
+    const year =
+      Number(
+        yearText,
+      );
+
+
+    if (
+      monthIndex === -1 ||
+      !year
+    ) {
+
+      return '';
+
+    }
+
+
+    const day =
+      lastDay
+        ? new Date(
+            year,
+            monthIndex + 1,
+            0,
+          ).getDate()
+        : 1;
+
+
+    return [
+
+      year,
+
+      String(
+        monthIndex + 1,
+      ).padStart(
+        2,
+        '0',
+      ),
+
+      String(
+        day,
+      ).padStart(
+        2,
+        '0',
+      ),
+
+    ].join(
+      '-',
+    );
 
   }
 
