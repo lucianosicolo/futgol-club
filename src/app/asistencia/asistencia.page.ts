@@ -10,80 +10,134 @@ import {
 import {
   ToastController,
 } from '@ionic/angular';
-import { environment } from 'src/environments/environment';
+
+import {
+  environment,
+} from 'src/environments/environment';
 
 
 interface ApiResponse<T> {
-  ok: boolean;
-  result: T;
-  msg: string;
+  ok:
+    boolean;
+
+  result:
+    T;
+
+  msg:
+    string;
 }
 
 
 interface CategoryApi {
-  id: string;
-  name: string;
-  active: boolean;
+  id:
+    string;
+
+  name:
+    string;
+
+  active:
+    boolean;
 }
 
 
 interface StudentApi {
 
-  id: string;
+  id:
+    string;
 
-  name: string;
-  last_name: string;
+  name:
+    string;
 
-  document: string;
-  birth_date: string;
-  address: string;
+  last_name:
+    string;
 
-  avatar: string | null;
+  document:
+    string;
 
-  active: boolean;
+  birth_date:
+    string;
 
-  category?: CategoryApi | null;
+  address:
+    string;
+
+  avatar:
+    string | null;
+
+  active:
+    boolean;
+
+  category?:
+    CategoryApi | null;
 
 }
 
 
 interface AsistenciaApi {
 
-  id: string;
+  id:
+    string;
 
-  date: string;
+  date:
+    string;
 
-  present: boolean;
+  present:
+    boolean;
 
   student: {
-    id: string;
-    name: string;
-    last_name: string;
+
+    id:
+      string;
+
+    name:
+      string;
+
+    last_name:
+      string;
+
   };
 
-  created_at?: string;
-  updated_at?: string;
+  created_at?:
+    string;
+
+  updated_at?:
+    string;
 
 }
 
 
 type AsistenciaStatus =
   | 'pending'
-  | 'present';
+  | 'present'
+  | 'absent';
 
 
 interface AsistenciaStudent {
 
-  id: string;
+  id:
+    string;
 
-  name: string;
-  lastname: string;
+  name:
+    string;
 
-  course: string;
+  lastname:
+    string;
 
-  avatar: string;
+  course:
+    string;
 
-  status: AsistenciaStatus;
+  avatar:
+    string;
+
+  status:
+    AsistenciaStatus;
+
+  /*
+   * Permite distinguir un día todavía
+   * no guardado de una ausencia real
+   * recuperada desde la base.
+   */
+  saved:
+    boolean;
 
 }
 
@@ -107,7 +161,7 @@ export class AsistenciaPage
 
 
   private readonly apiUrl =
-environment.apiUrl;
+    environment.apiUrl;
 
 
   loading =
@@ -176,6 +230,9 @@ environment.apiUrl;
 
         month:
           'long',
+
+        year:
+          'numeric',
       },
     ).format(
       this.selectedDate,
@@ -249,12 +306,6 @@ environment.apiUrl;
               [];
 
 
-            console.log(
-              'ALUMNOS RECIBIDOS:',
-              apiStudents,
-            );
-
-
             this.students =
               apiStudents.map(
                 student => ({
@@ -279,6 +330,9 @@ environment.apiUrl;
 
                   status:
                     'pending',
+
+                  saved:
+                    false,
 
                 }),
               );
@@ -309,24 +363,13 @@ environment.apiUrl;
               false;
 
 
-            /*
-             * Después de cargar alumnos,
-             * cargamos la asistencia
-             * de la fecha seleccionada.
-             */
             this.loadAsistencia();
 
           },
 
 
         error:
-          error => {
-
-            console.error(
-              'ERROR CARGANDO ALUMNOS:',
-              error,
-            );
-
+          () => {
 
             this.students =
               [];
@@ -355,19 +398,31 @@ environment.apiUrl;
   loadAsistencia():
     void {
 
+    if (
+      this.loading
+    ) {
+
+      return;
+
+    }
+
+
     this.asistenciaLoading =
       true;
 
 
     /*
-     * Antes de aplicar lo guardado,
-     * dejamos a todos sin marcar.
+     * Un día sin registros todavía
+     * está "sin marcar".
      */
     this.students.forEach(
       student => {
 
         student.status =
           'pending';
+
+        student.saved =
+          false;
 
       },
     );
@@ -389,12 +444,6 @@ environment.apiUrl;
               [];
 
 
-            console.log(
-              'ASISTENCIA DEL DÍA:',
-              asistencias,
-            );
-
-
             asistencias.forEach(
               asistencia => {
 
@@ -411,10 +460,14 @@ environment.apiUrl;
                 }
 
 
+                student.saved =
+                  true;
+
+
                 student.status =
                   asistencia.present
                     ? 'present'
-                    : 'pending';
+                    : 'absent';
 
               },
             );
@@ -427,16 +480,16 @@ environment.apiUrl;
 
 
         error:
-          error => {
-
-            console.error(
-              'ERROR CARGANDO ASISTENCIA:',
-              error,
-            );
-
+          () => {
 
             this.asistenciaLoading =
               false;
+
+
+            void this.showToast(
+              'No se pudo cargar la asistencia del día.',
+              'danger',
+            );
 
           },
 
@@ -475,9 +528,19 @@ environment.apiUrl;
 
 
   changeCategory(
-    category: string,
+    category:
+      string,
   ):
     void {
+
+    if (
+      this.savingAsistencia
+    ) {
+
+      return;
+
+    }
+
 
     this.selectedCategory =
       category;
@@ -528,13 +591,30 @@ environment.apiUrl;
   }
 
 
+  get absentStudentsCount():
+    number {
+
+    return this.filteredStudents
+      .filter(
+        student =>
+          student.status ===
+          'absent',
+      )
+      .length;
+
+  }
+
+
   get pendingStudentsCount():
     number {
 
-    return (
-      this.filteredStudents.length -
-      this.presentStudentsCount
-    );
+    return this.filteredStudents
+      .filter(
+        student =>
+          student.status ===
+          'pending',
+      )
+      .length;
 
   }
 
@@ -545,7 +625,8 @@ environment.apiUrl;
 
   trackByStudentId(
 
-    _index: number,
+    _index:
+      number,
 
     student:
       AsistenciaStudent,
@@ -568,11 +649,33 @@ environment.apiUrl;
   ):
     void {
 
-    student.status =
+    if (
+      this.savingAsistencia ||
+      this.asistenciaLoading
+    ) {
+
+      return;
+
+    }
+
+
+    if (
       student.status ===
-        'present'
-        ? 'pending'
-        : 'present';
+      'present'
+    ) {
+
+      student.status =
+        student.saved
+          ? 'absent'
+          : 'pending';
+
+      return;
+
+    }
+
+
+    student.status =
+      'present';
 
   }
 
@@ -583,10 +686,58 @@ environment.apiUrl;
   ):
     string {
 
-    return status ===
+    if (
+      status ===
       'present'
-      ? 'checkmark-circle'
-      : 'ellipse-outline';
+    ) {
+
+      return 'checkmark-circle';
+
+    }
+
+
+    if (
+      status ===
+      'absent'
+    ) {
+
+      return 'close-circle';
+
+    }
+
+
+    return 'ellipse-outline';
+
+  }
+
+
+  getStatusLabel(
+    status:
+      AsistenciaStatus,
+  ):
+    string {
+
+    if (
+      status ===
+      'present'
+    ) {
+
+      return 'Presente';
+
+    }
+
+
+    if (
+      status ===
+      'absent'
+    ) {
+
+      return 'Ausente';
+
+    }
+
+
+    return 'Sin marcar';
 
   }
 
@@ -600,13 +751,10 @@ environment.apiUrl;
 
     if (
       this.filteredStudents.length ===
-      0
+      0 ||
+      this.savingAsistencia ||
+      this.asistenciaLoading
     ) {
-
-      await this.showToast(
-        'No hay alumnos en esta categoría.',
-        'danger',
-      );
 
       return;
 
@@ -617,6 +765,18 @@ environment.apiUrl;
       true;
 
 
+    const presentCount =
+      this.presentStudentsCount;
+
+    const total =
+      this.filteredStudents.length;
+
+
+    /*
+     * El flujo de FUTGOL es simple:
+     * se marcan los presentes y al
+     * guardar, el resto queda ausente.
+     */
     const payload =
       this.filteredStudents.map(
         student => ({
@@ -635,12 +795,6 @@ environment.apiUrl;
       );
 
 
-    console.log(
-      'GUARDANDO ASISTENCIA:',
-      payload,
-    );
-
-
     this.http
       .post<
         ApiResponse<AsistenciaApi[]>
@@ -651,23 +805,25 @@ environment.apiUrl;
       .subscribe({
 
         next:
-          response => {
-
-            console.log(
-              'ASISTENCIA GUARDADA:',
-              response,
-            );
-
+          () => {
 
             this.savingAsistencia =
               false;
 
 
+            /*
+             * Volvemos a consultar la base
+             * para que la pantalla refleje
+             * exactamente lo persistido.
+             */
+            this.loadAsistencia();
+
+
             void this.showToast(
 
               `Asistencia guardada · ` +
-              `${this.presentStudentsCount} de ` +
-              `${this.filteredStudents.length} presentes`,
+              `${presentCount} de ` +
+              `${total} presentes`,
 
               'success',
 
@@ -677,13 +833,7 @@ environment.apiUrl;
 
 
         error:
-          error => {
-
-            console.error(
-              'ERROR GUARDANDO ASISTENCIA:',
-              error,
-            );
-
+          () => {
 
             this.savingAsistencia =
               false;
@@ -708,6 +858,16 @@ environment.apiUrl;
   previousClass():
     void {
 
+    if (
+      this.savingAsistencia ||
+      this.asistenciaLoading
+    ) {
+
+      return;
+
+    }
+
+
     const previousDate =
       new Date(
         this.selectedDate,
@@ -731,6 +891,16 @@ environment.apiUrl;
 
   nextClass():
     void {
+
+    if (
+      this.savingAsistencia ||
+      this.asistenciaLoading
+    ) {
+
+      return;
+
+    }
+
 
     const nextDate =
       new Date(
@@ -759,7 +929,8 @@ environment.apiUrl;
 
   private async showToast(
 
-    message: string,
+    message:
+      string,
 
     color:
       | 'success'
