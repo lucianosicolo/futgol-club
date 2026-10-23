@@ -1,6 +1,5 @@
 <main class="calendar-container">
 
-  <!-- INTRO -->
 
   <section class="calendar-intro">
 
@@ -13,13 +12,12 @@
     </h1>
 
     <p>
-      Consultá los entrenamientos y actividades de la escuelita.
+      Organizá entrenamientos, partidos
+      y actividades de FUTGOL.
     </p>
 
   </section>
 
-
-  <!-- CALENDARIO -->
 
   <section class="calendar-card">
 
@@ -34,8 +32,6 @@
 
   </section>
 
-
-  <!-- ACTIVIDADES DEL DÍA -->
 
   <section class="activities-section">
 
@@ -57,28 +53,227 @@
       <button
         type="button"
         class="add-activity-button"
+        [class.active]="showForm"
         (click)="addActivity()"
         aria-label="Nueva actividad"
       >
 
-        <ion-icon name="add-outline"></ion-icon>
+        <ion-icon
+          [name]="
+            showForm
+              ? 'close-outline'
+              : 'add-outline'
+          "
+        ></ion-icon>
 
       </button>
 
     </div>
 
 
-    <!-- ACTIVIDADES -->
-
-    <div
-      class="activities-list"
-      *ngIf="selectedActivities.length > 0"
+    <section
+      class="activity-form"
+      *ngIf="showForm"
     >
+
+      <div class="form-row">
+
+        <label>
+          Tipo
+        </label>
+
+        <ion-select
+          [(ngModel)]="newType"
+          interface="popover"
+          [disabled]="saving"
+          (ionChange)="changeType()"
+        >
+
+          <ion-select-option
+            value="training"
+          >
+            Entrenamiento
+          </ion-select-option>
+
+          <ion-select-option
+            value="match"
+          >
+            Partido
+          </ion-select-option>
+
+          <ion-select-option
+            value="general"
+          >
+            Actividad general
+          </ion-select-option>
+
+        </ion-select>
+
+      </div>
+
+
+      <div class="form-row">
+
+        <label>
+          Nombre
+        </label>
+
+        <input
+          type="text"
+          maxlength="120"
+          [(ngModel)]="newTitle"
+          [disabled]="saving"
+        />
+
+      </div>
+
+
+      <div class="form-grid">
+
+        <div class="form-row">
+
+          <label>
+            Hora
+          </label>
+
+          <input
+            type="time"
+            [(ngModel)]="newTime"
+            [disabled]="saving"
+          />
+
+        </div>
+
+
+        <div class="form-row">
+
+          <label>
+            Duración (min)
+          </label>
+
+          <input
+            type="number"
+            min="1"
+            max="600"
+            [(ngModel)]="newDurationMinutes"
+            [disabled]="saving"
+          />
+
+        </div>
+
+      </div>
+
+
+      <div class="form-row">
+
+        <label>
+          Categoría
+        </label>
+
+        <ion-select
+          [(ngModel)]="newCategoryId"
+          interface="popover"
+          [disabled]="saving"
+        >
+
+          <ion-select-option
+            value=""
+          >
+            Todas / general
+          </ion-select-option>
+
+          <ion-select-option
+            *ngFor="
+              let category
+              of categories
+            "
+            [value]="category.id"
+          >
+
+            {{ category.name }}
+
+          </ion-select-option>
+
+        </ion-select>
+
+      </div>
+
+
+      <div class="form-row">
+
+        <label>
+          Lugar
+        </label>
+
+        <input
+          type="text"
+          maxlength="160"
+          placeholder="Opcional"
+          [(ngModel)]="newLocation"
+          [disabled]="saving"
+        />
+
+      </div>
+
+
+      <div
+        class="form-row"
+        *ngIf="newType === 'match'"
+      >
+
+        <label>
+          Rival
+        </label>
+
+        <input
+          type="text"
+          maxlength="120"
+          placeholder="Opcional"
+          [(ngModel)]="newOpponent"
+          [disabled]="saving"
+        />
+
+      </div>
+
 
       <button
         type="button"
+        class="save-activity-button"
+        [disabled]="saving"
+        (click)="createActivity()"
+      >
+
+        <ion-icon
+          name="save-outline"
+        ></ion-icon>
+
+        <span>
+          {{
+            saving
+              ? 'Guardando...'
+              : 'Guardar actividad'
+          }}
+        </span>
+
+      </button>
+
+    </section>
+
+
+    <div
+      class="activities-list"
+      *ngIf="
+        !loading &&
+        selectedActivities.length > 0
+      "
+    >
+
+      <article
         class="activity-item"
-        *ngFor="let activity of selectedActivities"
+        *ngFor="
+          let activity
+          of selectedActivities
+        "
       >
 
         <div class="activity-time">
@@ -88,7 +283,11 @@
           </strong>
 
           <span>
-            {{ activity.duration }}
+            {{
+              durationLabel(
+                activity.duration_minutes
+              )
+            }}
           </span>
 
         </div>
@@ -97,35 +296,71 @@
         <div class="activity-information">
 
           <strong>
-            {{ activity.name }}
+            {{ activity.title }}
           </strong>
 
           <span>
-            {{ activity.category }}
+            {{
+              activity.category
+                ?.name ||
+              'Todo FUTGOL'
+            }}
           </span>
+
+          <small
+            *ngIf="
+              activity.location ||
+              activity.opponent
+            "
+          >
+
+            <span
+              *ngIf="activity.location"
+            >
+              {{ activity.location }}
+            </span>
+
+            <span
+              *ngIf="activity.opponent"
+            >
+              · vs {{ activity.opponent }}
+            </span>
+
+          </small>
 
         </div>
 
 
-        <ion-icon
-          class="activity-chevron"
-          name="chevron-forward-outline"
-        ></ion-icon>
+        <button
+          type="button"
+          class="delete-activity-button"
+          (click)="deleteActivity(activity)"
+          aria-label="Eliminar actividad"
+        >
 
-      </button>
+          <ion-icon
+            name="trash-outline"
+          ></ion-icon>
+
+        </button>
+
+      </article>
 
     </div>
 
 
-    <!-- SIN ACTIVIDADES -->
-
     <div
       class="empty-activities"
-      *ngIf="selectedActivities.length === 0"
+      *ngIf="
+        !loading &&
+        selectedActivities.length === 0
+      "
     >
 
       <div>
-        <ion-icon name="calendar-clear-outline"></ion-icon>
+        <ion-icon
+          name="calendar-clear-outline"
+        ></ion-icon>
       </div>
 
       <strong>
@@ -133,11 +368,25 @@
       </strong>
 
       <span>
-        No hay entrenamientos registrados para este día.
+        No hay actividades registradas
+        para este día.
       </span>
 
     </div>
 
+
+    <div
+      class="loading-activities"
+      *ngIf="loading"
+    >
+
+      <ion-spinner
+        name="crescent"
+      ></ion-spinner>
+
+    </div>
+
   </section>
+
 
 </main>
