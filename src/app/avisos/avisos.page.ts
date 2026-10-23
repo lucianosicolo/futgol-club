@@ -1,38 +1,123 @@
 import {
   Component,
+  OnInit,
 } from '@angular/core';
+
+import {
+  HttpClient,
+} from '@angular/common/http';
 
 import {
   ToastController,
 } from '@ionic/angular';
 
+import {
+  environment,
+} from 'src/environments/environment';
+
+
+interface ApiResponse<T> {
+  ok:
+    boolean;
+
+  result:
+    T;
+
+  msg:
+    string;
+}
+
 
 interface LoggedUser {
-  id: string;
-  name: string;
-  last_name: string;
-  email: string;
-  phone: string;
+  id:
+    string;
+
+  name:
+    string;
+
+  last_name:
+    string;
+
+  email:
+    string;
+
+  phone:
+    string;
 
   role:
     | 'admin'
     | 'teacher'
     | 'responsible';
 
-  active: boolean;
+  active:
+    boolean;
 }
 
 
-interface NoticeStudent {
-  id: number;
+interface CategoryApi {
+  id:
+    string;
 
-  name: string;
-  lastname: string;
+  name:
+    string;
 
-  category: string;
+  active:
+    boolean;
+}
 
-  responsibleName: string;
-  phone: string;
+
+interface StudentApi {
+  id:
+    string;
+
+  name:
+    string;
+
+  last_name:
+    string;
+
+  active:
+    boolean;
+
+  category:
+    CategoryApi | null;
+}
+
+
+interface NoticeApi {
+  id:
+    string;
+
+  type:
+    'payment'
+    | 'training'
+    | 'general';
+
+  message:
+    string;
+
+  category:
+    CategoryApi | null;
+
+  student:
+    StudentApi | null;
+
+  created_by: {
+    id:
+      string;
+
+    name:
+      string;
+
+    last_name:
+      string;
+  };
+
+  created_at:
+    string;
+
+  recipientCount?:
+    number;
 }
 
 
@@ -56,151 +141,83 @@ type NoticeType =
   standalone:
     false,
 })
-export class AvisosPage {
+export class AvisosPage
+  implements OnInit {
 
 
-  selectedCategory =
-    'Categoría 2013/2014';
+  private readonly apiUrl =
+    environment.apiUrl;
+
+
+  loading =
+    false;
+
+
+  publishing =
+    false;
+
+
+  selectedCategory:
+    string | 'all' =
+    'all';
 
 
   selectedType:
     NoticeType =
-    'payment';
+    'general';
 
 
   selectedRecipient:
-    number | 'all' =
+    string | 'all' =
     'all';
 
 
   message =
-    'Hola! Te recordamos que la cuota del mes se encuentra pendiente. Muchas gracias. FUTGOL CLUB ⚽';
+    'Hola! 👋\n\nQueríamos compartirles un aviso de FUTGOL CLUB ⚽';
 
 
   categories:
-    string[] = [
-
-      'Todas',
-
-      'Categoría 2013/2014',
-
-      'Categoría 2015/2016',
-
-      'Categoría 2017/2018',
-
-    ];
+    CategoryApi[] =
+    [];
 
 
   students:
-    NoticeStudent[] = [
+    StudentApi[] =
+    [];
 
-      {
-        id: 1,
 
-        name:
-          'Mateo',
-
-        lastname:
-          'Torres',
-
-        category:
-          'Categoría 2013/2014',
-
-        responsibleName:
-          'Carlos Torres',
-
-        phone:
-          '542995333209',
-      },
-
-      {
-        id: 2,
-
-        name:
-          'Luca',
-
-        lastname:
-          'Fernández',
-
-        category:
-          'Categoría 2013/2014',
-
-        responsibleName:
-          'María Fernández',
-
-        phone:
-          '542995333209',
-      },
-
-      {
-        id: 3,
-
-        name:
-          'Thiago',
-
-        lastname:
-          'López',
-
-        category:
-          'Categoría 2013/2014',
-
-        responsibleName:
-          'Juan López',
-
-        phone:
-          '542995333209',
-      },
-
-      {
-        id: 4,
-
-        name:
-          'Benjamín',
-
-        lastname:
-          'Ruiz',
-
-        category:
-          'Categoría 2013/2014',
-
-        responsibleName:
-          'Laura Ruiz',
-
-        phone:
-          '542995333209',
-      },
-
-      {
-        id: 5,
-
-        name:
-          'Tomás',
-
-        lastname:
-          'Gómez',
-
-        category:
-          'Categoría 2015/2016',
-
-        responsibleName:
-          'Martín Gómez',
-
-        phone:
-          '542995333209',
-      },
-
-    ];
+  notices:
+    NoticeApi[] =
+    [];
 
 
   constructor(
+
+    private readonly http:
+      HttpClient,
+
     private readonly toastController:
       ToastController,
+
   ) {}
 
 
-  /* ============================= */
-  /* USUARIO                       */
-  /* ============================= */
+  ngOnInit():
+    void {
+
+    if (
+      this.canCreateNotices
+    ) {
+
+      this.loadAudienceData();
+
+    }
+
+
+    this.loadNotices();
+
+  }
+
 
   get user():
     LoggedUser | null {
@@ -260,38 +277,202 @@ export class AvisosPage {
   }
 
 
-  /* ============================= */
-  /* ALUMNOS FILTRADOS             */
-  /* ============================= */
-
   get selectedStudents():
-    NoticeStudent[] {
+    StudentApi[] {
+
+    const active =
+      this.students
+        .filter(
+          student =>
+            student.active,
+        );
+
 
     if (
       this.selectedCategory ===
-      'Todas'
+      'all'
     ) {
 
-      return this.students;
+      return active;
 
     }
 
 
-    return this.students.filter(
-
-      student =>
-
-        student.category ===
-        this.selectedCategory,
-
-    );
+    return active
+      .filter(
+        student =>
+          student.category
+            ?.id ===
+          this.selectedCategory,
+      );
 
   }
 
 
-  /* ============================= */
-  /* TIPO DE AVISO                 */
-  /* ============================= */
+  get audienceLabel():
+    string {
+
+    if (
+      this.selectedRecipient !==
+      'all'
+    ) {
+
+      const student =
+        this.students.find(
+          item =>
+            item.id ===
+            this.selectedRecipient,
+        );
+
+
+      return student
+        ? `${student.name} ${student.last_name}`
+        : 'Alumno';
+
+    }
+
+
+    if (
+      this.selectedCategory ===
+      'all'
+    ) {
+
+      return 'Todo FUTGOL';
+
+    }
+
+
+    const category =
+      this.categories.find(
+        item =>
+          item.id ===
+          this.selectedCategory,
+      );
+
+
+    return category
+      ?.name ??
+      'Categoría';
+
+  }
+
+
+  loadAudienceData():
+    void {
+
+    this.loading =
+      true;
+
+
+    this.http
+      .get<
+        ApiResponse<CategoryApi[]>
+      >(
+        `${this.apiUrl}/categories?active=true`,
+      )
+      .subscribe({
+
+        next:
+          response => {
+
+            this.categories =
+              response.result ??
+              [];
+
+          },
+
+      });
+
+
+    this.http
+      .get<
+        ApiResponse<StudentApi[]>
+      >(
+        `${this.apiUrl}/students?active=true`,
+      )
+      .subscribe({
+
+        next:
+          response => {
+
+            this.students =
+              response.result ??
+              [];
+
+
+            this.loading =
+              false;
+
+          },
+
+
+        error:
+          () => {
+
+            this.loading =
+              false;
+
+
+            void this.showToast(
+              'No se pudieron cargar los destinatarios.',
+              'danger',
+            );
+
+          },
+
+      });
+
+  }
+
+
+  loadNotices():
+    void {
+
+    const endpoint =
+      this.isResponsible
+        ? '/notices/my'
+        : '/notices';
+
+
+    this.http
+      .get<
+        ApiResponse<NoticeApi[]>
+      >(
+        `${this.apiUrl}${endpoint}`,
+      )
+      .subscribe({
+
+        next:
+          response => {
+
+            this.notices =
+              response.result ??
+              [];
+
+          },
+
+
+        error:
+          () => {
+
+            this.notices =
+              [];
+
+          },
+
+      });
+
+  }
+
+
+  changeCategory():
+    void {
+
+    this.selectedRecipient =
+      'all';
+
+  }
+
 
   changeType():
     void {
@@ -311,33 +492,24 @@ export class AvisosPage {
 
       case 'payment':
 
-        this.message = `Hola! 👋
-
-Te recordamos que la cuota del mes se encuentra pendiente.
-
-Muchas gracias.
-FUTGOL CLUB ⚽`;
+        this.message =
+          'Hola! 👋\n\nTe recordamos que la cuota del mes se encuentra pendiente.\n\nMuchas gracias.\nFUTGOL CLUB ⚽';
 
         break;
 
 
       case 'training':
 
-        this.message = `Hola! 👋
-
-Te recordamos que hoy tenemos entrenamiento.
-
-¡Los esperamos!
-FUTGOL CLUB ⚽`;
+        this.message =
+          'Hola! 👋\n\nTe recordamos que hoy tenemos entrenamiento.\n\n¡Los esperamos!\nFUTGOL CLUB ⚽';
 
         break;
 
 
       case 'general':
 
-        this.message = `Hola! 👋
-
-Queríamos compartirles un aviso de FUTGOL CLUB ⚽`;
+        this.message =
+          'Hola! 👋\n\nQueríamos compartirles un aviso de FUTGOL CLUB ⚽';
 
         break;
 
@@ -346,41 +518,13 @@ Queríamos compartirles un aviso de FUTGOL CLUB ⚽`;
   }
 
 
-  /* ============================= */
-  /* ENVIAR WHATSAPP               */
-  /* ============================= */
+  publishNotice():
+    void {
 
-  async sendWhatsApp():
-    Promise<void> {
-
-    /*
-     * Un responsable puede entrar
-     * a Avisos pero no crear/enviar.
-     */
     if (
-      !this.canCreateNotices
+      !this.canCreateNotices ||
+      this.publishing
     ) {
-
-      const toast =
-        await this.toastController
-          .create({
-
-            message:
-              'No tenés permisos para crear avisos.',
-
-            duration:
-              2000,
-
-            position:
-              'bottom',
-
-            color:
-              'danger',
-
-          });
-
-
-      await toast.present();
 
       return;
 
@@ -391,86 +535,253 @@ Queríamos compartirles un aviso de FUTGOL CLUB ⚽`;
       !this.message.trim()
     ) {
 
-      const toast =
-        await this.toastController
-          .create({
-
-            message:
-              'Escribí un mensaje antes de enviarlo.',
-
-            duration:
-              2000,
-
-            position:
-              'bottom',
-
-            color:
-              'danger',
-
-          });
-
-
-      await toast.present();
+      void this.showToast(
+        'Escribí un mensaje antes de publicarlo.',
+        'danger',
+      );
 
       return;
 
     }
-
-
-    const firstStudent =
-      this.selectedStudents[0];
 
 
     if (
-      !firstStudent
+      this.selectedStudents.length ===
+        0 &&
+      this.selectedRecipient ===
+        'all'
     ) {
+
+      void this.showToast(
+        'No hay alumnos activos en esa audiencia.',
+        'danger',
+      );
 
       return;
 
     }
 
 
-    const phone =
-      firstStudent.phone
-        .replace(
-          /\D/g,
-          '',
-        );
+    const payload:
+      any = {
+
+      type:
+        this.selectedType,
+
+      message:
+        this.message.trim(),
+
+    };
 
 
-    const url =
+    if (
+      this.selectedRecipient !==
+      'all'
+    ) {
 
-      `https://wa.me/${phone}` +
+      payload.studentId =
+        this.selectedRecipient;
 
-      `?text=${encodeURIComponent(
-        this.message,
-      )}`;
+    } else if (
+      this.selectedCategory !==
+      'all'
+    ) {
+
+      payload.categoryId =
+        this.selectedCategory;
+
+    }
 
 
-    window.open(
-      url,
-      '_blank',
+    this.publishing =
+      true;
+
+
+    this.http
+      .post<
+        ApiResponse<
+          NoticeApi & {
+            recipientCount:
+              number;
+          }
+        >
+      >(
+        `${this.apiUrl}/notices`,
+        payload,
+      )
+      .subscribe({
+
+        next:
+          response => {
+
+            this.publishing =
+              false;
+
+
+            const count =
+              response.result
+                .recipientCount;
+
+
+            void this.showToast(
+              `Aviso publicado para ${count} usuario${count === 1 ? '' : 's'}.`,
+              'success',
+            );
+
+
+            this.loadNotices();
+
+          },
+
+
+        error:
+          error => {
+
+            this.publishing =
+              false;
+
+
+            const message =
+              error?.error
+                ?.message ??
+              error?.error
+                ?.msg ??
+              'No se pudo publicar el aviso.';
+
+
+            void this.showToast(
+              Array.isArray(
+                message,
+              )
+                ? message.join(
+                    ', ',
+                  )
+                : String(
+                    message,
+                  ),
+              'danger',
+            );
+
+          },
+
+      });
+
+  }
+
+
+  noticeTypeLabel(
+    type:
+      NoticeType,
+  ):
+    string {
+
+    if (
+      type ===
+      'payment'
+    ) {
+
+      return 'Pago';
+
+    }
+
+
+    if (
+      type ===
+      'training'
+    ) {
+
+      return 'Entrenamiento';
+
+    }
+
+
+    return 'General';
+
+  }
+
+
+  noticeAudience(
+    notice:
+      NoticeApi,
+  ):
+    string {
+
+    if (
+      notice.student
+    ) {
+
+      return (
+        `${notice.student.name} ` +
+        notice.student.last_name
+      );
+
+    }
+
+
+    if (
+      notice.category
+    ) {
+
+      return notice.category
+        .name;
+
+    }
+
+
+    return 'Todo FUTGOL';
+
+  }
+
+
+  formatDate(
+    value:
+      string,
+  ):
+    string {
+
+    return new Intl.DateTimeFormat(
+      'es-AR',
+      {
+        dateStyle:
+          'medium',
+
+        timeStyle:
+          'short',
+      },
+    ).format(
+      new Date(
+        value,
+      ),
     );
 
+  }
+
+
+  private async showToast(
+
+    message:
+      string,
+
+    color:
+      'success' |
+      'danger',
+
+  ):
+    Promise<void> {
 
     const toast =
       await this.toastController
         .create({
 
-          message:
-            'Aviso preparado para enviar por WhatsApp.',
+          message,
 
           duration:
-            2000,
+            2200,
 
           position:
             'bottom',
 
-          color:
-            'success',
-
-          icon:
-            'logo-whatsapp',
+          color,
 
         });
 
