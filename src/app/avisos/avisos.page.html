@@ -1,10 +1,6 @@
 <main class="notices-container">
 
 
-  <!-- ======================= -->
-  <!-- INTRO                   -->
-  <!-- ======================= -->
-
   <section class="notices-intro">
 
     <span class="section-label">
@@ -17,8 +13,8 @@
 
 
     <p *ngIf="canCreateNotices">
-      Enviá mensajes y recordatorios
-      a los responsables.
+      Publicá comunicaciones para
+      alumnos y responsables.
     </p>
 
 
@@ -30,17 +26,10 @@
   </section>
 
 
-  <!-- ======================= -->
-  <!-- ADMIN + PROFESOR        -->
-  <!-- ======================= -->
-
   <section
     class="notice-card"
     *ngIf="canCreateNotices"
   >
-
-
-    <!-- HEADER -->
 
     <div class="notice-header">
 
@@ -68,7 +57,52 @@
     </div>
 
 
-    <!-- DESTINATARIOS -->
+    <div class="form-field">
+
+      <label>
+        Categoría
+      </label>
+
+
+      <div class="select-wrapper">
+
+        <ion-icon
+          name="people-outline"
+        ></ion-icon>
+
+
+        <ion-select
+          [(ngModel)]="selectedCategory"
+          interface="popover"
+          [disabled]="publishing"
+          (ionChange)="changeCategory()"
+        >
+
+          <ion-select-option
+            value="all"
+          >
+            Todo FUTGOL
+          </ion-select-option>
+
+
+          <ion-select-option
+            *ngFor="
+              let category
+              of categories
+            "
+            [value]="category.id"
+          >
+
+            {{ category.name }}
+
+          </ion-select-option>
+
+        </ion-select>
+
+      </div>
+
+    </div>
+
 
     <div class="form-field">
 
@@ -87,12 +121,13 @@
         <ion-select
           [(ngModel)]="selectedRecipient"
           interface="popover"
+          [disabled]="publishing"
         >
 
           <ion-select-option
             value="all"
           >
-            Toda la categoría
+            Toda la audiencia
           </ion-select-option>
 
 
@@ -105,7 +140,7 @@
           >
 
             {{ student.name }}
-            {{ student.lastname }}
+            {{ student.last_name }}
 
           </ion-select-option>
 
@@ -116,8 +151,6 @@
     </div>
 
 
-    <!-- CANTIDAD -->
-
     <div class="recipient-info">
 
       <ion-icon
@@ -125,19 +158,25 @@
       ></ion-icon>
 
 
-      <span>
+      <span *ngIf="selectedRecipient === 'all'">
 
         {{ selectedStudents.length }}
 
-        responsables recibirán
-        este aviso.
+        alumnos incluidos ·
+        {{ audienceLabel }}
+
+      </span>
+
+
+      <span *ngIf="selectedRecipient !== 'all'">
+
+        Aviso dirigido a
+        {{ audienceLabel }}
 
       </span>
 
     </div>
 
-
-    <!-- TIPO -->
 
     <div class="form-field">
 
@@ -156,6 +195,7 @@
         <ion-select
           [(ngModel)]="selectedType"
           interface="popover"
+          [disabled]="publishing"
           (ionChange)="changeType()"
         >
 
@@ -186,8 +226,6 @@
     </div>
 
 
-    <!-- MENSAJE -->
-
     <div class="form-field">
 
       <div class="message-label">
@@ -209,13 +247,12 @@
         [(ngModel)]="message"
         rows="6"
         maxlength="500"
+        [disabled]="publishing"
         placeholder="Escribí el mensaje..."
       ></textarea>
 
     </div>
 
-
-    <!-- PREVIEW -->
 
     <div class="message-preview">
 
@@ -253,36 +290,33 @@
     </div>
 
 
-    <!-- WHATSAPP -->
-
     <button
       type="button"
       class="send-button"
-      (click)="sendWhatsApp()"
+      [disabled]="publishing || loading"
+      (click)="publishNotice()"
     >
 
       <ion-icon
-        name="logo-whatsapp"
+        name="paper-plane-outline"
       ></ion-icon>
 
 
       <span>
-        Enviar por WhatsApp
+        {{
+          publishing
+            ? 'Publicando...'
+            : 'Publicar aviso'
+        }}
       </span>
 
     </button>
 
-
   </section>
 
 
-  <!-- ======================= -->
-  <!-- RESPONSABLE             -->
-  <!-- ======================= -->
-
   <section
-    class="notice-card"
-    *ngIf="isResponsible"
+    class="notice-card history-card"
   >
 
     <div class="notice-header">
@@ -299,11 +333,19 @@
       <div>
 
         <span>
-          MIS AVISOS
+          {{
+            isResponsible
+              ? 'MIS AVISOS'
+              : 'HISTORIAL'
+          }}
         </span>
 
         <strong>
-          Comunicaciones del club
+          {{
+            isResponsible
+              ? 'Comunicaciones del club'
+              : 'Avisos publicados'
+          }}
         </strong>
 
       </div>
@@ -311,12 +353,14 @@
     </div>
 
 
-    <div class="recipient-info">
+    <div
+      class="empty-notices"
+      *ngIf="notices.length === 0"
+    >
 
       <ion-icon
-        name="information-circle-outline"
+        name="notifications-off-outline"
       ></ion-icon>
-
 
       <span>
         Todavía no hay avisos
@@ -324,6 +368,55 @@
       </span>
 
     </div>
+
+
+    <article
+      class="notice-history-item"
+      *ngFor="
+        let notice
+        of notices
+      "
+    >
+
+      <div class="notice-history-top">
+
+        <span class="notice-type">
+          {{ noticeTypeLabel(notice.type) }}
+        </span>
+
+        <span class="notice-date">
+          {{ formatDate(notice.created_at) }}
+        </span>
+
+      </div>
+
+
+      <p>
+        {{ notice.message }}
+      </p>
+
+
+      <div class="notice-meta">
+
+        <span *ngIf="!isResponsible">
+
+          Para:
+          {{ noticeAudience(notice) }}
+
+        </span>
+
+
+        <span>
+
+          Por:
+          {{ notice.created_by.name }}
+          {{ notice.created_by.last_name }}
+
+        </span>
+
+      </div>
+
+    </article>
 
   </section>
 
