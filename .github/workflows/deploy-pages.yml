@@ -33,7 +33,7 @@ jobs:
           cache: npm
 
       - name: Instalar dependencias
-        run: npm ci
+        run: npm install
 
       - name: Instalar Ionic CLI
         run: npm install -g @ionic/cli
