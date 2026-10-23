@@ -431,104 +431,113 @@ export class NuevoAlumnoPage
     try {
 
 
-      /* ============================= */
-      /* CASO 1                        */
-      /* SOLO ALUMNO                   */
-      /* ============================= */
+      const payload:
+        any = {
 
-      if (
-        this.accessMode ===
-        'none'
-      ) {
+        student: {
 
-        await this.createStudent();
+          name:
+            this.name.trim(),
 
-      }
+          last_name:
+            this.lastName.trim(),
 
+          document:
+            this.document.trim(),
 
-      /* ============================= */
-      /* CASO 2                        */
-      /* ALUMNO CON CUENTA PROPIA      */
-      /* ============================= */
+          birth_date:
+            this.birthDate,
+
+          address:
+            this.address.trim(),
+
+          category_id:
+            this.categoryId,
+
+        },
+
+        access_mode:
+          this.accessMode,
+
+      };
+
 
       if (
         this.accessMode ===
         'self'
       ) {
 
-        /*
-         * Primero creamos
-         * el usuario.
-         */
+        payload.self_account = {
 
-        const user =
-          await this.createSelfUser();
+          email:
+            this.accountEmail
+              .trim()
+              .toLowerCase(),
 
+          phone:
+            this.accountPhone.trim(),
 
-        /*
-         * Después creamos
-         * el Student vinculado
-         * mediante user_id.
-         */
+          password:
+            this.accountPassword,
 
-        await this.createStudent(
-          user.id,
-        );
+        };
 
       }
 
-
-      /* ============================= */
-      /* CASO 3                        */
-      /* RESPONSABLE                   */
-      /* ============================= */
 
       if (
         this.accessMode ===
         'responsible'
       ) {
 
-        /*
-         * Primero creamos
-         * al alumno.
-         */
+        payload.responsible_mode =
+          this.responsibleMode;
 
-        const student =
-          await this.createStudent();
-
-
-        /*
-         * Responsable existente.
-         */
 
         if (
           this.responsibleMode ===
           'existing'
         ) {
 
-          await this.addStudentToExistingResponsible(
-            student.id,
-          );
+          payload.responsible_user_id =
+            this.selectedResponsibleId;
 
-        }
+        } else {
 
+          payload.responsible_account = {
 
-        /*
-         * Responsable nuevo.
-         */
+            name:
+              this.responsibleName.trim(),
 
-        if (
-          this.responsibleMode ===
-          'new'
-        ) {
+            last_name:
+              this.responsibleLastName.trim(),
 
-          await this.createResponsible(
-            student.id,
-          );
+            email:
+              this.responsibleEmail
+                .trim()
+                .toLowerCase(),
+
+            phone:
+              this.responsiblePhone.trim(),
+
+            password:
+              this.responsiblePassword,
+
+          };
 
         }
 
       }
+
+
+      await firstValueFrom(
+
+        this.http.post(
+          `${this.apiUrl}/registrations/student`,
+          payload,
+        ),
+
+      );
 
 
       await this.showToast(
@@ -569,268 +578,6 @@ export class NuevoAlumnoPage
         false;
 
     }
-
-  }
-
-
-  /* ============================= */
-  /* CREAR ALUMNO                  */
-  /* ============================= */
-
-  private async createStudent(
-    userId?: string,
-  ): Promise<Student> {
-
-
-    const payload:
-      any = {
-
-        name:
-          this.name.trim(),
-
-        last_name:
-          this.lastName.trim(),
-
-        document:
-          this.document.trim(),
-
-        birth_date:
-          this.birthDate,
-
-        address:
-          this.address.trim(),
-
-        avatar:
-          '',
-
-        category: {
-
-          id:
-            this.categoryId,
-
-        },
-
-      };
-
-
-    /*
-     * Si el alumno usa
-     * su propia cuenta.
-     */
-
-    if (userId) {
-
-      payload.user_id =
-        userId;
-
-    }
-
-
-    const response =
-      await firstValueFrom(
-
-        this.http.post<
-          ApiResponse<Student>
-        >(
-          `${this.apiUrl}/students`,
-          payload,
-        ),
-
-      );
-
-
-    return response.result;
-
-  }
-
-
-  /* ============================= */
-  /* CREAR CUENTA PROPIA           */
-  /* ============================= */
-
-  private async createSelfUser():
-    Promise<User> {
-
-
-    const payload =
-      {
-
-        name:
-          this.name.trim(),
-
-        last_name:
-          this.lastName.trim(),
-
-        email:
-          this.accountEmail
-            .trim()
-            .toLowerCase(),
-
-        phone:
-          this.accountPhone.trim(),
-
-        password:
-          this.accountPassword,
-
-        role:
-          'responsible',
-
-      };
-
-
-    const response =
-      await firstValueFrom(
-
-        this.http.post<
-          ApiResponse<User>
-        >(
-          `${this.apiUrl}/users`,
-          payload,
-        ),
-
-      );
-
-
-    return response.result;
-
-  }
-
-
-  /* ============================= */
-  /* CREAR RESPONSABLE NUEVO       */
-  /* ============================= */
-
-  private async createResponsible(
-    studentId: string,
-  ): Promise<User> {
-
-
-    const payload =
-      {
-
-        name:
-          this.responsibleName.trim(),
-
-        last_name:
-          this.responsibleLastName.trim(),
-
-        email:
-          this.responsibleEmail
-            .trim()
-            .toLowerCase(),
-
-        phone:
-          this.responsiblePhone.trim(),
-
-        password:
-          this.responsiblePassword,
-
-        role:
-          'responsible',
-
-        students: [
-
-          {
-            id:
-              studentId,
-          },
-
-        ],
-
-      };
-
-
-    const response =
-      await firstValueFrom(
-
-        this.http.post<
-          ApiResponse<User>
-        >(
-          `${this.apiUrl}/users`,
-          payload,
-        ),
-
-      );
-
-
-    return response.result;
-
-  }
-
-
-  /* ============================= */
-  /* ASOCIAR RESPONSABLE EXISTENTE */
-  /* ============================= */
-
-  private async addStudentToExistingResponsible(
-    studentId: string,
-  ): Promise<void> {
-
-
-    const responsible =
-      this.selectedResponsible;
-
-
-    if (!responsible) {
-
-      throw new Error(
-        'Responsible not found',
-      );
-
-    }
-
-
-    /*
-     * Hijos que ya tenía
-     * el responsable.
-     */
-
-    const currentStudentIds =
-      (
-        responsible.students ??
-        []
-      )
-        .map(
-          student =>
-            student.id,
-        );
-
-
-    /*
-     * Conservamos los existentes
-     * y agregamos el nuevo.
-     */
-
-    const finalStudentIds =
-      [
-        ...new Set([
-          ...currentStudentIds,
-          studentId,
-        ]),
-      ];
-
-
-    const payload =
-      {
-
-        students:
-          finalStudentIds.map(
-            id => ({
-              id,
-            }),
-          ),
-
-      };
-
-
-    await firstValueFrom(
-
-      this.http.put(
-        `${this.apiUrl}/users/${responsible.id}`,
-        payload,
-      ),
-
-    );
 
   }
 
