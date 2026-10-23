@@ -591,3 +591,28 @@
   }
 
 }
+
+.activity-form h3 {
+  margin: 0 0 12px;
+  color: var(--futgol-text);
+  font-size: 14px;
+  font-weight: 800;
+}
+.edit-activity-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: var(--futgol-green-soft);
+  color: var(--futgol-dark-green);
+  cursor: pointer;
+  ion-icon { font-size: 16px; }
+}
+.activity-item {
+  grid-template-columns: 55px minmax(0, 1fr) 30px 30px;
+  gap: 7px;
+}
