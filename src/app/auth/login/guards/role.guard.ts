@@ -3,10 +3,26 @@ import {
 } from '@angular/core';
 
 import {
+  HttpClient,
+} from '@angular/common/http';
+
+import {
   ActivatedRouteSnapshot,
   CanActivate,
   Router,
+  UrlTree,
 } from '@angular/router';
+
+import {
+  Observable,
+  catchError,
+  map,
+  of,
+} from 'rxjs';
+
+import {
+  environment,
+} from 'src/environments/environment';
 
 
 interface LoggedUser {
@@ -38,16 +54,33 @@ export class RoleGuard
   implements CanActivate {
 
 
+  private readonly apiUrl =
+    environment.apiUrl;
+
+
   constructor(
     private readonly router:
       Router,
+
+    private readonly http:
+      HttpClient,
   ) {}
 
 
   canActivate(
     route:
       ActivatedRouteSnapshot,
-  ): boolean {
+  ):
+    Observable<
+      boolean |
+      UrlTree
+    > {
+
+
+    const token =
+      localStorage.getItem(
+        'futgol-token',
+      );
 
 
     const storedUser =
@@ -56,154 +89,158 @@ export class RoleGuard
       );
 
 
-    if (!storedUser) {
+    if (
+      !token ||
+      !storedUser
+    ) {
 
-      void this.router.navigateByUrl(
-        '/login',
-        {
-          replaceUrl: true,
-        },
+      return of(
+        this.router.parseUrl(
+          '/login',
+        ),
       );
-
-
-      return false;
 
     }
 
 
-    let user:
+    let localUser:
       LoggedUser;
 
 
     try {
 
-      user =
+      localUser =
         JSON.parse(
           storedUser,
         );
 
     } catch {
 
-      void this.router.navigateByUrl(
-        '/login',
-        {
-          replaceUrl: true,
-        },
+      return of(
+        this.router.parseUrl(
+          '/login',
+        ),
       );
 
-
-      return false;
-
     }
 
 
-    const allowedRoles =
-      route.data[
-        'roles'
-      ] as string[] | undefined;
-
-
-    const redirectByRole =
-      route.data[
-        'redirectByRole'
-      ] as boolean | undefined;
-
-
-    /* ============================= */
-    /* REDIRECT SEGÚN ROL            */
-    /* ============================= */
-
-    if (
-      redirectByRole
-    ) {
-
-      if (
-        user.role ===
-        'responsible'
-      ) {
-
-        void this.router.navigateByUrl(
-          '/app/familia',
-          {
-            replaceUrl: true,
-          },
-        );
-
-      } else {
-
-        void this.router.navigateByUrl(
-          '/app/home',
-          {
-            replaceUrl: true,
-          },
-        );
-
-      }
-
-
-      return false;
-
-    }
-
-
-    /* ============================= */
-    /* RUTA SIN ROLES DEFINIDOS      */
-    /* ============================= */
-
-    if (
-      !allowedRoles ||
-      allowedRoles.length === 0
-    ) {
-
-      return true;
-
-    }
-
-
-    /* ============================= */
-    /* ROL PERMITIDO                 */
-    /* ============================= */
-
-    if (
-      allowedRoles.includes(
-        user.role,
+    return this.http
+      .get<{
+        ok: boolean;
+        result: {
+          id: string;
+          email: string;
+          role: LoggedUser['role'];
+        };
+        msg: string;
+      }>(
+        `${this.apiUrl}/auth/me`,
       )
-    ) {
+      .pipe(
 
-      return true;
+        map(
+          response => {
 
-    }
+            const user:
+              LoggedUser = {
+
+                ...localUser,
+
+                id:
+                  response.result.id,
+
+                email:
+                  response.result.email,
+
+                role:
+                  response.result.role,
+
+                active:
+                  true,
+
+              };
 
 
-    /* ============================= */
-    /* ROL NO PERMITIDO              */
-    /* ============================= */
+            localStorage.setItem(
+              'futgol-user',
+              JSON.stringify(
+                user,
+              ),
+            );
 
-    if (
-      user.role ===
-      'responsible'
-    ) {
 
-      void this.router.navigateByUrl(
-        '/app/familia',
-        {
-          replaceUrl: true,
-        },
+            const allowedRoles =
+              route.data[
+                'roles'
+              ] as string[] | undefined;
+
+
+            const redirectByRole =
+              route.data[
+                'redirectByRole'
+              ] as boolean | undefined;
+
+
+            if (
+              redirectByRole
+            ) {
+
+              return this.router.parseUrl(
+
+                user.role ===
+                  'responsible'
+                  ? '/app/familia'
+                  : '/app/home',
+
+              );
+
+            }
+
+
+            if (
+              !allowedRoles ||
+              allowedRoles.length === 0
+            ) {
+
+              return true;
+
+            }
+
+
+            if (
+              allowedRoles.includes(
+                user.role,
+              )
+            ) {
+
+              return true;
+
+            }
+
+
+            return this.router.parseUrl(
+
+              user.role ===
+                'responsible'
+                ? '/app/familia'
+                : '/app/home',
+
+            );
+
+          },
+        ),
+
+        catchError(
+          () =>
+            of(
+              this.router.parseUrl(
+                '/login',
+              ),
+            ),
+        ),
+
       );
-
-    } else {
-
-      void this.router.navigateByUrl(
-        '/app/home',
-        {
-          replaceUrl: true,
-        },
-      );
-
-    }
-
-
-    return false;
 
   }
 

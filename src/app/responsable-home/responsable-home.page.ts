@@ -158,15 +158,6 @@ export class ResponsableHomePage implements OnInit {
 
 }
 
-  ionViewWillEnter(): void {
-
-    this.loadUser();
-
-    this.loadData();
-
-  }
-
-
   /* ============================= */
   /* USUARIO                      */
   /* ============================= */
