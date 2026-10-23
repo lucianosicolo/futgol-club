@@ -208,7 +208,7 @@ get isResponsibleFeesPage():
   boolean {
 
   return this.router.url.startsWith(
-    '/app/responsable-cuotas',
+    '/app/mis-cuotas',
   );
 
 }
