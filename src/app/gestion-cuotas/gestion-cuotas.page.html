@@ -112,6 +112,7 @@
         <button
           type="button"
           class="period-selector"
+          [disabled]="generatingFees"
           (click)="openMonthSelector()"
         >
 
@@ -361,6 +362,12 @@
             class="due-date-input"
 
             type="date"
+
+            [min]="dueDateMin"
+
+            [max]="dueDateMax"
+
+            [disabled]="generatingFees"
 
             [(ngModel)]="
               dueDate
