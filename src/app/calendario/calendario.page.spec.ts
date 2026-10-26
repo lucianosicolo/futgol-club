@@ -185,12 +185,12 @@ describe('CalendarioPage', () => {
     await component.deleteActivity(activity);
 
     expect(alertController.create).toHaveBeenCalled();
-    expect(alertController.create.calls.mostRecent().args[0].header).toBe(
+    expect(alertController.create.calls.mostRecent().args[0]!.header).toBe(
       'Eliminar actividad',
     );
     expect(http.delete).not.toHaveBeenCalled();
 
-    const buttons = alertController.create.calls.mostRecent().args[0].buttons as any[];
+    const buttons = alertController.create.calls.mostRecent().args[0]!.buttons as any[];
     buttons[1].handler();
 
     expect(http.delete).toHaveBeenCalledWith(
