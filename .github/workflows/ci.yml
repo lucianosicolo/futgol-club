@@ -25,3 +25,6 @@ jobs:
 
       - name: Production build
         run: npm run build
+
+      - name: Calendar tests
+        run: npm test -- --watch=false --browsers=ChromeHeadless --include=src/app/calendario/calendario.page.spec.ts
