@@ -12,6 +12,7 @@ describe('PerfilPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [PerfilPage],
       imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule.forRoot(), HttpClientTestingModule, RouterTestingModule],
     }).compileComponents();
     fixture = TestBed.createComponent(PerfilPage);
