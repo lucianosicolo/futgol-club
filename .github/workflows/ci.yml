@@ -25,3 +25,6 @@ jobs:
 
       - name: Production build
         run: npm run build
+
+      - name: Frontend tests
+        run: npm test -- --watch=false --browsers=ChromeHeadless
