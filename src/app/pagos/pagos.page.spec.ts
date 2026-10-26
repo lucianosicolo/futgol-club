@@ -12,6 +12,7 @@ describe('PagosPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [PagosPage],
       imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule.forRoot(), HttpClientTestingModule, RouterTestingModule],
     }).compileComponents();
     fixture = TestBed.createComponent(PagosPage);
