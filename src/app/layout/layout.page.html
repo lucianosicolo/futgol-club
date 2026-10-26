@@ -35,20 +35,35 @@
           name="calendar-outline"
         ></ion-icon>
       </ion-button>
-
-      <ion-button
-        aria-label="Notificaciones"
-      >
-        <ion-icon
-          slot="icon-only"
-          name="notifications-outline"
-        ></ion-icon>
-      </ion-button>
     </ion-buttons>
 
   </ion-toolbar>
 </ion-header>
 
+<nav class="desktop-navigation" aria-label="Navegación principal">
+  <ng-container *ngIf="isAdmin">
+    <a routerLink="/app/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
+    <a routerLink="/app/alumnos" routerLinkActive="active">Alumnos</a>
+    <a routerLink="/app/asistencia" routerLinkActive="active">Asistencia</a>
+    <a routerLink="/app/administrativo" routerLinkActive="active">Administrativo</a>
+    <a routerLink="/app/avisos" routerLinkActive="active">Avisos</a>
+    <a routerLink="/app/perfil" routerLinkActive="active">Perfil</a>
+  </ng-container>
+  <ng-container *ngIf="isTeacher">
+    <a routerLink="/app/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
+    <a routerLink="/app/alumnos" routerLinkActive="active">Alumnos</a>
+    <a routerLink="/app/asistencia" routerLinkActive="active">Asistencia</a>
+    <a routerLink="/app/calendario" routerLinkActive="active">Calendario</a>
+    <a routerLink="/app/avisos" routerLinkActive="active">Avisos</a>
+    <a routerLink="/app/perfil" routerLinkActive="active">Perfil</a>
+  </ng-container>
+  <ng-container *ngIf="isResponsible">
+    <a routerLink="/app/familia" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Mi actividad</a>
+    <a routerLink="/app/mis-cuotas" routerLinkActive="active">Mis cuotas</a>
+    <a routerLink="/app/avisos" routerLinkActive="active">Avisos</a>
+    <a routerLink="/app/perfil" routerLinkActive="active">Perfil</a>
+  </ng-container>
+</nav>
 
 <ion-content class="layout-content">
   <router-outlet></router-outlet>

@@ -1,13 +1,13 @@
 :host {
   display: block;
 
-  --its-green: #4da934;
+  --its-green: #438B37;
   --its-dark-green: #378522;
-  --its-green-soft: #e9f5e5;
+  --its-green-soft: #EAF3E7;
 
-  --its-background: #f3f5f1;
+  --its-background: #F5F7F4;
   --its-text: #1d211d;
-  --its-muted: #737873;
+  --its-muted: #69736A;
   --its-border: #e3e8e1;
 }
 
@@ -47,7 +47,7 @@
     color:
       var(--its-green);
 
-    font-size: 9px;
+    font-size: 10px;
 
     font-weight: 850;
 
@@ -226,7 +226,7 @@
       var(--its-muted);
 
 
-    font-size: 9px;
+    font-size: 10px;
 
   }
 
@@ -388,7 +388,7 @@
         0.78
       );
 
-    font-size: 9px;
+    font-size: 10px;
 
     font-weight: 600;
 
@@ -482,7 +482,7 @@
     color:
       var(--its-muted);
 
-    font-size: 9px;
+    font-size: 10px;
 
   }
 
@@ -727,7 +727,7 @@
 
   span {
 
-    font-size: 8px;
+    font-size: 10px;
 
     font-weight: 700;
 
@@ -996,7 +996,7 @@
 
     span {
 
-      font-size: 7px;
+      font-size: 10px;
 
     }
 
@@ -1037,4 +1037,15 @@
 
   }
 
+}
+
+@media (min-width: 1024px) {
+  .asistencia-container {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: clamp(28px, 4vw, 52px);
+    padding-top: 34px;
+    padding-bottom: 52px;
+  }
 }

@@ -69,7 +69,7 @@
 
 
   background:
-    #e9f5e5;
+    #EAF3E7;
 
 
   color:
@@ -100,8 +100,7 @@
     var(--futgol-green);
 
 
-  font-size:
-    9px;
+  font-size: 10px;
 
   font-weight:
     900;
@@ -415,8 +414,7 @@
     #909990;
 
 
-  font-size:
-    7px;
+  font-size: 10px;
 
   font-weight:
     800;
@@ -436,4 +434,15 @@
   cursor:
     default;
 
+}
+
+@media (min-width: 1024px) {
+  .administrative-container {
+    width: 100%;
+    max-width: 1160px;
+    margin-inline: auto;
+    padding-inline: clamp(28px, 4vw, 52px);
+    padding-top: 34px;
+    padding-bottom: 52px;
+  }
 }

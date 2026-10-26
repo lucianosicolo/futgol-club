@@ -1,16 +1,16 @@
 :host {
   display: block;
 
-  --green: #56b63f;
-  --dark-green: #368c27;
-  --green-soft: #edf8e9;
+  --green: #438B37;
+  --dark-green: #2E6B2E;
+  --green-soft: #EAF3E7;
 
   --red: #d84343;
   --red-soft: #fceaea;
 
-  --text: #1c211c;
-  --muted: #737873;
-  --border: #e2e8df;
+  --text: #202820;
+  --muted: #69736A;
+  --border: #DDE5DD;
 }
 
 
@@ -36,7 +36,7 @@
 .section-label {
   color: var(--green);
 
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 850;
 
   letter-spacing: 0.8px;
@@ -115,7 +115,7 @@
 .person-information span {
   color: var(--green);
 
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 800;
 
   text-transform: uppercase;
@@ -211,7 +211,7 @@
 .period-label {
   color: var(--muted);
 
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 750;
 }
 
@@ -237,7 +237,7 @@
 
   border-radius: 7px;
 
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 850;
 
   text-transform: uppercase;
@@ -282,7 +282,7 @@
 .fee-detail span {
   color: var(--muted);
 
-  font-size: 8px;
+  font-size: 10px;
 }
 
 .fee-detail strong {
@@ -329,7 +329,7 @@
 
   color: #657e60;
 
-  font-size: 8px;
+  font-size: 10px;
 }
 
 
@@ -416,4 +416,15 @@
 
 .empty-state strong {
   color: var(--text);
+}
+
+@media (min-width: 1024px) {
+  .fees-container {
+    width: 100%;
+    max-width: 1000px;
+    margin-inline: auto;
+    padding-inline: clamp(28px, 4vw, 52px);
+    padding-top: 34px;
+    padding-bottom: 52px;
+  }
 }

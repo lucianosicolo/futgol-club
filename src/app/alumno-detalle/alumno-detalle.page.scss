@@ -1,14 +1,14 @@
 :host {
-  --futgol-green: #4da934;
-  --futgol-dark-green: #377d28;
-  --futgol-green-soft: #e9f5e5;
+  --futgol-green: #438B37;
+  --futgol-dark-green: #2E6B2E;
+  --futgol-green-soft: #EAF3E7;
 
   --futgol-red: #d94b4b;
   --futgol-red-soft: #fceeee;
 
-  --futgol-text: #1c211c;
-  --futgol-muted: #747a74;
-  --futgol-border: #e2e7e0;
+  --futgol-text: #202820;
+  --futgol-muted: #69736A;
+  --futgol-border: #DDE5DD;
 
   --futgol-background: #f4f6f2;
 }
@@ -105,7 +105,7 @@
 
     color: var(--futgol-green);
 
-    font-size: 7px;
+    font-size: 10px;
     font-weight: 900;
 
     letter-spacing: 0.9px;
@@ -148,9 +148,9 @@
 
   border-radius: 7px;
 
-  color: #747a74;
+  color: #69736A;
 
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 800;
 
   .status-dot {
@@ -190,7 +190,7 @@
 
   background: #e9ede7;
 
-  border: 1px solid #e2e7e0;
+  border: 1px solid #DDE5DD;
   border-radius: 12px;
 
   button {
@@ -211,10 +211,10 @@
     border: 0;
     border-radius: 9px;
 
-    color: #747a74;
+    color: #69736A;
 
     font-family: inherit;
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 750;
 
     cursor: pointer;
@@ -264,7 +264,7 @@
 
     color: var(--futgol-green);
 
-    font-size: 7px;
+    font-size: 10px;
     font-weight: 900;
 
     letter-spacing: 0.8px;
@@ -346,7 +346,7 @@
   span {
     color: #777d77;
 
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 500;
   }
 
@@ -427,7 +427,7 @@
     span {
       color: var(--futgol-muted);
 
-      font-size: 8px;
+      font-size: 10px;
     }
   }
 }
@@ -534,7 +534,7 @@
   span {
     color: var(--futgol-muted);
 
-    font-size: 8px;
+    font-size: 10px;
   }
 
   strong {
@@ -549,7 +549,7 @@
 
     color: #8b918b;
 
-    font-size: 8px;
+    font-size: 10px;
   }
 }
 
@@ -563,7 +563,7 @@
 
   color: var(--futgol-green);
 
-  font-size: 7px;
+  font-size: 10px;
   font-weight: 900;
 
   white-space: nowrap;
@@ -610,7 +610,7 @@
     span {
       color: var(--futgol-muted);
 
-      font-size: 8px;
+      font-size: 10px;
     }
 
     strong {
@@ -681,7 +681,7 @@
 
   color: var(--futgol-muted);
 
-  font-size: 8px;
+  font-size: 10px;
 
   ion-icon {
     color: var(--futgol-green);
@@ -717,7 +717,7 @@
 
   .student-tabs button {
     gap: 3px;
-    font-size: 9px;
+    font-size: 10px;
 
     ion-icon {
       font-size: 16px;
@@ -859,7 +859,7 @@
     small {
       color: var(--futgol-muted);
 
-      font-size: 8px;
+      font-size: 10px;
     }
   }
 }
@@ -891,7 +891,7 @@
 .access-type {
   color: var(--futgol-green);
 
-  font-size: 7px;
+  font-size: 10px;
   font-weight: 900;
 
   letter-spacing: 0.5px;
@@ -909,7 +909,7 @@
 
   color: var(--futgol-green);
 
-  font-size: 7px;
+  font-size: 10px;
   font-weight: 850;
 
 
@@ -953,7 +953,7 @@
 
 
   span {
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 700;
   }
 }
@@ -1001,7 +1001,7 @@
   span {
     color: var(--futgol-muted);
 
-    font-size: 8px;
+    font-size: 10px;
     line-height: 1.4;
   }
 }
@@ -1093,7 +1093,7 @@
 
     color: var(--futgol-muted);
 
-    font-size: 9px;
+    font-size: 10px;
     line-height: 1.45;
   }
 }
@@ -1147,7 +1147,7 @@
 
     color: #ffffff;
 
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 750;
 
     cursor: pointer;
@@ -1184,8 +1184,7 @@
   font-family:
     inherit;
 
-  font-size:
-    8px;
+  font-size: 10px;
 
   font-weight:
     800;
@@ -1206,7 +1205,7 @@
     #d5dad3;
 
   color:
-    #747a74;
+    #69736A;
 }
 
 
@@ -1269,8 +1268,7 @@
     color:
       #565c56;
 
-    font-size:
-      9px;
+    font-size: 10px;
 
     font-weight:
       750;
@@ -1399,8 +1397,7 @@
   font-family:
     inherit;
 
-  font-size:
-    9px;
+  font-size: 10px;
 
   font-weight:
     800;
@@ -1522,7 +1519,7 @@
     color:
       var(--futgol-muted);
 
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 700;
   }
 
@@ -1593,7 +1590,7 @@
     color:
       var(--futgol-green);
 
-    font-size: 7px;
+    font-size: 10px;
     font-weight: 900;
 
     letter-spacing:
@@ -1703,7 +1700,7 @@
   border-radius:
     999px;
 
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 850;
 
 
@@ -1764,7 +1761,7 @@
 
 
     span {
-      font-size: 7px;
+      font-size: 10px;
     }
 
 
@@ -1797,7 +1794,7 @@
   .attendance-history-date {
 
     > span {
-      font-size: 9px;
+      font-size: 10px;
     }
   }
 
@@ -1859,7 +1856,7 @@
       color:
         var(--futgol-muted);
 
-      font-size: 8px;
+      font-size: 10px;
       font-weight: 700;
     }
 
@@ -1907,5 +1904,16 @@
     font-weight: 900;
 
     white-space: nowrap;
+  }
+}
+
+@media (min-width: 1024px) {
+  .student-detail-container {
+    width: 100%;
+    max-width: 900px;
+    margin-inline: auto;
+    padding-inline: clamp(28px, 4vw, 52px);
+    padding-top: 34px;
+    padding-bottom: 52px;
   }
 }
