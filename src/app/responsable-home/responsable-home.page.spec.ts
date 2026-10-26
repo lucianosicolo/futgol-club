@@ -10,7 +10,11 @@ describe('ResponsableHomePage', () => {
   let component: ResponsableHomePage;
   let fixture: ComponentFixture<ResponsableHomePage>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ResponsableHomePage],
+      imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule.forRoot(), HttpClientTestingModule, RouterTestingModule],
+    }).compileComponents();
     fixture = TestBed.createComponent(ResponsableHomePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
