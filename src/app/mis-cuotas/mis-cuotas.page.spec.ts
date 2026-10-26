@@ -12,6 +12,7 @@ describe('MisCuotasPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [MisCuotasPage],
       imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule.forRoot(), HttpClientTestingModule, RouterTestingModule],
     }).compileComponents();
     fixture = TestBed.createComponent(MisCuotasPage);
