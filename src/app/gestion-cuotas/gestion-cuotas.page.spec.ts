@@ -12,6 +12,7 @@ describe('GestionCuotasPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [GestionCuotasPage],
       imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule.forRoot(), HttpClientTestingModule, RouterTestingModule],
     }).compileComponents();
     fixture = TestBed.createComponent(GestionCuotasPage);
