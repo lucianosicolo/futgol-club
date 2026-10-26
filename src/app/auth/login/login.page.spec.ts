@@ -12,6 +12,7 @@ describe('LoginPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [LoginPage],
       imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule.forRoot(), HttpClientTestingModule, RouterTestingModule],
     }).compileComponents();
     fixture = TestBed.createComponent(LoginPage);
