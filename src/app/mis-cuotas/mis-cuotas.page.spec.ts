@@ -1,11 +1,17 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { IonicModule } from '@ionic/angular';
 import { MisCuotasPage } from './mis-cuotas.page';
 
 describe('MisCuotasPage', () => {
   let component: MisCuotasPage;
   let fixture: ComponentFixture<MisCuotasPage>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [IonicModule.forRoot(), HttpClientTestingModule, RouterTestingModule],
+    }).compileComponents();
     fixture = TestBed.createComponent(MisCuotasPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
