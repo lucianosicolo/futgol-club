@@ -1,13 +1,13 @@
 :host {
-  --futgol-green: #4da934;
-  --futgol-dark-green: #357c27;
-  --futgol-green-soft: #eaf5e6;
+  --futgol-green: #438B37;
+  --futgol-dark-green: #2E6B2E;
+  --futgol-green-soft: #EAF3E7;
 
   --futgol-white: #ffffff;
-  --futgol-background: #f5f7f3;
-  --futgol-text: #1c211c;
-  --futgol-muted: #747a74;
-  --futgol-border: #e4e8e2;
+  --futgol-background: #F5F7F4;
+  --futgol-text: #202820;
+  --futgol-muted: #69736A;
+  --futgol-border: #DDE5DD;
 
   color-scheme: light;
 }
@@ -161,7 +161,7 @@ ion-app {
   margin: 22px 20px 8px;
 
   color: #949a94;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.9px;
 }
@@ -249,7 +249,7 @@ ion-app {
     padding: 5px 7px;
     border-radius: 7px;
 
-    font-size: 7px;
+    font-size: 10px;
     font-weight: 700;
   }
 }
@@ -283,5 +283,20 @@ ion-app {
 
   ion-icon {
     font-size: 19px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .main-menu {
+    --width: 304px;
+  }
+
+  .menu-list ion-item {
+    --min-height: 48px;
+    font-size: 14px;
+  }
+
+  .menu-section-title {
+    font-size: 10px;
   }
 }

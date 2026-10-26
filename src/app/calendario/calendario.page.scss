@@ -1,12 +1,12 @@
 :host {
 
-  --futgol-green: #4da934;
-  --futgol-dark-green: #377d28;
-  --futgol-green-soft: #e9f5e5;
+  --futgol-green: #438B37;
+  --futgol-dark-green: #2E6B2E;
+  --futgol-green-soft: #EAF3E7;
 
-  --futgol-text: #1c211c;
-  --futgol-muted: #737973;
-  --futgol-border: #e2e7e0;
+  --futgol-text: #202820;
+  --futgol-muted: #69736A;
+  --futgol-border: #DDE5DD;
 
 }
 
@@ -40,7 +40,7 @@
 
     color: var(--futgol-green);
 
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 850;
 
     letter-spacing: 0.9px;
@@ -128,7 +128,7 @@
 
     color: var(--futgol-green);
 
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 850;
 
     letter-spacing: 0.7px;
@@ -275,7 +275,7 @@
 
     color: var(--futgol-muted);
 
-    font-size: 7px;
+    font-size: 10px;
 
   }
 
@@ -306,7 +306,7 @@
 
     color: var(--futgol-muted);
 
-    font-size: 9px;
+    font-size: 10px;
 
   }
 
@@ -382,7 +382,7 @@
 
     color: var(--futgol-muted);
 
-    font-size: 9px;
+    font-size: 10px;
 
   }
 
@@ -420,7 +420,7 @@
   label {
     color: var(--futgol-muted);
 
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 800;
   }
 
@@ -561,7 +561,7 @@
   small {
     color: #8b918b;
 
-    font-size: 7px;
+    font-size: 10px;
     line-height: 1.35;
   }
 }
@@ -615,4 +615,46 @@
 .activity-item {
   grid-template-columns: 55px minmax(0, 1fr) 30px 30px;
   gap: 7px;
+}
+
+
+@media (min-width: 1024px) {
+  .calendar-container {
+    display: grid;
+    grid-template-columns: minmax(320px, 0.9fr) minmax(440px, 1.1fr);
+    align-items: start;
+    gap: 24px;
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding: 36px clamp(28px, 4vw, 52px) 56px;
+  }
+
+  .calendar-intro {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+    text-align: left;
+  }
+
+  .calendar-intro p {
+    max-width: none;
+    margin-inline: 0;
+  }
+
+  .calendar-card {
+    grid-column: 1;
+    margin-bottom: 0;
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  .activities-section {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+  }
+
+  .activities-heading {
+    margin-bottom: 14px;
+  }
 }

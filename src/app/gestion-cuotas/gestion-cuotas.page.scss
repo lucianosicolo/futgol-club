@@ -69,7 +69,7 @@
 
 
   background:
-    #eaf5e6;
+    #EAF3E7;
 
 
   color:
@@ -106,8 +106,7 @@
     );
 
 
-  font-size:
-    8px;
+  font-size: 10px;
 
   font-weight:
     900;
@@ -301,7 +300,7 @@
 
 
   background:
-    #edf6e9;
+    #EAF3E7;
 
 
   color:
@@ -356,8 +355,7 @@
     #8a958d;
 
 
-  font-size:
-    9px;
+  font-size: 10px;
 
 }
 
@@ -440,8 +438,7 @@
     #8b968e;
 
 
-  font-size:
-    8px;
+  font-size: 10px;
 
 }
 
@@ -572,8 +569,7 @@
     #9aa39d;
 
 
-  font-size:
-    8px;
+  font-size: 10px;
 
 }
 
@@ -795,8 +791,7 @@
     #263d2c;
 
 
-  font-size:
-    9px;
+  font-size: 10px;
 
   font-weight:
     800;
@@ -810,8 +805,7 @@
     #929d95;
 
 
-  font-size:
-    8px;
+  font-size: 10px;
 
   line-height:
     1.35;
@@ -943,8 +937,7 @@
     2px;
 
 
-  font-size:
-    8px;
+  font-size: 10px;
 
   line-height:
     1.4;
@@ -988,8 +981,7 @@
     #fbe8c5;
 
 
-  font-size:
-    7px;
+  font-size: 10px;
 
   font-weight:
     800;
@@ -1116,8 +1108,7 @@
     #779171;
 
 
-  font-size:
-    8px;
+  font-size: 10px;
 
   line-height:
     1.35;
@@ -1183,8 +1174,7 @@
     #8a968e;
 
 
-  font-size:
-    8px;
+  font-size: 10px;
 
 }
 
@@ -1207,7 +1197,7 @@
 .summary-item.highlighted {
 
   background:
-    #edf6e9;
+    #EAF3E7;
 
 }
 
@@ -1282,8 +1272,7 @@
     #78857b;
 
 
-  font-size:
-    8px;
+  font-size: 10px;
 
 }
 
@@ -1441,8 +1430,7 @@
     #929d95;
 
 
-  font-size:
-    8px;
+  font-size: 10px;
 
   line-height:
     1.4;
@@ -1463,10 +1451,20 @@
     #919c94;
 
 
-  font-size:
-    9px;
+  font-size: 10px;
 
   text-align:
     center;
 
+}
+
+@media (min-width: 1024px) {
+  .fees-management-container {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: clamp(28px, 4vw, 52px);
+    padding-top: 34px;
+    padding-bottom: 52px;
+  }
 }
