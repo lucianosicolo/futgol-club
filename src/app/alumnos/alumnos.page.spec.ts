@@ -12,6 +12,7 @@ describe('AlumnosPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [AlumnosPage],
       imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule.forRoot(), HttpClientTestingModule, RouterTestingModule],
     }).compileComponents();
     fixture = TestBed.createComponent(AlumnosPage);
